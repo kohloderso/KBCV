@@ -4,23 +4,35 @@
 
     <style name="Theme"
            parent="Theme.Base" />
+    <!-- Base application theme.
+     Defining this lets values-v21/styles.xml reuse it with changes. -->
 
     <style name="Theme.Base"
-           parent="Theme.AppCompat.Light.DarkActionBar">
+           parent="Base.Theme.AppCompat.Light">
 
         <item name="colorAccent">@color/highlight</item>
         <item name="colorPrimary">@color/highlight</item>
         <item name="colorPrimaryDark">@color/highlight_dark</item>
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
+
+
 
         <item name="android:textColor">@color/main</item>
         <item name="android:textColorPrimary">@color/neutral</item>
         <item name="android:textSize">16sp</item>
         <item name="android:windowBackground">@color/neutral</item>
-        <item name="android:windowContentOverlay">@null</item>
-        <item name="android:windowNoTitle">true</item>
 
+        <item name="android:textAppearanceButton">@style/textAppearanceButton</item>
+        <item name="android:editTextStyle">@style/customEditText</item>
+    </style>
+
+
+    <style name="customEditText" parent="Widget.AppCompat.EditText">
+        <item name="android:colorBackground">@drawable/edit_text_background</item>
+    </style>
+
+    <!-- make text in buttons lowercase by default-->
+    <style name="textAppearanceButton" parent="Widget.AppCompat.Button">
+        <item name="android:textAllCaps">false</item>
     </style>
 
 </resources>

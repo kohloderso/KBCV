@@ -3,8 +3,11 @@
 <resources>
 
     <color name="highlight">#DC322F</color>
+    <color name="accent_color">#E6B9B8</color>
     <color name="highlight_dark">#ffb8302e</color>
     <color name="main">#505050</color>
+    <color name="grey">#BDBDBD</color>
     <color name="neutral">#FFFFFF</color>
+    <color name="test">#298A08</color>
 
 </resources>

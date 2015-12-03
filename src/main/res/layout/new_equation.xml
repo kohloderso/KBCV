@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp">
+
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Variables"
+            android:id="@+id/textView" android:layout_alignParentTop="true" android:layout_alignParentLeft="true"
+            android:layout_marginTop="40dp"/>
+    <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:id="@+id/editText" android:layout_below="@+id/textView" android:layout_alignParentLeft="true"
+            android:textColor="@color/main"
+             android:paddingLeft="5dp"/>
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Function symbols"
+            android:id="@+id/textView2" android:layout_below="@+id/editText" android:layout_alignParentLeft="true"
+            android:layout_marginTop="41dp"/>
+    <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:id="@+id/editText2" android:layout_below="@+id/textView2" android:layout_alignParentLeft="true"
+            android:textColor="@color/main"
+             android:paddingLeft="5dp"/>
+</RelativeLayout>

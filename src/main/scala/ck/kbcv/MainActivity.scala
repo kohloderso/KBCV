@@ -1,25 +1,23 @@
 package ck.kbcv
 
+import android.content.Context
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.view.MenuItem
+import android.view.View
+import android.widget.{ Button, Toast }
 
 class MainActivity extends AppCompatActivity with TypedFindView {
     override def onCreate( savedInstanceState: Bundle ): Unit = {
         super.onCreate( savedInstanceState )
+        val context = getApplicationContext();
 
         setContentView( R.layout.main )
 
-        setSupportActionBar( findView( TR.toolbar ) )
-        getSupportActionBar.setDisplayHomeAsUpEnabled( true )
-
-        findView( TR.welcome ).setText( R.string.name )
+        findView( TR.new_button ).setOnClickListener( new View.OnClickListener() {
+            def onClick( v: View ) {
+                setContentView( R.layout.new_equation )
+            }
+        } )
     }
 
-    override def onOptionsItemSelected( item: MenuItem ) = item.getItemId match {
-        case android.R.id.home ⇒
-            finish()
-            true
-        case _ ⇒ super.onOptionsItemSelected( item )
-    }
 }
