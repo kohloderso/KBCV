@@ -4,14 +4,16 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     package="ck.kbcv">
 
-    <application>
+    <application
+            android:theme="@style/MyMaterialTheme">
+
 
 
         <activity
             android:label="@string/name"
             android:icon="@drawable/icon_launcher"
             android:name=".MainActivity"
-            android:theme="@style/Theme">
+            >
             <intent-filter>
 
                 <action android:name="android.intent.action.MAIN" />
@@ -21,6 +23,19 @@
             </intent-filter>
 
         </activity>
+
+        <!-- A child of the main activity -->
+        <activity
+                android:name=".CreateEquationsActivity"
+                android:label="Equations"
+                android:parentActivityName=".MainActivity" >
+
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                    android:name="android.support.PARENT_ACTIVITY"
+                    android:value=".MainActivity" />
+        </activity>
+
 
     </application>
 

@@ -7,10 +7,13 @@
     <!-- Base application theme.
      Defining this lets values-v21/styles.xml reuse it with changes. -->
 
-    <style name="Theme.Base"
-           parent="Base.Theme.AppCompat.Light">
+    <style name="ThemeNoColors"
+           parent="Theme.AppCompat.Light.NoActionBar" />
 
-        <item name="colorAccent">@color/highlight</item>
+    <style name="Theme.Base"
+           parent="Theme.AppCompat.Light.NoActionBar">
+
+        <!--<item name="colorAccent">@color/highlight</item>
         <item name="colorPrimary">@color/highlight</item>
         <item name="colorPrimaryDark">@color/highlight_dark</item>
 
@@ -18,17 +21,13 @@
 
         <item name="android:textColor">@color/main</item>
         <item name="android:textColorPrimary">@color/neutral</item>
-        <item name="android:textSize">16sp</item>
-        <item name="android:windowBackground">@color/neutral</item>
+        <item name="android:textSize">16sp</item>-->
+        <!--<item name="android:windowBackground">@color/neutral</item>
 
         <item name="android:textAppearanceButton">@style/textAppearanceButton</item>
-        <item name="android:editTextStyle">@style/customEditText</item>
+        <item name="android:editTextStyle">@style/customEditText</item>-->
     </style>
 
-
-    <style name="customEditText" parent="Widget.AppCompat.EditText">
-        <item name="android:colorBackground">@drawable/edit_text_background</item>
-    </style>
 
     <!-- make text in buttons lowercase by default-->
     <style name="textAppearanceButton" parent="Widget.AppCompat.Button">

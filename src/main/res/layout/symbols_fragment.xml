@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp">
+
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Variables"
+            android:id="@+id/textView" android:layout_alignParentTop="true" android:layout_alignParentLeft="true"
+            android:layout_marginTop="40dp"/>
+    <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:id="@+id/editText" android:layout_below="@+id/textView" android:layout_alignParentLeft="true"
+             android:paddingLeft="5dp"/>
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Function symbols"
+            android:id="@+id/textView2" android:layout_below="@+id/editText" android:layout_alignParentLeft="true"
+            android:layout_marginTop="41dp"/>
+
+    <EditText
+            android:layout_width="50dp"
+            android:layout_height="40dp"
+            android:id="@+id/function_symbol1" android:layout_alignParentLeft="true"
+            android:paddingLeft="5dp"
+            android:layout_below="@+id/textView2"/>
+    <EditText
+            android:layout_width="50dp"
+            android:layout_height="40dp"
+            android:id="@+id/function_arity1"
+            android:padding="5dp" android:inputType="number" android:layout_below="@+id/textView3"
+            android:layout_alignLeft="@+id/textView3"/>
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="arity"
+            android:id="@+id/textView3" android:layout_alignBottom="@+id/textView2"
+            android:layout_toRightOf="@+id/textView2" android:layout_marginLeft="40dp"/>
+    <EditText android:layout_width="50dp" android:layout_height="40dp" android:id="@+id/editText3"
+              android:paddingLeft="5dp"
+              android:layout_below="@+id/function_arity1" android:layout_alignLeft="@+id/function_arity1"
+              android:inputType="number"/>
+    <EditText android:layout_width="50dp" android:layout_height="40dp" android:id="@+id/editText2"
+              android:padding="5dp"
+              android:layout_below="@+id/function_symbol1" android:layout_alignParentLeft="true"/>
+</RelativeLayout>
