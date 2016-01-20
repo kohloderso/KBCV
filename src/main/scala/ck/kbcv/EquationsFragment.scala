@@ -6,7 +6,7 @@ import android.support.v4.app.Fragment
 import android.util.Log
 import android.view.ViewGroup.LayoutParams
 import android.view._
-import android.widget.{EditText, LinearLayout, ImageView, Button}
+import android.widget._
 
 /**
  * Created by Christina on 09.12.2015.
@@ -15,13 +15,22 @@ class EquationsFragment extends Fragment {
     val TAG = "EquationsFragment"
     var functionSymbolContainer: LinearLayout = null
     var variableSymbolContainer: LinearLayout = null
+    var equationContainer: LinearLayout = null
 
     override def onCreateView( inflater: LayoutInflater, container: ViewGroup, savedInstanceState: Bundle ): View = {
         val view = inflater.inflate( R.layout.equations_fragment, container, false )
 
+        equationContainer = view.findViewById(R.id.equationsContainer).asInstanceOf[LinearLayout]
         functionSymbolContainer = view.findViewById(R.id.functionSymbolsContainer).asInstanceOf[LinearLayout]
         variableSymbolContainer = view.findViewById(R.id.variableSymbolContainer).asInstanceOf[LinearLayout]
 
+        val plusButton = view.findViewById(R.id.plusButton).asInstanceOf[Button]
+        plusButton.setOnClickListener(new View.OnClickListener {
+            override def onClick(v: View): Unit = {
+                val newEquation = new Equation(getActivity, null)
+                equationContainer.addView(newEquation)
+            }
+        })
         return view
     }
 

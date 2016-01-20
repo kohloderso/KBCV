@@ -7,14 +7,16 @@ import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.text.{Editable, TextWatcher}
+import android.view.ViewGroup.LayoutParams
 import android.view.{ View, ViewGroup, LayoutInflater }
-import android.widget.{EditText, NumberPicker, Button}
+import android.widget._
 
 /**
  * Created by Christina on 05.12.2015.
  */
 class SymbolsFragment extends Fragment {
     var mCallback: OnVariablesChangedListener = null
+    var functionList: List[View] = Nil
 
     override def onAttach(context: Context): Unit = {
         super.onAttach(context)
@@ -33,14 +35,21 @@ class SymbolsFragment extends Fragment {
 
     override def onCreateView( inflater: LayoutInflater, container: ViewGroup, savedInstanceState: Bundle ): View = {
         val view = inflater.inflate( R.layout.symbols_fragment, container, false )
-        val numberPicker = view.findViewById(R.id.numberPicker).asInstanceOf[NumberPicker]
-        numberPicker.setMaxValue(15)
-        numberPicker.setMinValue(0)
+        val function_1 = view.findViewById(R.id.function_1)
+        functionList = List(function_1)
+        val arityPicker = function_1.findViewById(R.id.arity_picker).asInstanceOf[NumberPicker]
+        arityPicker.setMaxValue(15)
+        arityPicker.setMinValue(0)
         val plusButton = view.findViewById(R.id.plusButton).asInstanceOf[Button]
         plusButton.setOnClickListener(new View.OnClickListener {
             override def onClick(v: View): Unit = {
-            // TODO
-
+                val newFunction = inflater.inflate(R.layout.function_helper, null)
+                newFunction.setId(View.generateViewId())
+                val lp = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
+                lp.addRule(RelativeLayout.BELOW, functionList.head.getId)
+                newFunction.setLayoutParams(lp)
+                view.asInstanceOf[RelativeLayout].addView(newFunction)
+                functionList = newFunction :: functionList
             }
         })
 

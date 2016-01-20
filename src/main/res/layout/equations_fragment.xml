@@ -4,11 +4,16 @@
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp" android:paddingTop="16dp">
 
-    <view android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          class="ck.kbcv.Equation" android:id="@+id/equation"
-          android:layout_alignParentTop="true"
-            />
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:id="@+id/equationsContainer" android:orientation="vertical">
+        <view android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              class="ck.kbcv.Equation" android:id="@+id/equation_1"
+                />
+
+
+    </LinearLayout>
+
 
     <LinearLayout
             android:orientation="horizontal"
@@ -24,6 +29,14 @@
             android:id="@+id/variableSymbolContainer" android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true" android:layout_alignParentEnd="true">
     </LinearLayout>
+
+    <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="+"
+            android:id="@+id/plusButton"
+            android:layout_below="@id/equationsContainer"/>
 
 
 </RelativeLayout>

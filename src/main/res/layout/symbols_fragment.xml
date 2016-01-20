@@ -24,12 +24,6 @@
             android:id="@+id/textView2" android:layout_below="@+id/variableEditText" android:layout_alignParentLeft="true"
             android:layout_marginTop="41dp"/>
 
-    <EditText
-            android:layout_width="50dp"
-            android:layout_height="40dp"
-            android:id="@+id/function_symbol1" android:layout_alignParentLeft="true"
-            android:paddingLeft="5dp"
-            android:layout_below="@+id/textView2"/>
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -37,18 +31,18 @@
             android:id="@+id/textView3" android:layout_alignBottom="@+id/textView2"
             android:layout_toRightOf="@+id/textView2" android:layout_marginLeft="40dp"/>
 
-    <NumberPicker
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/numberPicker"
-            android:layout_below="@+id/textView3" android:layout_alignLeft="@+id/textView3"
-            android:layout_alignStart="@+id/textView3"/>
+    <include android:id="@+id/function_1" layout="@layout/function_helper"
+             android:layout_height="wrap_content"
+             android:layout_width="match_parent"
+             android:layout_below="@+id/textView2"
+            />
+
     <Button
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="+"
         android:id="@+id/plusButton"
-        android:layout_below="@+id/numberPicker" android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"/>
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" android:layout_alignParentBottom="true"/>
 </RelativeLayout>
