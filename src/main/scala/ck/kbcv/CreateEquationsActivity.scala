@@ -3,13 +3,19 @@ package ck.kbcv
 import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v4.app.FragmentActivity
+import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
 import android.support.v4.app.FragmentManager
+import android.util.Log
+
 
 /**
  * Created by Christina on 05.12.2015.
  */
-class CreateEquationsActivity extends AppCompatActivity with TypedFindView {
+class CreateEquationsActivity extends AppCompatActivity with OnVariablesChangedListener with TypedFindView {
+    val TAG = "CreateEquationsActivity"
+    var equationPagerAdapter: EquationsPagerAdapter = null
+
     @Override
     override def onCreate( savedInstanceState: Bundle ): Unit = {
         super.onCreate( savedInstanceState )
@@ -26,10 +32,9 @@ class CreateEquationsActivity extends AppCompatActivity with TypedFindView {
         val viewPager = findView(TR.viewpager)
         val test =  getSupportFragmentManager
 
-        val adapter = new EquationsPagerAdapter(test)
-        viewPager.setAdapter(adapter)
+        equationPagerAdapter = new EquationsPagerAdapter(test)
+        viewPager.setAdapter(equationPagerAdapter)
         tabLayout.setupWithViewPager(viewPager)
-
 
         // Check that the activity is using the layout version with
         // the fragment_container FrameLayout
@@ -51,5 +56,18 @@ class CreateEquationsActivity extends AppCompatActivity with TypedFindView {
         }*/
     }
 
+    override def onVariablesChanged(variables: Array[String]): Unit = {
+        try {
+            val equationsFragment = equationPagerAdapter.getRegisteredFragment(1).asInstanceOf[EquationsFragment]
+            equationsFragment.onVariablesChanged(variables)
+        } catch {
+            case ex: ClassCastException => {
+                Log.e(TAG, ex.getMessage)
+            }
+            case ex: NullPointerException => {
+                Log.e(TAG, ex.getMessage)
+            }
+        }
 
+    }
 }

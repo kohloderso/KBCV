@@ -6,7 +6,7 @@ import android.support.v4.app.{Fragment, FragmentManager, FragmentPagerAdapter}
 /**
  * Created by Christina on 09.12.2015.
  */
-class EquationsPagerAdapter(fm: FragmentManager) extends FragmentPagerAdapter(fm) {
+class EquationsPagerAdapter(fm: FragmentManager) extends SmartFragmentStatePagerAdapter(fm) {
     val PAGE_COUNT = 2
     val tabTitles = Array("Symbols", "Equations" )
 

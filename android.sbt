@@ -12,7 +12,7 @@ packagingOptions in Android := PackagingOptions(
 )
 
 // Predefined as IceCreamSandwich (4.0), nothing stops you from going below
-minSdkVersion in Android := "14"
+minSdkVersion in Android := "11"
 
 platformTarget in Android := "android-23"
 

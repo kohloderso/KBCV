@@ -2,12 +2,28 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:paddingLeft="16dp"
-                android:paddingRight="16dp">
+                android:paddingRight="16dp" android:paddingTop="16dp">
 
+    <view android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          class="ck.kbcv.Equation" android:id="@+id/equation"
+          android:layout_alignParentTop="true"
+            />
 
-    <TextView
+    <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="New Text"
-            android:id="@+id/textView4" android:layout_centerVertical="true" android:layout_centerHorizontal="true"/>
+            android:id="@+id/functionSymbolsContainer" android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true" android:layout_alignParentStart="true">
+    </LinearLayout>
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/variableSymbolContainer" android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true" android:layout_alignParentEnd="true">
+    </LinearLayout>
+
+
 </RelativeLayout>
