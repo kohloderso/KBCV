@@ -1,15 +1,14 @@
-package ck.kbcv
+package ck.kbcv.activities
 
 import android.os.Bundle
 import android.support.design.widget.TabLayout
-import android.support.v4.app.FragmentActivity
-import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
-import android.support.v4.app.FragmentManager
 import android.util.Log
-import android.view.{MenuItem, Menu}
-import ck.kbcv.dialogs.{AddDialogFragment, ImportDialogFragment, SaveDialogFragment}
-import ck.kbcv.state.OnSymbolsChangedListener
+import android.view.{Menu, MenuItem}
+import ck.kbcv._
+import ck.kbcv.dialogs.{ImportDialogFragment, SaveDialogFragment}
+import ck.kbcv.fragments.{SymbolsFragment, EquationsFragment}
+import ck.kbcv.model.OnSymbolsChangedListener
 import term.reco.IES
 
 

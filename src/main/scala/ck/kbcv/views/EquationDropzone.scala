@@ -1,9 +1,10 @@
-package ck.kbcv
+package ck.kbcv.views
 
 import android.content.{ClipData, Context}
-import android.util.{DisplayMetrics, Log, AttributeSet}
-import android.view.{Gravity, DragEvent, View}
-import android.widget.{TextView, LinearLayout, ImageView, EditText}
+import android.util.{AttributeSet, Log}
+import android.view.{DragEvent, Gravity, View}
+import android.widget.{ImageView, LinearLayout, TextView}
+import ck.kbcv.R
 
 /**
  * Created by Christina on 01.01.2016.

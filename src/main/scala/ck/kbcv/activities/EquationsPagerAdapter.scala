@@ -1,7 +1,8 @@
-package ck.kbcv
+package ck.kbcv.activities
 
-import android.content.Context
-import android.support.v4.app.{Fragment, FragmentManager, FragmentPagerAdapter}
+import android.support.v4.app.{Fragment, FragmentManager}
+import ck.kbcv.SmartFragmentStatePagerAdapter
+import ck.kbcv.fragments.{EquationsFragment, SymbolsFragment}
 
 /**
  * Created by Christina on 09.12.2015.

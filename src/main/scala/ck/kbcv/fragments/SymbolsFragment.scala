@@ -1,18 +1,14 @@
-package ck.kbcv
+package ck.kbcv.fragments
 
-import java.lang.ClassCastException
-
-import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.text.{Editable, TextWatcher}
-import android.util.Log
-import android.view.ViewGroup.LayoutParams
-import android.view.{ View, ViewGroup, LayoutInflater }
+import android.view.{LayoutInflater, View, ViewGroup}
 import android.widget._
-import ck.kbcv.state.OnSymbolsChangedListener
-import term.Term.{V, F}
+import ck.kbcv.{Controller, R}
+import ck.kbcv.model.OnSymbolsChangedListener
+import term.Term.{F, V}
 
 /**
  * Created by Christina on 05.12.2015.

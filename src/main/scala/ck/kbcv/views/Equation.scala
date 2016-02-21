@@ -1,10 +1,11 @@
-package ck.kbcv
+package ck.kbcv.views
 
 import android.content.Context
 import android.util.AttributeSet
 import android.view.Gravity
 import android.view.ViewGroup.LayoutParams
-import android.widget.{TextView, LinearLayout, ImageView}
+import android.widget.{LinearLayout, TextView}
+import ck.kbcv.R
 
 /**
  * Created by Christina on 03.01.2016.

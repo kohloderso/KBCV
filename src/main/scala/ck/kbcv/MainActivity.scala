@@ -1,21 +1,14 @@
 package ck.kbcv
 
-import java.io.{File, OutputStreamWriter}
-
 import android.app.Activity
-import android.content.{Intent, Context}
-import android.net.Uri
-import android.os.{Environment, Bundle}
+import android.content.Intent
+import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
 import android.view.View
-import android.widget.{ Button, Toast }
-import ck.kbcv.state.{MutableState, State}
-import term.{Term, Var, Fun}
-import term.Term._
-import term.parser.ParserXmlTRS
-import term.reco.IES
-import term.util._
+import android.widget.Toast
+import ck.kbcv.activities.CreateEquationsActivity
+import ck.kbcv.controller.MutableState
+import ck.kbcv.model.MutableState
 
 class MainActivity extends AppCompatActivity with TypedFindView {
     val state = new MutableState(new State(Nil, Set() , Set()))

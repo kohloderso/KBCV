@@ -1,11 +1,11 @@
 package ck.kbcv.dialogs
 
 import android.app.AlertDialog.Builder
-import android.app.{Activity, Dialog}
+import android.app.Dialog
 import android.content.{Context, DialogInterface}
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
-import android.widget.{TextView, EditText}
+import android.widget.EditText
 import ck.kbcv.Controller
 import term.parser.ParserXmlTRS
 ;

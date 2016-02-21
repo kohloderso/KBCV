@@ -1,12 +1,13 @@
-package ck.kbcv
+package ck.kbcv.fragments
 
 import android.content.ClipData
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.util.Log
 import android.view.ViewGroup.LayoutParams
 import android.view._
 import android.widget._
+import ck.kbcv.views.Equation
+import ck.kbcv.{Controller, R}
 import term.util.ES
 
 /**

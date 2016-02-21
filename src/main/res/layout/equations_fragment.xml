@@ -8,7 +8,7 @@
             android:id="@+id/equationsContainer" android:orientation="vertical">
         <view android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              class="ck.kbcv.Equation" android:id="@+id/equation_1"
+              class="ck.kbcv.views.Equation" android:id="@+id/equation_1"
                 />
 
 

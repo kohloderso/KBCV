@@ -33,7 +33,7 @@
 
         <!-- A child of the main activity -->
         <activity
-                android:name=".CreateEquationsActivity"
+                android:name=".activities.CreateEquationsActivity"
                 android:label="Equations"
                 android:parentActivityName=".MainActivity" >
 

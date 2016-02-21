@@ -5,7 +5,8 @@ import android.app.{Activity, Dialog}
 import android.content.DialogInterface
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
-import ck.kbcv.{OnSymbolsChangedListener, Controller}
+import ck.kbcv.Controller
+import ck.kbcv.model.OnSymbolsChangedListener
 import term.parser.ParserXmlTRS
 ;
 

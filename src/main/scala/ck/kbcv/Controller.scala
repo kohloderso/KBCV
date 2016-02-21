@@ -1,8 +1,5 @@
 package ck.kbcv
 
-import android.net.Uri
-import ck.kbcv.state.{MutableState, State}
-import term.parser.ParserXmlTRS
 import term.util._
 
 
@@ -23,4 +20,11 @@ object Controller {
         state.variables = vars(newES)
     }
 
+}
+
+
+trait OnSymbolsChangedListener {
+    def onVariablesChanged()
+
+    def onFunctionsChanged()
 }
