@@ -8,6 +8,9 @@
             android:minSdkVersion="11"
             android:targetSdkVersion="23" />
 
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+
     <application
             android:theme="@style/MyMaterialTheme">
 
@@ -32,6 +35,18 @@
         <activity
                 android:name=".CreateEquationsActivity"
                 android:label="Equations"
+                android:parentActivityName=".MainActivity" >
+
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                    android:name="android.support.PARENT_ACTIVITY"
+                    android:value=".MainActivity" />
+        </activity>
+
+        <!-- A child of the main activity -->
+        <activity
+                android:name=".TestActivity"
+                android:label="Test Loading"
                 android:parentActivityName=".MainActivity" >
 
             <!-- Parent activity meta-data to support 4.0 and lower -->

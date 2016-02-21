@@ -39,20 +39,36 @@ class EquationDropzone(context: Context, attrs: AttributeSet) extends ImageView(
             symbolView.setText(symbol)
             equation.addView(symbolView, index)
         } else if(clipData.getDescription.getLabel.equals("function")) {
-            val symbol = clipData.getItemAt(0).getText
+            val functionSymbol = clipData.getItemAt(0).getText.toString
+            val arity = clipData.getItemAt(1).getText.toString.toInt
+
             val symbolView = new TextView(context)
-            symbolView.setText(symbol)
+            symbolView.setText(functionSymbol)
             symbolView.setGravity(Gravity.CENTER)
-            val brace1 = new TextView(context)
-            brace1.setText("(")
-            brace1.setGravity((Gravity.CENTER))
-            val brace2 = new TextView(context)
-            brace2.setText(")")
-            brace2.setGravity(Gravity.CENTER)
-            val dropZone = new EquationDropzone(context, null)
-            equation.addView(brace2, index)
-            equation.addView(dropZone, index)
-            equation.addView(brace1, index)
+
+            if(arity != 0) {
+                val brace1 = new TextView(context)
+                brace1.setText("(")
+                brace1.setGravity((Gravity.CENTER))
+                val brace2 = new TextView(context)
+                brace2.setText(")")
+                brace2.setGravity(Gravity.CENTER)
+                equation.addView(brace2, index)
+
+                val dropZone = new EquationDropzone(context, null)
+                equation.addView(dropZone, index)
+
+                for(i <- 2 to arity) {
+                    val comma = new TextView(context)
+                    comma.setText(",")
+                    comma.setGravity(Gravity.CENTER)
+                    equation.addView(comma, index)
+
+                    val dropZone = new EquationDropzone(context, null)
+                    equation.addView(dropZone, index)
+                }
+                equation.addView(brace1, index)
+            }
             equation.addView(symbolView, index)
         }
     }
@@ -67,7 +83,7 @@ class EquationDropzone(context: Context, attrs: AttributeSet) extends ImageView(
         val pixelsWidth = (metrics.density * desiredWidth + 0.5f).toInt
         val pixelsHeight = (metrics.density * desiredHeight + 0.5f).toInt
 
-        // maybe add some more sophisticated stuff here?
+        // TODO maybe add some more sophisticated stuff here?
 
         setMeasuredDimension(pixelsWidth, pixelsHeight)
     }

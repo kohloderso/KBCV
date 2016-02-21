@@ -7,16 +7,23 @@ import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
 import android.support.v4.app.FragmentManager
 import android.util.Log
+import android.view.{MenuItem, Menu}
+import ck.kbcv.dialogs.{AddDialogFragment, ImportDialogFragment, SaveDialogFragment}
+import ck.kbcv.state.OnSymbolsChangedListener
+import term.reco.IES
 
 
 /**
  * Created by Christina on 05.12.2015.
  */
-class CreateEquationsActivity extends AppCompatActivity with OnVariablesChangedListener with TypedFindView {
+class CreateEquationsActivity extends AppCompatActivity with OnSymbolsChangedListener with TypedFindView {
     val TAG = "CreateEquationsActivity"
     var equationPagerAdapter: EquationsPagerAdapter = null
+    var ies: IES = null
+    var mfunctions: Map[String, Int] = Map()
+    var mvariables: Array[String] = Array()
 
-    @Override
+
     override def onCreate( savedInstanceState: Bundle ): Unit = {
         super.onCreate( savedInstanceState )
         setContentView( R.layout.create_equations)
@@ -56,10 +63,36 @@ class CreateEquationsActivity extends AppCompatActivity with OnVariablesChangedL
         }*/
     }
 
-    override def onVariablesChanged(variables: Array[String]): Unit = {
+
+    override def onCreateOptionsMenu(menu: Menu): Boolean = {
+        val inflater = getMenuInflater
+        inflater.inflate(R.menu.equation_menu, menu)
+        return true
+    }
+
+
+    override def onOptionsItemSelected(item: MenuItem): Boolean = {
+        item.getItemId match {
+            case R.id.action_save => {
+                new SaveDialogFragment().show(getSupportFragmentManager, "SaveDialog")
+                true
+            }
+            case R.id.action_load => {
+                new ImportDialogFragment().show(getSupportFragmentManager, "ImportDialog")
+                true
+            }
+            case _ => false
+        }
+    }
+
+
+    override def onVariablesChanged(): Unit = {
         try {
             val equationsFragment = equationPagerAdapter.getRegisteredFragment(1).asInstanceOf[EquationsFragment]
-            equationsFragment.onVariablesChanged(variables)
+            equationsFragment.onVariablesChanged()
+
+            val symbolsFragment = equationPagerAdapter.getRegisteredFragment(0).asInstanceOf[SymbolsFragment]
+            symbolsFragment.onVariablesChanged()
         } catch {
             case ex: ClassCastException => {
                 Log.e(TAG, ex.getMessage)
@@ -68,6 +101,23 @@ class CreateEquationsActivity extends AppCompatActivity with OnVariablesChangedL
                 Log.e(TAG, ex.getMessage)
             }
         }
-
     }
+
+    override def onFunctionsChanged(): Unit = {
+        try {
+            val equationsFragment = equationPagerAdapter.getRegisteredFragment(1).asInstanceOf[EquationsFragment]
+            equationsFragment.onFunctionsChanged()
+
+            val symbolsFragment = equationPagerAdapter.getRegisteredFragment(0).asInstanceOf[SymbolsFragment]
+            symbolsFragment.onFunctionsChanged()
+        } catch {
+            case ex: ClassCastException => {
+                Log.e(TAG, ex.getMessage)
+            }
+            case ex: NullPointerException => {
+                Log.e(TAG, ex.getMessage)
+            }
+        }
+    }
+
 }

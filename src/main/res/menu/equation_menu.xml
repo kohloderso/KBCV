@@ -1,0 +1,14 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <!-- "Mark Favorite", should appear as action button if possible -->
+    <item
+            android:id="@+id/action_load"
+            android:title="load"
+            android:showAsAction="ifRoom"/>
+
+    <!-- Settings, should always be in the overflow -->
+    <item android:id="@+id/action_save"
+          android:title="save"
+          android:showAsAction="ifRoom"/>
+
+</menu>
