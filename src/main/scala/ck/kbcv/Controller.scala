@@ -27,4 +27,11 @@ trait OnSymbolsChangedListener {
     def onVariablesChanged()
 
     def onFunctionsChanged()
+
+}
+
+trait OnEquationsChangedListener {
+    def onNewEquations(es: ES)
+
+    def onEquationsAdded(es: ES)
 }

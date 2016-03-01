@@ -8,14 +8,14 @@ import android.view.{Menu, MenuItem}
 import ck.kbcv._
 import ck.kbcv.dialogs.{ImportDialogFragment, SaveDialogFragment}
 import ck.kbcv.fragments.{SymbolsFragment, EquationsFragment}
-import ck.kbcv.model.OnSymbolsChangedListener
 import term.reco.IES
+import term.util.ES
 
 
 /**
  * Created by Christina on 05.12.2015.
  */
-class CreateEquationsActivity extends AppCompatActivity with OnSymbolsChangedListener with TypedFindView {
+class CreateEquationsActivity extends AppCompatActivity with OnSymbolsChangedListener with OnEquationsChangedListener with TypedFindView {
     val TAG = "CreateEquationsActivity"
     var equationPagerAdapter: EquationsPagerAdapter = null
     var ies: IES = null
@@ -119,4 +119,31 @@ class CreateEquationsActivity extends AppCompatActivity with OnSymbolsChangedLis
         }
     }
 
+    override def onNewEquations(newES: ES): Unit = {
+        try {
+            val equationsFragment = equationPagerAdapter.getRegisteredFragment(1).asInstanceOf[EquationsFragment]
+            equationsFragment.onNewEquations(newES)
+        } catch {
+            case ex: ClassCastException => {
+                Log.e(TAG, ex.getMessage)
+            }
+            case ex: NullPointerException => {
+                Log.e(TAG, ex.getMessage)
+            }
+        }
+    }
+
+    override def onEquationsAdded(addedES: ES): Unit = {
+        try {
+            val equationsFragment = equationPagerAdapter.getRegisteredFragment(1).asInstanceOf[EquationsFragment]
+            equationsFragment.onEquationsAdded(addedES)
+        } catch {
+            case ex: ClassCastException => {
+                Log.e(TAG, ex.getMessage)
+            }
+            case ex: NullPointerException => {
+                Log.e(TAG, ex.getMessage)
+            }
+        }
+    }
 }

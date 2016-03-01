@@ -7,8 +7,6 @@ import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.Toast
 import ck.kbcv.activities.CreateEquationsActivity
-import ck.kbcv.controller.MutableState
-import ck.kbcv.model.MutableState
 
 class MainActivity extends AppCompatActivity with TypedFindView {
     val state = new MutableState(new State(Nil, Set() , Set()))

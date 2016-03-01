@@ -6,8 +6,7 @@ import android.support.v4.app.Fragment
 import android.text.{Editable, TextWatcher}
 import android.view.{LayoutInflater, View, ViewGroup}
 import android.widget._
-import ck.kbcv.{Controller, R}
-import ck.kbcv.model.OnSymbolsChangedListener
+import ck.kbcv.{OnSymbolsChangedListener, Controller, R}
 import term.Term.{F, V}
 
 /**

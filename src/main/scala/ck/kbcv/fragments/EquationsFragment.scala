@@ -88,7 +88,16 @@ class EquationsFragment extends Fragment {
         }
     }
 
+    def onNewEquations(es: ES): Unit = {
+        equationContainer.removeAllViews()
+        onEquationsAdded(es)
+    }
+
+
     def onEquationsAdded(es: ES): Unit = {
-        // TODO
+        for(equation <- es) {
+            val eqView = new Equation(getContext, null, equation)
+            equationContainer.addView(eqView)
+        }
     }
 }
