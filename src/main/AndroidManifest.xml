@@ -34,7 +34,7 @@
         <!-- A child of the main activity -->
         <activity
                 android:name=".activities.CreateEquationsActivity"
-                android:label="Equations"
+                android:label="Edit ES"
                 android:parentActivityName=".MainActivity" >
 
             <!-- Parent activity meta-data to support 4.0 and lower -->
@@ -45,8 +45,8 @@
 
         <!-- A child of the main activity -->
         <activity
-                android:name=".TestActivity"
-                android:label="Test Loading"
+                android:name=".activities.CompletionActivity"
+                android:label="Completion"
                 android:parentActivityName=".MainActivity" >
 
             <!-- Parent activity meta-data to support 4.0 and lower -->

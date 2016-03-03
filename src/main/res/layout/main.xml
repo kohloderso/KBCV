@@ -19,12 +19,12 @@
         <Button android:id="@+id/new_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="new equations"/>
+                android:text="create ES"/>
 
         <Button android:id="@+id/load_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="load equations" />
+                android:text="Completion" />
 
 
     </LinearLayout>

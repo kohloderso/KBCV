@@ -5,33 +5,32 @@
                 android:paddingRight="16dp" android:paddingTop="16dp">
 
 
+    <ListView
+            android:id="@+id/equation_listview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"/>
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Compose"
+            android:id="@+id/compose_button"
+            android:layout_above="@+id/deduce_button" android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"/>
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Collapse"
+            android:id="@+id/collapse_button"
+            android:layout_alignParentBottom="true" android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"/>
 
     <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Orient -&gt;"
-            android:id="@+id/orientLR_button"
-            android:layout_above="@+id/orientRL_button" android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"/>
-    <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Orient &lt;-"
-            android:id="@+id/orientRL_button"
-            android:layout_alignParentBottom="true" android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"/>
-    <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Simplify"
-            android:id="@+id/simplify_button"
-            android:layout_above="@+id/delete_button" android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"/>
-    <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Delete"
-            android:id="@+id/delete_button"
+            android:text="Deduce"
+            android:id="@+id/deduce_button"
             android:layout_alignParentBottom="true" android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"/>
     <Button
@@ -40,7 +39,7 @@
             android:layout_height="wrap_content"
             android:text="&lt;"
             android:id="@+id/undo_button"
-            android:layout_above="@+id/orientLR_button"
+            android:layout_alignBottom="@+id/undo_button"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"/>
     <Button
@@ -49,15 +48,6 @@
             android:layout_height="wrap_content"
             android:text="&gt;"
             android:id="@+id/redo_button"
-            android:layout_above="@+id/simplify_button" android:layout_alignParentRight="true"
+            android:layout_above="@+id/compose_button" android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"/>
-
-
-        <ListView
-                android:id="@+id/equation_listview"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:layout_above="@id/redo_button"/>
 </RelativeLayout>

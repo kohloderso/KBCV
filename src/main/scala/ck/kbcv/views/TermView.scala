@@ -11,7 +11,7 @@ import term.{Fun, Var, Term}
 class TermView(context: Context, attrs: AttributeSet, term: Term = null) extends LinearLayout(context: Context, attrs: AttributeSet){
 
     if(term == null) {
-        this.addView(new EquationDropzone(context, attrs))
+        this.addView(new DropView(context, attrs))
     } else {
         term match {
             case Var(x) => this.addView(new VarView(context, attrs, x))

@@ -12,7 +12,7 @@ import term.util.E
 /**
  * Created by Christina on 03.01.2016.
  */
-class Equation (context: Context, attrs: AttributeSet, equation: E) extends LinearLayout(context, attrs) {
+class EquationView (context: Context, attrs: AttributeSet, equation: E) extends LinearLayout(context, attrs) {
     def this(context: Context, attrs: AttributeSet) = this(context, attrs, null)
 
     this.setOrientation(LinearLayout.HORIZONTAL)

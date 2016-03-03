@@ -12,4 +12,9 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="dragButton" parent="@android:style/Widget.Button.Small">
+        <item name="android:textSize">20dip</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
 </resources>

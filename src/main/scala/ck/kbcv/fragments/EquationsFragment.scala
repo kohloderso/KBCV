@@ -6,8 +6,10 @@ import android.support.v4.app.Fragment
 import android.view.ViewGroup.LayoutParams
 import android.view._
 import android.widget._
-import ck.kbcv.views.Equation
+import ck.kbcv.adapters.EquationArrayAdapter
+import ck.kbcv.views.EquationView
 import ck.kbcv.{Controller, R}
+import term.parser.ParserXmlTRS
 import term.util.ES
 
 /**
@@ -15,89 +17,22 @@ import term.util.ES
  */
 class EquationsFragment extends Fragment {
     val TAG = "EquationsFragment"
-    var functionSymbolContainer: LinearLayout = null
-    var variableSymbolContainer: LinearLayout = null
-    var equationContainer: LinearLayout = null
 
     override def onCreateView( inflater: LayoutInflater, container: ViewGroup, savedInstanceState: Bundle ): View = {
         val view = inflater.inflate( R.layout.equations_fragment, container, false )
+        val equationListView = view.findViewById(R.id.equation_listview).asInstanceOf[ListView]
 
-        equationContainer = view.findViewById(R.id.equationsContainer).asInstanceOf[LinearLayout]
-        functionSymbolContainer = view.findViewById(R.id.functionSymbolsContainer).asInstanceOf[LinearLayout]
-        variableSymbolContainer = view.findViewById(R.id.variableSymbolContainer).asInstanceOf[LinearLayout]
+        // remove this after testing!!
+        if(Controller.state.equations.isEmpty) {
+            val stream = getActivity.openFileInput("new")
+            val es = ParserXmlTRS.parse(stream)
+            Controller.setES(es)
+        }
+        equationListView.setAdapter(new EquationArrayAdapter(getActivity, Controller.state.equations))
 
-        val plusButton = view.findViewById(R.id.plusButton).asInstanceOf[Button]
-        plusButton.setOnClickListener(new View.OnClickListener {
-            override def onClick(v: View): Unit = {
-                val newEquation = new Equation(getActivity, null)
-                equationContainer.addView(newEquation)
-            }
-        })
+
+
+
         return view
-    }
-
-    def onVariablesChanged(): Unit = {
-        val variables = Controller.state.variables
-        variableSymbolContainer.removeAllViews()
-        for(variable <- variables) {
-            val b = new Button(getContext, null, android.R.attr.buttonStyleSmall)
-            b.setText(variable)
-            b.setOnTouchListener(new View.OnTouchListener() {
-                override def onTouch(v: View, event: MotionEvent): Boolean = {
-                    if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                        val data = ClipData.newPlainText("variable", variable)
-                        val shadow = new View.DragShadowBuilder(b)
-                        v.startDrag(data, shadow, null, 0)
-                        true
-                    } else {
-                        false
-                    }
-                }
-            })
-            b.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT))
-            variableSymbolContainer.addView(b)
-        }
-    }
-
-
-    def onFunctionsChanged(): Unit = {
-        val functions = Controller.state.functions
-        functionSymbolContainer.removeAllViews()
-        val i = 0
-        for(function <- functions) {
-            val functionSymbol = function._1
-            val arity = function._2
-            val b = new Button(getContext, null, android.R.attr.buttonStyleSmall)
-            b.setText(functionSymbol)
-            b.setOnTouchListener(new View.OnTouchListener() {
-                override def onTouch(v: View, event: MotionEvent): Boolean = {
-                    if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                        val data = ClipData.newPlainText("function", functionSymbol)
-                        data.addItem(new ClipData.Item(arity.toString))
-                        val shadow = new View.DragShadowBuilder(b)
-                        v.startDrag(data, shadow, null, 0)
-                        true
-                    } else {
-                        false
-                    }
-
-                }
-            })
-            b.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT))
-            functionSymbolContainer.addView(b)
-        }
-    }
-
-    def onNewEquations(es: ES): Unit = {
-        equationContainer.removeAllViews()
-        onEquationsAdded(es)
-    }
-
-
-    def onEquationsAdded(es: ES): Unit = {
-        for(equation <- es) {
-            val eqView = new Equation(getContext, null, equation)
-            equationContainer.addView(eqView)
-        }
     }
 }

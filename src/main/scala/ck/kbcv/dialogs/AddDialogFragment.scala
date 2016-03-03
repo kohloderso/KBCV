@@ -1,8 +1,11 @@
 package ck.kbcv.dialogs
 
+import java.io.InputStream
+
 import android.app.AlertDialog.Builder
 import android.app.{Activity, Dialog}
 import android.content.DialogInterface
+import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import ck.kbcv.{OnEquationsChangedListener, OnSymbolsChangedListener, Controller}
@@ -30,12 +33,20 @@ class AddDialogFragment extends DialogFragment {
 
     override def onCreateDialog(savedInstanceState: Bundle): Dialog = {
         val builder = new Builder((getActivity))
-        val filename = getArguments.getCharSequence("filename").toString
-        val stream = getActivity.openFileInput(filename)
+
+        val filename = getArguments.getCharSequence("filename")
+        val fileURI = getArguments.getCharSequence("uri")
+        var stream: InputStream = null
+        if(filename != null) {
+            stream = getActivity.openFileInput(filename.toString)
+        } else if(fileURI != null) {
+            stream = getActivity.getContentResolver.openInputStream(Uri.parse(fileURI.toString))
+        }
+
         val es = ParserXmlTRS.parse(stream)
-        builder.setTitle("Add TRS")
+        builder.setTitle("Add ES")
             .setMessage(es.toString())
-            .setNegativeButton("Use as new TRS", new DialogInterface.OnClickListener() {
+            .setNegativeButton("Use as new ES", new DialogInterface.OnClickListener() {
                 def onClick(dialogInterface: DialogInterface, which: Int): Unit = {
                     Controller.setES(es)
                     symbolsListener.onFunctionsChanged()
@@ -43,7 +54,7 @@ class AddDialogFragment extends DialogFragment {
                     equationsListener.onNewEquations(es)
                 }
             })
-            .setPositiveButton("Add to existing TRS", new DialogInterface.OnClickListener() {
+            .setPositiveButton("Add to existing ES", new DialogInterface.OnClickListener() {
                 def onClick(dialogInterface: DialogInterface, which: Int): Unit = {
                     Controller.addES(es)
                     symbolsListener.onFunctionsChanged()

@@ -9,7 +9,7 @@ import ck.kbcv.R
 /**
  * Created by Christina on 01.01.2016.
  */
-class EquationDropzone(context: Context, attrs: AttributeSet) extends ImageView(context, attrs) {
+class DropView(context: Context, attrs: AttributeSet) extends ImageView(context, attrs) {
     val TAG = "EquationDropzone"
     this.setBackgroundColor(getResources.getColor(R.color.colorPrimary))
     this.setOnDragListener(new View.OnDragListener() {
@@ -56,7 +56,7 @@ class EquationDropzone(context: Context, attrs: AttributeSet) extends ImageView(
                 brace2.setGravity(Gravity.CENTER)
                 equation.addView(brace2, index)
 
-                val dropZone = new EquationDropzone(context, null)
+                val dropZone = new DropView(context, null)
                 equation.addView(dropZone, index)
 
                 for(i <- 2 to arity) {
@@ -65,7 +65,7 @@ class EquationDropzone(context: Context, attrs: AttributeSet) extends ImageView(
                     comma.setGravity(Gravity.CENTER)
                     equation.addView(comma, index)
 
-                    val dropZone = new EquationDropzone(context, null)
+                    val dropZone = new DropView(context, null)
                     equation.addView(dropZone, index)
                 }
                 equation.addView(brace1, index)
@@ -86,7 +86,7 @@ class EquationDropzone(context: Context, attrs: AttributeSet) extends ImageView(
 
         // TODO maybe add some more sophisticated stuff here?
 
-        setMeasuredDimension(pixelsWidth, pixelsHeight)
+        setMeasuredDimension(getResources.getDimension(R.dimen.drop_view).toInt, getResources.getDimension(R.dimen.drop_view).toInt)
     }
 
 
