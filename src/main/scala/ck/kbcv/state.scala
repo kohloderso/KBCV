@@ -1,3 +1,4 @@
+
 package ck.kbcv
 
 import term.Term.{F, V}
@@ -14,5 +15,3 @@ class MutableState(s: State) {
     var functions = s.functions
     var variables = s.variables
 }
-
-

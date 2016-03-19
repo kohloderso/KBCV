@@ -15,7 +15,7 @@ class FunView (context: Context, attrs: AttributeSet, funName: F, funArgs: List[
 
     val nameView = new TextView(context, attrs)
     nameView.setText(funName)
-    nameView.setTextSize(getResources.getDimension(R.dimen.equation_text))
+    //nameView.setTextSize(getResources.getDimension(R.dimen.equation_text))
     this.addView(nameView)
 
     if(!funArgs.isEmpty) {

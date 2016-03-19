@@ -120,7 +120,7 @@ class SymbolsFragment extends Fragment {
             functionsContainer.removeViews(3, functionsContainer.getChildCount-4)
             for(function <- stateFunctions) {
                 val newFunction = inflater.inflate(R.layout.function_helper, null)
-                newFunction.setId(View.generateViewId())
+                //newFunction.setId(View.generateViewId())
 
                 val functionSymbolView = newFunction.findViewById(R.id.function_symbol).asInstanceOf[EditText]
                 val arityView = newFunction.findViewById(R.id.arity).asInstanceOf[EditText]

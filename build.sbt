@@ -14,6 +14,7 @@ libraryDependencies ++=
     // Version 2.4.x requires Java 8
     //"com.typesafe.play" %% "play-json" % "2.3.10" ::
     //"termlib" % "termlib_2.10" % "latest.integration" ::
+        "com.daimajia.swipelayout" % "library" % "1.2.0" ::
     Nil
 
 name := "KBCV"
