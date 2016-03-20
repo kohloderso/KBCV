@@ -53,11 +53,17 @@
             android:layout_alignParentEnd="true"/>
 
 
-        <ListView
+    <android.support.v7.widget.RecyclerView
+            android:id="@+id/rvEquations"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_above="@id/redo_button"/>
+
+        <!--<ListView
                 android:id="@+id/equation_listview"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
-                android:layout_above="@id/redo_button"/>
+                android:layout_above="@id/redo_button"/>-->
 </RelativeLayout>

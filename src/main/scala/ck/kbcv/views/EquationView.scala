@@ -17,27 +17,33 @@ class EquationView (context: Context, attrs: AttributeSet, equation: E) extends 
 
     this.setOrientation(LinearLayout.HORIZONTAL)
 
-    var lhs: Term = null
-    var rhs: Term = null
-    if(equation != null) {
-        lhs = equation.lhs
-        rhs = equation.rhs
+    setEquation(equation)
 
+
+    def setEquation(equation: E): Unit = {
+        this.removeAllViews()
+
+        var lhs: Term = null
+        var rhs: Term = null
+        if(equation != null) {
+            lhs = equation.lhs
+            rhs = equation.rhs
+
+        }
+
+        this.addView(new TermView(context, attrs, lhs))
+
+        val equalsSign = new TextView(context)
+        equalsSign.setText("=")
+        equalsSign.setBackgroundColor(getResources.getColor(R.color.colorAccent))
+        val lp = new LinearLayout.LayoutParams(0, LayoutParams.MATCH_PARENT, 1.0f)
+        equalsSign.setLayoutParams(lp)
+        equalsSign.setGravity(Gravity.CENTER)
+
+        this.addView(equalsSign)
+
+        this.addView(new TermView(context, attrs, rhs))
     }
-
-    this.addView(new TermView(context, attrs, lhs))
-
-    val equalsSign = new TextView(context)
-    equalsSign.setText("=")
-    equalsSign.setBackgroundColor(getResources.getColor(R.color.colorAccent))
-    val lp = new LinearLayout.LayoutParams(0, LayoutParams.MATCH_PARENT, 1.0f)
-    equalsSign.setLayoutParams(lp)
-    equalsSign.setGravity(Gravity.CENTER)
-
-    this.addView(equalsSign)
-
-    this.addView(new TermView(context, attrs, rhs))
-
 
 
 }
