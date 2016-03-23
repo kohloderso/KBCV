@@ -16,6 +16,8 @@ class EquationView (context: Context, attrs: AttributeSet, equation: E) extends 
     def this(context: Context, attrs: AttributeSet) = this(context, attrs, null)
 
     this.setOrientation(LinearLayout.HORIZONTAL)
+    this.setClickable(true)
+    this.setFocusable(true)
 
     setEquation(equation)
 

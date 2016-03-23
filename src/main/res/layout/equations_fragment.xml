@@ -57,7 +57,7 @@
             android:id="@+id/rvEquations"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:layout_above="@id/redo_button"/>
+            android:layout_above="@id/redo_button" android:background="#ff68ff54"/>
 
         <!--<ListView
                 android:id="@+id/equation_listview"
