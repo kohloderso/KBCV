@@ -1,14 +1,10 @@
 package ck.kbcv
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
-import android.widget.Toast
-
 import ck.kbcv.activities.{CompletionActivity, CreateEquationsActivity}
-import ck.kbcv.dialogs.AddDialogFragment
 
 class MainActivity extends AppCompatActivity with TypedFindView {
     val state = new MutableState(new State(Nil, Set() , Set()))

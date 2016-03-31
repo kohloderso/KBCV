@@ -2,11 +2,10 @@ package ck.kbcv.dialogs
 
 import android.app.AlertDialog.Builder
 import android.app.{Activity, Dialog}
-import android.content.{Intent, DialogInterface}
+import android.content.{DialogInterface, Intent}
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.widget.Toast
-import ck.kbcv.Controller
 
 
 class ImportDialogFragment extends DialogFragment {

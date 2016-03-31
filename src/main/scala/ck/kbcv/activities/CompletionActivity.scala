@@ -1,24 +1,18 @@
 package ck.kbcv.activities
 
-import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
 import android.view.{Menu, MenuItem}
 import ck.kbcv._
 import ck.kbcv.adapters.CompletionPagerAdapter
-import ck.kbcv.dialogs.{AddDialogFragment, ImportDialogFragment, SaveDialogFragment}
-import ck.kbcv.fragments.{EquationsFragment, CreateEquationsFragment, SymbolsFragment}
-import term.reco.IES
-import term.util.ES
+import term.util.{E, ES, TRS}
 
 
 /**
  * Created by Christina on 05.12.2015.
  */
-class CompletionActivity extends AppCompatActivity with TypedFindView {
+class CompletionActivity extends AppCompatActivity with TypedFindView with CompletionActionListener {
     val TAG = "CompletionActivity"
     var completionPagerAdapter: CompletionPagerAdapter = null
 
@@ -40,25 +34,6 @@ class CompletionActivity extends AppCompatActivity with TypedFindView {
         completionPagerAdapter = new CompletionPagerAdapter(fm)
         viewPager.setAdapter(completionPagerAdapter)
         tabLayout.setupWithViewPager(viewPager)
-
-        // Check that the activity is using the layout version with
-        // the fragment_container FrameLayout
-        /*if (findViewById(R.id.fragment_container) != null) {
-
-            // However, if we're being restored from a previous state,
-            // then we don't need to do anything and should return or else
-            // we could end up with overlapping fragments.
-            if (savedInstanceState != null) {
-                return
-            }
-
-            // Create a new Fragment to be placed in the activity layout
-            val firstFragment = new NewEquationFragment()
-
-            // Add the fragment to the 'fragment_container' FrameLayout
-            //getSupportFragmentManager().beginTransaction()
-              //.add(R.id.fragment_container, firstFragment).commit()
-        }*/
     }
 
 
@@ -74,4 +49,17 @@ class CompletionActivity extends AppCompatActivity with TypedFindView {
         return false
     }
 
+    override def orientRL(e: E): Unit = ???
+
+    override def orientLR(e: E): Unit = ???
+
+    override def compose(trs: TRS): Unit = ???
+
+    override def delete(e: E): Unit = ???
+
+    override def deduce(trs: TRS): Unit = ???
+
+    override def collapse(trs: TRS): Unit = ???
+
+    override def simplify(es: ES): Unit = ???
 }

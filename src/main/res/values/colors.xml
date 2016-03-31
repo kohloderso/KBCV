@@ -16,5 +16,6 @@
     <color name="windowBackground">#FFFFFF</color>
     <color name="navigationBarColor">#000000</color>
     <color name="colorAccent">#c8e8ff</color>
+    <color name="selected_overlay">#88673AB7</color>
 
 </resources>

@@ -35,3 +35,19 @@ trait OnEquationsChangedListener {
 
     def onEquationsAdded(es: ES)
 }
+
+trait CompletionActionListener {
+    def orientRL(e: E)
+
+    def orientLR(e: E)
+
+    def simplify(es: ES)
+
+    def delete(e: E)
+
+    def compose(trs: TRS)
+
+    def collapse(trs: TRS)
+
+    def deduce(trs: TRS)
+}

@@ -1,14 +1,9 @@
 package ck.kbcv.fragments
 
-import android.content.ClipData
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.view.ViewGroup.LayoutParams
 import android.view._
-import android.widget._
-import ck.kbcv.views.EquationView
-import ck.kbcv.{Controller, R}
-import term.util.ES
+import ck.kbcv.R
 
 /**
  * Created by Christina on 09.12.2015.

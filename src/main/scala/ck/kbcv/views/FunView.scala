@@ -3,8 +3,7 @@ package ck.kbcv.views
 import android.content.Context
 import android.util.AttributeSet
 import android.widget.{LinearLayout, TextView}
-import ck.kbcv.R
-import term.{Term, Fun}
+import term.Term
 import term.Term._
 
 /**

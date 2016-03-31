@@ -3,7 +3,7 @@ package ck.kbcv.views
 import android.content.Context
 import android.util.AttributeSet
 import android.widget.LinearLayout
-import term.{Fun, Var, Term}
+import term.{Fun, Term, Var}
 
 /**
  * Created by Christina on 01.03.2016.

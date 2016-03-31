@@ -2,8 +2,7 @@ package ck.kbcv.views
 
 import android.content.Context
 import android.util.AttributeSet
-import android.widget.{TextView, LinearLayout}
-import term.Term
+import android.widget.TextView
 import term.Term.V
 
 /**

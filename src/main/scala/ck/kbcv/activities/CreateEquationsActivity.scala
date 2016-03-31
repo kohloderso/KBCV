@@ -11,7 +11,7 @@ import android.view.{Menu, MenuItem}
 import ck.kbcv._
 import ck.kbcv.adapters.CreateEquationsPagerAdapter
 import ck.kbcv.dialogs.{AddDialogFragment, ImportDialogFragment, SaveDialogFragment}
-import ck.kbcv.fragments.{SymbolsFragment, CreateEquationsFragment}
+import ck.kbcv.fragments.{CreateEquationsFragment, SymbolsFragment}
 import term.reco.IES
 import term.util.ES
 
@@ -48,25 +48,6 @@ class CreateEquationsActivity extends AppCompatActivity with OnSymbolsChangedLis
         equationPagerAdapter = new CreateEquationsPagerAdapter(test)
         viewPager.setAdapter(equationPagerAdapter)
         tabLayout.setupWithViewPager(viewPager)
-
-        // Check that the activity is using the layout version with
-        // the fragment_container FrameLayout
-        /*if (findViewById(R.id.fragment_container) != null) {
-
-            // However, if we're being restored from a previous state,
-            // then we don't need to do anything and should return or else
-            // we could end up with overlapping fragments.
-            if (savedInstanceState != null) {
-                return
-            }
-
-            // Create a new Fragment to be placed in the activity layout
-            val firstFragment = new NewEquationFragment()
-
-            // Add the fragment to the 'fragment_container' FrameLayout
-            //getSupportFragmentManager().beginTransaction()
-              //.add(R.id.fragment_container, firstFragment).commit()
-        }*/
     }
 
 
