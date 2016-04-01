@@ -19,7 +19,7 @@ public abstract class SmartFragmentStatePagerAdapter extends FragmentStatePagerA
 		super(fragmentManager);
 	}
 
-	// Register the fragment when the item is instantiated
+	// Register the fragment when the e_item is instantiated
 	@Override
 	public Object instantiateItem(ViewGroup container, int position) {
 		Fragment fragment = (Fragment) super.instantiateItem(container, position);
@@ -27,7 +27,7 @@ public abstract class SmartFragmentStatePagerAdapter extends FragmentStatePagerA
 		return fragment;
 	}
 
-	// Unregister when the item is inactive
+	// Unregister when the e_item is inactive
 	@Override
 	public void destroyItem(ViewGroup container, int position, Object object) {
 		registeredFragments.remove(position);

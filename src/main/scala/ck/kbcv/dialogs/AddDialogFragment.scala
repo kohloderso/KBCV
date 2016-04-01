@@ -10,6 +10,7 @@ import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import ck.kbcv.{Controller, OnEquationsChangedListener, OnSymbolsChangedListener}
 import term.parser.ParserXmlTRS
+import term.reco.IES
 ;
 
 class AddDialogFragment extends DialogFragment {

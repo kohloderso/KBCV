@@ -7,7 +7,6 @@ import android.view.View
 import ck.kbcv.activities.{CompletionActivity, CreateEquationsActivity}
 
 class MainActivity extends AppCompatActivity with TypedFindView {
-    val state = new MutableState(new State(Nil, Set() , Set()))
 
     override def onCreate( savedInstanceState: Bundle ): Unit = {
         super.onCreate( savedInstanceState )

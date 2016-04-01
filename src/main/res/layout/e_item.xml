@@ -17,6 +17,13 @@
 				  class="ck.kbcv.views.EquationView"
 				  android:id="@+id/equationView"
 			  android:layout_centerInParent="true"/>
+		<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:id="@+id/indexView"
+				android:layout_centerVertical="true"
+				android:layout_alignParentLeft="true"
+				android:layout_alignParentStart="true"/>
 
 
 	</RelativeLayout>

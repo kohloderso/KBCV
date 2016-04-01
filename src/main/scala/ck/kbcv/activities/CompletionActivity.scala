@@ -6,6 +6,9 @@ import android.support.v7.app.AppCompatActivity
 import android.view.{Menu, MenuItem}
 import ck.kbcv._
 import ck.kbcv.adapters.CompletionPagerAdapter
+import ck.kbcv.fragments.{RulesFragment, EquationsFragment}
+import term.reco
+import term.reco.IE
 import term.util.{E, ES, TRS}
 
 
@@ -49,9 +52,37 @@ class CompletionActivity extends AppCompatActivity with TypedFindView with Compl
         return false
     }
 
-    override def orientRL(e: E): Unit = ???
+    override def orientRL(e: IE): Unit = {
+        val tm = Controller.getTMIncremental(Controller.state.precedence) _
+        val (erch, op) = reco.orient(Controller.emptyI + e._1, Controller.state.erc, tm)
+        if(erch == Controller.state.erc) {
+            showErrorMsg("Equation couldn't be oriented")
+        } else {
+            showSuccessMsg("Yeah!")
+            Controller.state.erc = erch
+            Controller.state.precedence = op.get
+            val equationsfr = completionPagerAdapter.getRegisteredFragment(0).asInstanceOf[EquationsFragment]
+            equationsfr.updateEquations()
+            val rulesfr = completionPagerAdapter.getRegisteredFragment(1).asInstanceOf[RulesFragment]
+            rulesfr.updateRules()
+        }
+    }
 
-    override def orientLR(e: E): Unit = ???
+    override def orientLR(e: IE): Unit = {
+        val tm = Controller.getTMIncremental(Controller.state.precedence) _
+        val (erch, op) = reco.orient(Controller.emptyI + e._1, Controller.state.erc, tm)
+        if(erch == Controller.state.erc) {
+            showErrorMsg("Equation couldn't be oriented")
+        } else {
+            showSuccessMsg("Yeah!")
+            Controller.state.erc = erch
+            Controller.state.precedence = op.get
+            val equationsfr = completionPagerAdapter.getRegisteredFragment(0).asInstanceOf[EquationsFragment]
+            equationsfr.updateEquations()
+            val rulesfr = completionPagerAdapter.getRegisteredFragment(1).asInstanceOf[RulesFragment]
+            rulesfr.updateRules()
+        }
+    }
 
     override def compose(trs: TRS): Unit = ???
 
@@ -62,4 +93,12 @@ class CompletionActivity extends AppCompatActivity with TypedFindView with Compl
     override def collapse(trs: TRS): Unit = ???
 
     override def simplify(es: ES): Unit = ???
+
+    def showErrorMsg(message: String): Unit = {
+        // TODO
+    }
+
+    def showSuccessMsg(message: String): Unit = {
+        // TODO
+    }
 }

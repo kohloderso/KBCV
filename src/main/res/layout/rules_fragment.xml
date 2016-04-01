@@ -5,12 +5,6 @@
                 android:paddingRight="16dp" android:paddingTop="16dp">
 
 
-    <ListView
-            android:id="@+id/equation_listview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"/>
     <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -50,4 +44,11 @@
             android:id="@+id/redo_button"
             android:layout_above="@+id/compose_button" android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"/>
+
+
+    <android.support.v7.widget.RecyclerView
+            android:id="@+id/rvRules"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_above="@id/redo_button" android:background="#ff68ff54"/>
 </RelativeLayout>

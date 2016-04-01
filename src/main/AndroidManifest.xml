@@ -12,7 +12,9 @@
 
 
     <application
-            android:theme="@style/MyMaterialTheme">
+            android:theme="@style/MyMaterialTheme"
+            android:installLocation="auto">
+
 
 
 

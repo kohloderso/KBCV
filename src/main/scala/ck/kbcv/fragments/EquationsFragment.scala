@@ -8,8 +8,8 @@ import android.support.v7.widget.helper.ItemTouchHelper
 import android.support.v7.widget.{LinearLayoutManager, RecyclerView}
 import android.util.Log
 import android.view._
+import ck.kbcv.adapters.EquationRuleAdapter.ItemClickListener
 import ck.kbcv.adapters.EquationsAdapter
-import ck.kbcv.adapters.EquationsAdapter.ItemClickListener
 import ck.kbcv.{CompletionActionListener, OnSymbolsChangedListener, Controller, R}
 import term.parser.ParserXmlTRS
 
@@ -47,13 +47,18 @@ class EquationsFragment extends Fragment with ItemClickListener {
             val es = ParserXmlTRS.parse(stream)
             Controller.setES(es)
         }
-        mAdapter = new EquationsAdapter(Controller.state.equations.toBuffer, this)
+        mAdapter = new EquationsAdapter(Controller.state.erc._1, this)
         mEquationsRV.setAdapter(mAdapter)
         mEquationsRV.setLayoutManager(new LinearLayoutManager(getActivity))
-        mEquationsRV.setHasFixedSize(true)   // if every item has the same size, use this for better performance
+        mEquationsRV.setHasFixedSize(true)   // if every e_item has the same size, use this for better performance
 
         new ItemTouchHelper(new EquationTouchHelperCallback).attachToRecyclerView(mEquationsRV)
         return view
+    }
+
+    def updateEquations(): Unit = {
+        val newIES = Controller.state.erc._1
+        mAdapter.updateItems(newIES)
     }
 
     def onLeftSwipe(position: Int): Unit = {
@@ -138,7 +143,11 @@ class EquationsFragment extends Fragment with ItemClickListener {
                     true
                 case R.id.action_orientRL =>
                     Log.d(TAG, "orientRL")
-                    // TODO
+                    val selectedPositions = mAdapter.selectedItems
+                    for(position <- selectedPositions) {
+                        val equation = mAdapter.getItem(position)
+                        mCompletionListener.orientRL(equation)
+                    }
                     actionMode.finish()
                     true
                 case R.id.action_simplify =>
