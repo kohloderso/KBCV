@@ -45,7 +45,7 @@ object EquationRuleAdapter {
 
 /**
  *
- * @param mBuffer: elements to be displayed in RecyclerView
+ *
  * @param itemClickListener: Fragment that handles selection
  * @param layoutId: layout for one equation or rule
  */
@@ -92,20 +92,15 @@ class EquationRuleAdapter[TP <: TermPair](is: TreeMap[Int,TP], itemClickListener
     }
 
     def updateInsertItem(iTerm: ITP): Unit = {
-        if(mBuffer.isEmpty) {
-            mBuffer += iTerm
-            notifyItemInserted(0)
+        var i = 0
+        while(i < mBuffer.size && mBuffer(i)._1 < iTerm._1) i+=1
+        // does an equation with the same index exist? => overwrite it
+        if(i < mBuffer.size && mBuffer(i)._1 == iTerm._1) {
+            mBuffer(i) = iTerm
+            notifyItemChanged(i)
         } else {
-            var i = 0
-            while(mBuffer(i)._1 < iTerm._1) i+=1
-            // does an equation with the same index exist? => overwrite it
-            if(mBuffer(i)._1 == iTerm._1) {
-                mBuffer(i) = iTerm
-                notifyItemChanged(i)
-            } else {
-                mBuffer.insert(i, iTerm)
-                notifyItemInserted(i)
-            }
+            mBuffer.insert(i, iTerm)
+            notifyItemInserted(i)
         }
     }
 

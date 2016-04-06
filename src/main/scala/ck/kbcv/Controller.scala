@@ -56,9 +56,9 @@ trait OnEquationsChangedListener {
 }
 
 trait CompletionActionListener {
-    def orientRL(e: IE)
+    def orientRL(e: IE): Boolean
 
-    def orientLR(e: IE)
+    def orientLR(e: IE): Boolean
 
     def simplify(es: ES)
 

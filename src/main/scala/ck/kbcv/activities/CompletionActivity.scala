@@ -1,8 +1,10 @@
 package ck.kbcv.activities
 
+import android.graphics.Color
 import android.os.Bundle
-import android.support.design.widget.TabLayout
+import android.support.design.widget.{Snackbar, TabLayout}
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.view.{Menu, MenuItem}
 import ck.kbcv._
 import ck.kbcv.adapters.CompletionPagerAdapter
@@ -52,35 +54,55 @@ class CompletionActivity extends AppCompatActivity with TypedFindView with Compl
         return false
     }
 
-    override def orientRL(e: IE): Unit = {
+    override def orientRL(e: IE): Boolean = {
         val tm = Controller.getTMIncremental(Controller.state.precedence) _
-        val (erch, op) = reco.orient(Controller.emptyI + e._1, Controller.state.erc, tm)
-        if(erch == Controller.state.erc) {
-            showErrorMsg("Equation couldn't be oriented")
-        } else {
-            showSuccessMsg("Yeah!")
-            Controller.state.erc = erch
-            Controller.state.precedence = op.get
-            val equationsfr = completionPagerAdapter.getRegisteredFragment(0).asInstanceOf[EquationsFragment]
-            equationsfr.updateEquations()
-            val rulesfr = completionPagerAdapter.getRegisteredFragment(1).asInstanceOf[RulesFragment]
-            rulesfr.updateRules()
+        try {
+            val (erch, op) = reco.orientR(Controller.emptyI + e._1, Controller.state.erc, tm)
+            if(erch == Controller.state.erc) {
+                showErrorMsg("Equation couldn't be oriented")
+                false
+            } else {
+                showSuccessMsg("Yeah!")
+                Controller.state.erc = erch
+                Controller.state.precedence = op.get
+                val equationsfr = completionPagerAdapter.getRegisteredFragment(0).asInstanceOf[EquationsFragment]
+                equationsfr.updateEquations()
+                val rulesfr = completionPagerAdapter.getRegisteredFragment(1).asInstanceOf[RulesFragment]
+                rulesfr.updateRules()
+                true
+            }
+        } catch {
+            case ex: IllegalArgumentException => {
+                Log.e(TAG, ex.getMessage)
+                showErrorMsg(ex.getMessage)
+                false
+            }
         }
     }
 
-    override def orientLR(e: IE): Unit = {
+    override def orientLR(e: IE): Boolean = {
         val tm = Controller.getTMIncremental(Controller.state.precedence) _
-        val (erch, op) = reco.orient(Controller.emptyI + e._1, Controller.state.erc, tm)
-        if(erch == Controller.state.erc) {
-            showErrorMsg("Equation couldn't be oriented")
-        } else {
-            showSuccessMsg("Yeah!")
-            Controller.state.erc = erch
-            Controller.state.precedence = op.get
-            val equationsfr = completionPagerAdapter.getRegisteredFragment(0).asInstanceOf[EquationsFragment]
-            equationsfr.updateEquations()
-            val rulesfr = completionPagerAdapter.getRegisteredFragment(1).asInstanceOf[RulesFragment]
-            rulesfr.updateRules()
+        try {
+            val (erch, op) = reco.orientL(Controller.emptyI + e._1, Controller.state.erc, tm)
+            if(erch == Controller.state.erc) {
+                showErrorMsg("Equation couldn't be oriented")
+                false
+            } else {
+                showSuccessMsg("Yeah!")
+                Controller.state.erc = erch
+                Controller.state.precedence = op.get
+                val equationsfr = completionPagerAdapter.getRegisteredFragment(0).asInstanceOf[EquationsFragment]
+                equationsfr.updateEquations()
+                val rulesfr = completionPagerAdapter.getRegisteredFragment(1).asInstanceOf[RulesFragment]
+                rulesfr.updateRules()
+                true
+            }
+        } catch {
+            case ex: IllegalArgumentException => {
+                Log.e(TAG, ex.getMessage)
+                showErrorMsg(ex.getMessage)
+                false
+            }
         }
     }
 
@@ -95,7 +117,10 @@ class CompletionActivity extends AppCompatActivity with TypedFindView with Compl
     override def simplify(es: ES): Unit = ???
 
     def showErrorMsg(message: String): Unit = {
-        // TODO
+        Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG)
+            .setAction("Undo", null)
+            .setActionTextColor(Color.RED)
+            .show();
     }
 
     def showSuccessMsg(message: String): Unit = {

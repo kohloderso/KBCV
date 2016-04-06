@@ -3,11 +3,11 @@
 
     <item
             android:id="@+id/action_orientLR"
-            android:title="orient ->"
+            android:title="Orient -&gt;"
             android:showAsAction="ifRoom"/>
 
     <item android:id="@+id/action_orientRL"
-          android:title="orient <-"
+          android:title="Orient &lt;-"
           android:showAsAction="ifRoom"/>
 
     <item android:id="@+id/action_simplify"

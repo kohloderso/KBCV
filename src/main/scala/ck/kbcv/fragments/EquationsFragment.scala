@@ -62,11 +62,13 @@ class EquationsFragment extends Fragment with ItemClickListener {
     }
 
     def onLeftSwipe(position: Int): Unit = {
-        mCompletionListener.orientLR(mAdapter.getItem(position))
+        val success = mCompletionListener.orientRL(mAdapter.getItem(position))
+        if(!success) mAdapter.notifyItemChanged(position)
     }
 
     def onRightSwipe(position: Int): Unit = {
-        mCompletionListener.orientRL(mAdapter.getItem(position))
+        val success = mCompletionListener.orientLR(mAdapter.getItem(position))
+        if(!success) mAdapter.notifyItemChanged(position)
     }
 
     override def onItemClicked(position: Int): Unit = {
@@ -134,8 +136,9 @@ class EquationsFragment extends Fragment with ItemClickListener {
             item.getItemId match {
                 case R.id.action_orientLR =>
                     Log.d(TAG, "orientLR")
-                    val selectedPositions = mAdapter.selectedItems
+                    val selectedPositions = mAdapter.selectedItems.clone()
                     for(position <- selectedPositions) {
+                        Log.d(TAG, position.toString)
                         val equation = mAdapter.getItem(position)
                         mCompletionListener.orientLR(equation)
                     }
@@ -143,7 +146,7 @@ class EquationsFragment extends Fragment with ItemClickListener {
                     true
                 case R.id.action_orientRL =>
                     Log.d(TAG, "orientRL")
-                    val selectedPositions = mAdapter.selectedItems
+                    val selectedPositions = mAdapter.selectedItems.clone()
                     for(position <- selectedPositions) {
                         val equation = mAdapter.getItem(position)
                         mCompletionListener.orientRL(equation)
