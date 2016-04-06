@@ -12,6 +12,7 @@ import ck.kbcv.adapters.EquationRuleAdapter.ItemClickListener
 import ck.kbcv.adapters.EquationsAdapter
 import ck.kbcv.{CompletionActionListener, OnSymbolsChangedListener, Controller, R}
 import term.parser.ParserXmlTRS
+import term.reco.IS
 
 
 class EquationsFragment extends Fragment with ItemClickListener {
@@ -62,12 +63,12 @@ class EquationsFragment extends Fragment with ItemClickListener {
     }
 
     def onLeftSwipe(position: Int): Unit = {
-        val success = mCompletionListener.orientRL(mAdapter.getItem(position))
+        val success = mCompletionListener.orientRL(new IS + mAdapter.getItem(position))
         if(!success) mAdapter.notifyItemChanged(position)
     }
 
     def onRightSwipe(position: Int): Unit = {
-        val success = mCompletionListener.orientLR(mAdapter.getItem(position))
+        val success = mCompletionListener.orientLR(new IS + mAdapter.getItem(position))
         if(!success) mAdapter.notifyItemChanged(position)
     }
 
@@ -133,34 +134,27 @@ class EquationsFragment extends Fragment with ItemClickListener {
         }
 
         override def onActionItemClicked(actionMode: ActionMode, item: MenuItem): Boolean = {
+            val selectedPositions = mAdapter.selectedItems.clone()
+            val selectedItems = mAdapter.getItems(selectedPositions)
             item.getItemId match {
                 case R.id.action_orientLR =>
                     Log.d(TAG, "orientLR")
-                    val selectedPositions = mAdapter.selectedItems.clone()
-                    for(position <- selectedPositions) {
-                        Log.d(TAG, position.toString)
-                        val equation = mAdapter.getItem(position)
-                        mCompletionListener.orientLR(equation)
-                    }
+                    mCompletionListener.orientLR(selectedItems)
                     actionMode.finish()
                     true
                 case R.id.action_orientRL =>
                     Log.d(TAG, "orientRL")
-                    val selectedPositions = mAdapter.selectedItems.clone()
-                    for(position <- selectedPositions) {
-                        val equation = mAdapter.getItem(position)
-                        mCompletionListener.orientRL(equation)
-                    }
+                    mCompletionListener.orientRL(selectedItems)
                     actionMode.finish()
                     true
                 case R.id.action_simplify =>
                     Log.d(TAG, "simplify")
-                    // TODO
+                    mCompletionListener.simplify(selectedItems)
                     actionMode.finish()
                     true
                 case R.id.action_delete =>
                     Log.d(TAG, "delete")
-                    // TODO
+                    mCompletionListener.simplify(selectedItems)
                     actionMode.finish()
                     true
                 case _ => false

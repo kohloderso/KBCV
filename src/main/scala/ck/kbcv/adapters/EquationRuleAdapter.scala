@@ -77,6 +77,14 @@ class EquationRuleAdapter[TP <: TermPair](is: TreeMap[Int,TP], itemClickListener
         mBuffer(position)
     }
 
+    def getItems(positions: ListBuffer[Int]): ITM = {
+        var items = new ITM
+        for(position <- positions) {
+            items += mBuffer(position)
+        }
+        items
+    }
+
     def removeItem(iTerm: ITP): Unit = {
         if (mBuffer.contains(iTerm)) {
             val position = mBuffer.indexOf(iTerm)

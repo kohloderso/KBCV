@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.helper.ItemTouchHelper
 import android.support.v7.widget.{LinearLayoutManager, RecyclerView}
+import android.util.Log
 import android.view._
 import ck.kbcv.adapters.EquationRuleAdapter.ItemClickListener
 import ck.kbcv.adapters.{RulesAdapter, EquationsAdapter}
@@ -19,6 +20,8 @@ class RulesFragment extends Fragment with ItemClickListener {
     var mCompletionListener: CompletionActionListener = null
     var mRulesRV: RecyclerView = null
     var mAdapter: RulesAdapter = null
+    var mActionMode: ActionMode = null
+    var mActionModeCallback = new ActionModeCallback
 
     override def onAttach(context: Context): Unit = {
         super.onAttach(context)
@@ -53,7 +56,72 @@ class RulesFragment extends Fragment with ItemClickListener {
         mAdapter.updateItems(newTRS)
     }
 
-    override def onItemClicked(position: Int): Unit = ???
+    override def onItemClicked(position: Int): Unit = {
+        if(mActionMode == null) {
+            mActionMode = getActivity.startActionMode(mActionModeCallback)
+        }
+        toggleSelection(position)
+    }
 
-    override def onItemLongClicked(position: Int): Unit = ???
+    override def onItemLongClicked(position: Int): Unit = {
+        if(mActionMode == null) {
+            mActionMode = getActivity.startActionMode(mActionModeCallback)
+        }
+        toggleSelection(position)
+    }
+
+    def toggleSelection(position: Int): Unit = {
+        mAdapter.toggleSelection(position)
+
+        val count = mAdapter.selectedItems.size
+        if(count == 0) {
+            mActionMode.finish()
+        } else {
+            mActionMode.setTitle(count.toString)
+            mActionMode.invalidate()
+        }
+    }
+
+
+    class ActionModeCallback extends ActionMode.Callback {
+        private val TAG = "ACTIONMODE"
+
+        override def onCreateActionMode(actionMode: ActionMode, menu: Menu): Boolean = {
+            actionMode.getMenuInflater.inflate(R.menu.selected_rule_menu, menu)
+            true
+        }
+
+        override def onPrepareActionMode(actionMode: ActionMode, menu: Menu): Boolean = {
+            false
+        }
+
+        override def onActionItemClicked(actionMode: ActionMode, item: MenuItem): Boolean = {
+            val selectedPositions = mAdapter.selectedItems.clone()
+            val selectedItems = mAdapter.getItems(selectedPositions)
+            item.getItemId match {
+                case R.id.action_compose =>
+                    Log.d(TAG, "compose")
+                    mCompletionListener.compose(selectedItems)
+                    actionMode.finish()
+                    true
+                case R.id.action_collapse =>
+                    Log.d(TAG, "collapse")
+                    mCompletionListener.collapse(selectedItems)
+                    actionMode.finish()
+                    true
+                case R.id.action_deduce =>
+                    Log.d(TAG, "deduce")
+                    mCompletionListener.deduce(selectedItems)
+                    actionMode.finish()
+                    true
+                case _ => false
+            }
+        }
+
+        override def onDestroyActionMode(actionMode: ActionMode): Unit = {
+            mAdapter.clearSelection()
+            mActionMode = null
+        }
+
+    }
 }

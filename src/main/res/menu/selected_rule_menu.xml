@@ -1,0 +1,18 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+
+    <item
+            android:id="@+id/action_compose"
+            android:title="Compose"
+            android:showAsAction="ifRoom"/>
+
+    <item android:id="@+id/action_collapse"
+          android:title="Collapse"
+          android:showAsAction="ifRoom"/>
+
+    <item android:id="@+id/action_deduce"
+          android:title="Deduce"
+          android:showAsAction="ifRoom"/>
+
+
+</menu>

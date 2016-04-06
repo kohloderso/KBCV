@@ -1,15 +1,15 @@
 package ck.kbcv
 
-import term.lpo
+import term.{reco, lpo}
 import term.lpo.Precedence
 import term.reco._
 import term.util._
 
-import scala.collection.immutable.{HashSet, TreeMap}
+import scala.collection.immutable.{HashMap, HashSet, TreeMap}
 
 
 object Controller {
-    val state = new MutableState(new State(new ERCH(new IES, new ITRS, new ITRS, new H), new Precedence(Nil), Nil, Set() , Set()))
+    val state = new MutableState(new State(new ERCH(new IES, new ITRS, new ITRS, new H), new Precedence(Nil), Nil, Set() , Set(), 100))
 
 
     def addES(newES: ES): Unit = {
@@ -38,6 +38,8 @@ object Controller {
     }
 
     val emptyI:I = new HashSet[Int]
+    val emptyTI:TI = term.indexing.DT.empty
+    val emptyS:reco.S = new HashMap[Int,HashSet[Int]]
 
 }
 
@@ -56,17 +58,17 @@ trait OnEquationsChangedListener {
 }
 
 trait CompletionActionListener {
-    def orientRL(e: IE): Boolean
+    def orientRL(is: IS): Boolean
 
-    def orientLR(e: IE): Boolean
+    def orientLR(is: IS): Boolean
 
-    def simplify(es: ES)
+    def simplify(is: IS)
 
-    def delete(e: E)
+    def delete(is: IS)
 
-    def compose(trs: TRS)
+    def compose(iS: IS)
 
-    def collapse(trs: TRS)
+    def collapse(is: IS)
 
-    def deduce(trs: TRS)
+    def deduce(is: IS)
 }

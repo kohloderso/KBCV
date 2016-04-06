@@ -4,4 +4,19 @@
 
     <string name="name">KBCV</string>
 
+    <!-- error messages -->
+    <string name="error_simplify">Nothing to simplify</string>
+    <string name="error_delete">Nothing to delete</string>
+    <string name="error_compose">Nothing to compose</string>
+    <string name="error_collapse">Nothing to collapse</string>
+    <string name="error_deduce">Nothing deduced</string>
+
+
+    <!-- ok messages -->
+    <string name="ok_simplify">simplified</string>
+    <string name="ok_delete">deleted</string>
+    <string name="ok_compose">composed</string>
+    <string name="ok_collapse">collapsed</string>
+    <string name="ok_deduced">deduced</string>
+
 </resources>

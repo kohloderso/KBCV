@@ -1,5 +1,6 @@
 package ck.kbcv.activities
 
+import android.view.View
 import android.graphics.Color
 import android.os.Bundle
 import android.support.design.widget.{Snackbar, TabLayout}
@@ -10,8 +11,8 @@ import ck.kbcv._
 import ck.kbcv.adapters.CompletionPagerAdapter
 import ck.kbcv.fragments.{RulesFragment, EquationsFragment}
 import term.reco
-import term.reco.IE
-import term.util.{E, ES, TRS}
+import term.reco.{OLS, IS, I, IE}
+import term.util.{E, ES, TRS, S}
 
 
 /**
@@ -54,21 +55,19 @@ class CompletionActivity extends AppCompatActivity with TypedFindView with Compl
         return false
     }
 
-    override def orientRL(e: IE): Boolean = {
+    override def orientRL(is: IS): Boolean = {
         val tm = Controller.getTMIncremental(Controller.state.precedence) _
         try {
-            val (erch, op) = reco.orientR(Controller.emptyI + e._1, Controller.state.erc, tm)
+            val (erch, op) = reco.orientR(Controller.emptyI ++ is.keys, Controller.state.erc, tm)
             if(erch == Controller.state.erc) {
                 showErrorMsg("Equation couldn't be oriented")
                 false
             } else {
-                showSuccessMsg("Yeah!")
+                showSuccessMsg(is.size + " equations oriented")
                 Controller.state.erc = erch
                 Controller.state.precedence = op.get
-                val equationsfr = completionPagerAdapter.getRegisteredFragment(0).asInstanceOf[EquationsFragment]
-                equationsfr.updateEquations()
-                val rulesfr = completionPagerAdapter.getRegisteredFragment(1).asInstanceOf[RulesFragment]
-                rulesfr.updateRules()
+                updateEquationFragment()
+                updateRulesFragment()
                 true
             }
         } catch {
@@ -80,21 +79,19 @@ class CompletionActivity extends AppCompatActivity with TypedFindView with Compl
         }
     }
 
-    override def orientLR(e: IE): Boolean = {
+    override def orientLR(is: IS): Boolean = {
         val tm = Controller.getTMIncremental(Controller.state.precedence) _
         try {
-            val (erch, op) = reco.orientL(Controller.emptyI + e._1, Controller.state.erc, tm)
+            val (erch, op) = reco.orientL(Controller.emptyI ++ is.keys, Controller.state.erc, tm)
             if(erch == Controller.state.erc) {
                 showErrorMsg("Equation couldn't be oriented")
                 false
             } else {
-                showSuccessMsg("Yeah!")
+                showSuccessMsg(is.size + " equations oriented")
                 Controller.state.erc = erch
                 Controller.state.precedence = op.get
-                val equationsfr = completionPagerAdapter.getRegisteredFragment(0).asInstanceOf[EquationsFragment]
-                equationsfr.updateEquations()
-                val rulesfr = completionPagerAdapter.getRegisteredFragment(1).asInstanceOf[RulesFragment]
-                rulesfr.updateRules()
+                updateEquationFragment()
+                updateRulesFragment()
                 true
             }
         } catch {
@@ -106,24 +103,87 @@ class CompletionActivity extends AppCompatActivity with TypedFindView with Compl
         }
     }
 
-    override def compose(trs: TRS): Unit = ???
 
-    override def delete(e: E): Unit = ???
+    override def delete(is: IS): Unit = {
+        val erch = reco.delete(Controller.emptyI ++ is.keys, Controller.state.erc)
+        if(erch != Controller.state.erc) {
+            showSuccessMsg(getString(R.string.ok_delete))
+            Controller.state.erc = erch
+            updateEquationFragment()
+        } else {
+            showErrorMsg(getString(R.string.error_delete))
+        }
+    }
 
-    override def deduce(trs: TRS): Unit = ???
+    override def simplify(is: IS): Unit = {
+        val erch = reco.simplifyToNF(Controller.emptyS, Controller.emptyTI, Controller.state.depth)(Controller.emptyI ++ is.keys, Controller.state.erc)
+        if(erch != Controller.state.erc) {
+            showSuccessMsg(getString(R.string.ok_simplify))
+            Controller.state.erc = erch
+            updateEquationFragment()
+        } else {
+            showErrorMsg(getString(R.string.error_simplify))
+        }
+    }
 
-    override def collapse(trs: TRS): Unit = ???
+    override def compose(is: IS): Unit = {
+        val erch = reco.composeToNF(Controller.emptyS, Controller.emptyTI, Controller.state.depth)(Controller.emptyI ++ is.keys, Controller.state.erc)
+        if(erch != Controller.state.erc) {
+            showSuccessMsg(getString(R.string.ok_compose))
+            Controller.state.erc = erch
+            updateRulesFragment()
+        } else {
+            showErrorMsg(getString(R.string.error_compose))
+        }
+    }
 
-    override def simplify(es: ES): Unit = ???
+    override def collapse(is: IS): Unit = {
+        val erch = reco.collapse(Controller.emptyS, Controller.emptyTI)(Controller.emptyI ++ is.keys, Controller.state.erc)
+        if(erch != Controller.state.erc) {
+            showSuccessMsg(getString(R.string.ok_collapse))
+            Controller.state.erc = erch
+            updateEquationFragment()
+            updateRulesFragment()
+        } else {
+            showErrorMsg(getString(R.string.error_collapse))
+        }
+    }
+
+    override def deduce(is: IS): Unit = {
+        val erch = reco.deduce(new OLS, Controller.emptyTI)(Controller.emptyI ++ is.keys, Controller.state.erc)
+        if(erch != Controller.state.erc) {
+            showSuccessMsg(getString(R.string.ok_deduced))
+            Controller.state.erc = erch
+            updateEquationFragment()
+            updateRulesFragment()
+        } else {
+            showErrorMsg(getString(R.string.error_deduce))
+        }
+    }
 
     def showErrorMsg(message: String): Unit = {
         Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG)
-            .setAction("Undo", null)
-            .setActionTextColor(Color.RED)
             .show();
     }
 
     def showSuccessMsg(message: String): Unit = {
-        // TODO
+        val onClickListener = new View.OnClickListener {
+            override def onClick(v: View) {
+                // TODO Undo functionality
+            }
+        }
+        Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG)
+            .setAction("undo", onClickListener)
+            .show();
+    }
+
+    def updateEquationFragment(): Unit = {
+        val equationsfr = completionPagerAdapter.getRegisteredFragment(0).asInstanceOf[EquationsFragment]
+        equationsfr.updateEquations()
+    }
+
+    def updateRulesFragment(): Unit = {
+        val rulesfr = completionPagerAdapter.getRegisteredFragment(1).asInstanceOf[RulesFragment]
+        rulesfr.updateRules()
     }
 }
