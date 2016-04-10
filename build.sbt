@@ -6,7 +6,7 @@ javacOptions ++=
 
 // Don't upgrade to 2.12.x as it requires Java 8 which does not work with Android (but this might
 // be resolvable with "retrolamda")
-scalaVersion := "2.10.0"
+scalaVersion := "2.10.5"
 
 
 libraryDependencies ++=
@@ -16,11 +16,10 @@ libraryDependencies ++=
     //"com.android.support" % "gridlayout-v7" % "23.1.0" ::
     "com.android.support" % "recyclerview-v7" % "23.1.0" ::
     "com.android.support" % "support-v4" % "23.1.1" ::
-        "org.scala-lang" % "scala-actors" % "2.10.0"::
+        "org.scala-lang" % "scala-actors" % "2.10.5"::
     // Version 2.4.x requires Java 8
     //"com.typesafe.play" %% "play-json" % "2.3.10" ::
     Nil
-
 
 lazy val project = Project(
     "kbcv",
@@ -30,5 +29,5 @@ lazy val project = Project(
 lazy val tl = Project(
     "termlib",
     file("termlib")
-)
+).settings(exportJars:=true)
 
