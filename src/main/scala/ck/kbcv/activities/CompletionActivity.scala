@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.{Menu, MenuItem}
 import ck.kbcv._
 import ck.kbcv.adapters.CompletionPagerAdapter
+import ck.kbcv.dialogs.{ImportDialogFragment, SaveDialogFragment}
 import ck.kbcv.fragments.{RulesFragment, EquationsFragment}
 import term.reco
 import term.reco.{OLS, IS, I, IE}
@@ -45,14 +46,21 @@ class CompletionActivity extends AppCompatActivity with TypedFindView with Compl
 
     override def onCreateOptionsMenu(menu: Menu): Boolean = {
         val inflater = getMenuInflater
-        //inflater.inflate(R.menu.equation_menu, menu) TODO
+        inflater.inflate(R.menu.completion_menu, menu)
         return true
     }
 
 
     override def onOptionsItemSelected(item: MenuItem): Boolean = {
-        // TODO
-        return false
+        item.getItemId match {
+            case R.id.completeness_check => {
+                val complete = Controller.ercIsComplete()
+                if(complete) showSuccessMsg("TRS is complete now")
+                else showErrorMsg("Not complete yet")
+                true
+            }
+            case _ => false
+        }
     }
 
     override def orientRL(is: IS): Boolean = {
@@ -150,6 +158,7 @@ class CompletionActivity extends AppCompatActivity with TypedFindView with Compl
     }
 
     override def deduce(is: IS): Unit = {
+        // TODO deduce caching
         val erch = reco.deduce(new OLS, Controller.emptyTI)(Controller.emptyI ++ is.keys, Controller.state.erc)
         if(erch != Controller.state.erc) {
             showSuccessMsg(getString(R.string.ok_deduced))

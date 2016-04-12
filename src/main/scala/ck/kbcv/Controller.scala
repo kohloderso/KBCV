@@ -37,6 +37,10 @@ object Controller {
         lpo.lpoX(trs.values.toList, prec)
     }
 
+    def ercIsComplete(): Boolean = {
+        return reco.isComplete(new OLS, emptyTI) (state.erc)
+    }
+
     val emptyI:I = new HashSet[Int]
     val emptyTI:TI = term.indexing.DT.empty
     val emptyS:reco.S = new HashMap[Int,HashSet[Int]]
