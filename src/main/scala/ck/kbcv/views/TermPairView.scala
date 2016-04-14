@@ -7,13 +7,14 @@ import android.view.ViewGroup.LayoutParams
 import android.widget.{TextView, LinearLayout}
 import ck.kbcv.R
 import term.Term
+import term.reco.{IR, IE}
 import term.util._
 
 /**
  * class to display a TermPair, which are rules or equations
  */
-class TermPairView (context: Context, attrs: AttributeSet, termPair: TermPair, separator: String) extends LinearLayout(context, attrs) {
-    def this(context: Context, attrs: AttributeSet) = this(context, attrs, null, "")
+class TermPairView (context: Context, attrs: AttributeSet, termPair: TermPair, separator: String, index: Int) extends LinearLayout(context, attrs) {
+    def this(context: Context, attrs: AttributeSet) = this(context, attrs, null, "", -1)
 
     this.setOrientation(LinearLayout.HORIZONTAL)
     this.setClickable(true)
@@ -22,6 +23,7 @@ class TermPairView (context: Context, attrs: AttributeSet, termPair: TermPair, s
     setTermPair(termPair)
 
 
+    // TODO throw error or something when it's no valid termpair (when it still contains Dropzones)
     def setTermPair(termPair: TermPair): Unit = {
         this.removeAllViews()
 
@@ -48,10 +50,10 @@ class TermPairView (context: Context, attrs: AttributeSet, termPair: TermPair, s
     }
 }
 
-class EquationView (context: Context, attrs: AttributeSet, equation: E) extends TermPairView(context, attrs, equation, "=") {
-    def this(context: Context, attrs: AttributeSet) = this(context, attrs, null)
+class EquationView (context: Context, attrs: AttributeSet, equation: IE) extends TermPairView(context, attrs, equation._2, "=", equation._1) {
+    def this(context: Context, attrs: AttributeSet) = this(context, attrs, new IE(-1, null))
 }
 
-class RuleView (context: Context, attrs: AttributeSet, equation: E) extends TermPairView(context, attrs, equation, "->") {
-    def this(context: Context, attrs: AttributeSet) = this(context, attrs, null)
+class RuleView (context: Context, attrs: AttributeSet, rule: IR) extends TermPairView(context, attrs, rule._2, "->", rule._1) {
+    def this(context: Context, attrs: AttributeSet) = this(context, attrs, new IR(-1, null))
 }

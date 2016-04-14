@@ -7,7 +7,7 @@ import android.support.design.widget.{Snackbar, TabLayout}
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.{Menu, MenuItem}
-import android.widget.{ArrayAdapter, ListView}
+import android.widget.{LinearLayout, ArrayAdapter, ListView}
 import ck.kbcv._
 import ck.kbcv.adapters.CompletionPagerAdapter
 import ck.kbcv.dialogs.{ImportDialogFragment, SaveDialogFragment}
@@ -23,26 +23,30 @@ import term.util.{E, ES, TRS, S}
 class CompletionActivity extends NavigationDrawerActivity with TypedFindView with CompletionActionListener {
     val TAG = "CompletionActivity"
     var completionPagerAdapter: CompletionPagerAdapter = null
-    var mDrawerList: ListView = null
 
     override def onCreate( savedInstanceState: Bundle ): Unit = {
         super.onCreate( savedInstanceState )
         setContentView( R.layout.completion_activity)
 
         val myToolbar = findView( TR.my_toolbar )
-        setSupportActionBar( myToolbar )
+        //setSupportActionBar( myToolbar )
 
-        val tabLayout = findView(TR.tab_layout)
-        tabLayout.addTab(tabLayout.newTab().setText("Equations"))
-        tabLayout.addTab(tabLayout.newTab().setText("Rules"))
-        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL)
+        val utility = new ScreenUtility(this)
 
-        val viewPager = findView(TR.viewpager)
-        val fm =  getSupportFragmentManager
+        if (utility.getWidth() < 400.0) {   // Display tabLayout on small screens
 
-        completionPagerAdapter = new CompletionPagerAdapter(fm)
-        viewPager.setAdapter(completionPagerAdapter)
-        tabLayout.setupWithViewPager(viewPager)
+            val tabLayout = findView(TR.tab_layout)
+            tabLayout.addTab(tabLayout.newTab().setText("Equations"))
+            tabLayout.addTab(tabLayout.newTab().setText("Rules"))
+            tabLayout.setTabGravity(TabLayout.GRAVITY_FILL)
+
+            val viewPager = findView(TR.viewpager)
+            val fm = getSupportFragmentManager
+
+            completionPagerAdapter = new CompletionPagerAdapter(fm)
+            viewPager.setAdapter(completionPagerAdapter)
+            tabLayout.setupWithViewPager(viewPager)
+        }
 
     }
 
@@ -190,12 +194,23 @@ class CompletionActivity extends NavigationDrawerActivity with TypedFindView wit
     }
 
     def updateEquationFragment(): Unit = {
-        val equationsfr = completionPagerAdapter.getRegisteredFragment(0).asInstanceOf[EquationsFragment]
+        var equationsfr: EquationsFragment = null
+        if(completionPagerAdapter != null) {
+            equationsfr = completionPagerAdapter.getRegisteredFragment(0).asInstanceOf[EquationsFragment]
+        } else {
+            equationsfr = getSupportFragmentManager.findFragmentById(R.id.equations_fragment).asInstanceOf[EquationsFragment]
+        }
+
         equationsfr.updateEquations()
     }
 
     def updateRulesFragment(): Unit = {
-        val rulesfr = completionPagerAdapter.getRegisteredFragment(1).asInstanceOf[RulesFragment]
+        var rulesfr: RulesFragment = null
+        if(completionPagerAdapter != null) {
+            rulesfr = completionPagerAdapter.getRegisteredFragment(1).asInstanceOf[RulesFragment]
+        } else {
+            rulesfr = getSupportFragmentManager.findFragmentById(R.id.rules_fragment).asInstanceOf[RulesFragment]
+        }
         rulesfr.updateRules()
     }
 }
