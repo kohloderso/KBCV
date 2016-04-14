@@ -7,6 +7,7 @@ import android.support.design.widget.{Snackbar, TabLayout}
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.{Menu, MenuItem}
+import android.widget.{ArrayAdapter, ListView}
 import ck.kbcv._
 import ck.kbcv.adapters.CompletionPagerAdapter
 import ck.kbcv.dialogs.{ImportDialogFragment, SaveDialogFragment}
@@ -19,9 +20,10 @@ import term.util.{E, ES, TRS, S}
 /**
  * Created by Christina on 05.12.2015.
  */
-class CompletionActivity extends AppCompatActivity with TypedFindView with CompletionActionListener {
+class CompletionActivity extends NavigationDrawerActivity with TypedFindView with CompletionActionListener {
     val TAG = "CompletionActivity"
     var completionPagerAdapter: CompletionPagerAdapter = null
+    var mDrawerList: ListView = null
 
     override def onCreate( savedInstanceState: Bundle ): Unit = {
         super.onCreate( savedInstanceState )
@@ -41,6 +43,7 @@ class CompletionActivity extends AppCompatActivity with TypedFindView with Compl
         completionPagerAdapter = new CompletionPagerAdapter(fm)
         viewPager.setAdapter(completionPagerAdapter)
         tabLayout.setupWithViewPager(viewPager)
+
     }
 
 

@@ -4,17 +4,6 @@
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp" android:paddingTop="16dp">
 
-    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:id="@+id/equationsContainer" android:orientation="vertical">
-        <view android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              class="ck.kbcv.views.EquationView" android:id="@+id/equation_1"
-                />
-
-
-    </LinearLayout>
-
-
     <LinearLayout
             android:orientation="horizontal"
             android:layout_width="wrap_content"
@@ -36,7 +25,14 @@
             android:layout_height="wrap_content"
             android:text="+"
             android:id="@+id/plusButton"
-            android:layout_below="@id/equationsContainer"/>
+            android:layout_above="@id/functionSymbolsContainer"/>
+
+    <android.support.v7.widget.RecyclerView
+            android:id="@+id/equationsContainer"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_above="@id/plusButton"
+            android:background="#ffffff"/>
 
 
 </RelativeLayout>

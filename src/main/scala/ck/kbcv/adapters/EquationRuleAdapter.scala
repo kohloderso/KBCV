@@ -128,6 +128,11 @@ class EquationRuleAdapter[TP <: TermPair](is: TreeMap[Int,TP], itemClickListener
         mBuffer.size
     }
 
+    def setNewItems(newTermPairs: ITM): Unit = {
+        mBuffer.clear()
+        mBuffer ++ newTermPairs
+        notifyDataSetChanged()
+    }
 
 }
 

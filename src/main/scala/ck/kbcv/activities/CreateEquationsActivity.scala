@@ -19,7 +19,7 @@ import term.util.ES
 /**
  * Created by Christina on 05.12.2015.
  */
-class CreateEquationsActivity extends AppCompatActivity with OnSymbolsChangedListener with OnEquationsChangedListener with TypedFindView {
+class CreateEquationsActivity extends NavigationDrawerActivity with OnSymbolsChangedListener with OnEquationsChangedListener with TypedFindView {
     val TAG = "CreateEquationsActivity"
     var equationPagerAdapter: CreateEquationsPagerAdapter = null
     var ies: IES = null
@@ -48,6 +48,7 @@ class CreateEquationsActivity extends AppCompatActivity with OnSymbolsChangedLis
         equationPagerAdapter = new CreateEquationsPagerAdapter(test)
         viewPager.setAdapter(equationPagerAdapter)
         tabLayout.setupWithViewPager(viewPager)
+
     }
 
 
@@ -110,7 +111,7 @@ class CreateEquationsActivity extends AppCompatActivity with OnSymbolsChangedLis
     override def onNewEquations(newES: ES): Unit = {
         try {
             val equationsFragment = equationPagerAdapter.getRegisteredFragment(1).asInstanceOf[CreateEquationsFragment]
-            equationsFragment.onNewEquations(newES)
+            equationsFragment.onNewEquations()
         } catch {
             case ex: ClassCastException => {
                 Log.e(TAG, ex.getMessage)
@@ -124,7 +125,7 @@ class CreateEquationsActivity extends AppCompatActivity with OnSymbolsChangedLis
     override def onEquationsAdded(addedES: ES): Unit = {
         try {
             val equationsFragment = equationPagerAdapter.getRegisteredFragment(1).asInstanceOf[CreateEquationsFragment]
-            equationsFragment.onEquationsAdded(addedES)
+            equationsFragment.onEquationsAdded()
         } catch {
             case ex: ClassCastException => {
                 Log.e(TAG, ex.getMessage)

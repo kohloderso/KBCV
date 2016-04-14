@@ -42,12 +42,6 @@ class EquationsFragment extends Fragment with ItemClickListener {
         val view = inflater.inflate( R.layout.equations_fragment, container, false )
         mEquationsRV = view.findViewById(R.id.rvEquations).asInstanceOf[RecyclerView]
 
-        // remove this after testing!!
-        if(Controller.state.equations.isEmpty) {
-            val stream = getActivity.openFileInput("new")
-            val es = ParserXmlTRS.parse(stream)
-            Controller.setES(es)
-        }
         mAdapter = new EquationsAdapter(Controller.state.erc._1, this)
         mEquationsRV.setAdapter(mAdapter)
         mEquationsRV.setLayoutManager(new LinearLayoutManager(getActivity))

@@ -1,5 +1,6 @@
 package ck.kbcv
 
+import android.util.Log
 import term.{reco, lpo}
 import term.lpo.Precedence
 import term.reco._
@@ -9,11 +10,16 @@ import scala.collection.immutable.{HashMap, HashSet, TreeMap}
 
 
 object Controller {
-    val state = new MutableState(new State(new ERCH(new IES, new ITRS, new ITRS, new H), new Precedence(Nil), Nil, Set() , Set(), 100))
-
+    val TAG = "Controller"
+    val state: MutableState = new MutableState(new State(new ERCH(new IES, new ITRS, new ITRS, new H), new Precedence(Nil), Nil, Set() , Set(), 100))
 
     def addES(newES: ES): Unit = {
 
+        val nis = state.erc._1.size until newES.size+1   // indices
+        val ies: IES = state.erc._1 ++ (nis zip newES) // equations together with indices
+
+        state.erc = new ERCH(ies, state.erc._2, state.erc._3, state.erc._4)
+        // TODO val h = state.erc._4 ++
         state.equations = state.equations ++ newES // TODO make sure, that the same equation doesn't get added twice
         state.functions = state.functions ++ funAris(newES)
         state.variables = state.variables ++ vars(newES)
