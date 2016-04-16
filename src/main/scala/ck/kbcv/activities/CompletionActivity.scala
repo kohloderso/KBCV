@@ -29,7 +29,7 @@ class CompletionActivity extends NavigationDrawerActivity with TypedFindView wit
         setContentView( R.layout.completion_activity)
 
         val myToolbar = findView( TR.my_toolbar )
-        //setSupportActionBar( myToolbar )
+        setSupportActionBar( myToolbar )
 
         val utility = new ScreenUtility(this)
 

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res/ck.kbcv"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <include layout="@layout/toolbar"/>
+
+
+    <LinearLayout
+                  android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  android:orientation="horizontal">
+
+
+        <fragment
+                android:id="@+id/symbols_fragment"
+                android:name="ck.kbcv.fragments.SymbolsFragment"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                tools:layout="@layout/symbols_fragment"/>
+
+        <fragment
+                android:id="@+id/create_es_fragment"
+                android:name="ck.kbcv.fragments.CreateEquationsFragment"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                tools:layout="@layout/create_equations_fragment"/>
+    </LinearLayout>
+
+</LinearLayout>

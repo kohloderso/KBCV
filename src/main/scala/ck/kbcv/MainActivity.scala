@@ -12,7 +12,7 @@ class MainActivity extends NavigationDrawerActivity with TypedFindView {
         super.onCreate( savedInstanceState )
         val context = getApplicationContext()
 
-        setContentView( R.layout.main )
+        setContentView( R.layout.main)
 
         val myToolbar = findView( TR.my_toolbar )
         setSupportActionBar( myToolbar )
@@ -32,7 +32,4 @@ class MainActivity extends NavigationDrawerActivity with TypedFindView {
         } )
     }
 
-    override def onActivityResult(requestCode: Int, resultCode: Int, data: Intent): Unit = {
-       super.onActivityResult(requestCode, resultCode, data)
-    }
 }

@@ -37,17 +37,23 @@ class CreateEquationsActivity extends NavigationDrawerActivity with OnSymbolsCha
         val myToolbar = findView( TR.my_toolbar )
         setSupportActionBar( myToolbar )
 
-        val tabLayout = findView(TR.tab_layout)
-        tabLayout.addTab(tabLayout.newTab().setText("Symbols"))
-        tabLayout.addTab(tabLayout.newTab().setText("Equations"))
-        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL)
+        val utility = new ScreenUtility(this)
 
-        val viewPager = findView(TR.viewpager)
-        val test =  getSupportFragmentManager
+        if (utility.getWidth() < 400.0) {
+            // Display tabLayout on small screens
 
-        equationPagerAdapter = new CreateEquationsPagerAdapter(test)
-        viewPager.setAdapter(equationPagerAdapter)
-        tabLayout.setupWithViewPager(viewPager)
+            val tabLayout = findView(TR.tab_layout)
+            tabLayout.addTab(tabLayout.newTab().setText("Symbols"))
+            tabLayout.addTab(tabLayout.newTab().setText("Equations"))
+            tabLayout.setTabGravity(TabLayout.GRAVITY_FILL)
+
+            val viewPager = findView(TR.viewpager)
+            val test = getSupportFragmentManager
+
+            equationPagerAdapter = new CreateEquationsPagerAdapter(test)
+            viewPager.setAdapter(equationPagerAdapter)
+            tabLayout.setupWithViewPager(viewPager)
+        }
 
     }
 
@@ -76,10 +82,16 @@ class CreateEquationsActivity extends NavigationDrawerActivity with OnSymbolsCha
 
     override def onVariablesChanged(): Unit = {
         try {
-            val equationsFragment = equationPagerAdapter.getRegisteredFragment(1).asInstanceOf[CreateEquationsFragment]
+            var equationsFragment: CreateEquationsFragment = null
+            var symbolsFragment: SymbolsFragment = null
+            if(equationPagerAdapter != null) {
+                symbolsFragment = equationPagerAdapter.getRegisteredFragment(0).asInstanceOf[SymbolsFragment]
+                equationsFragment = equationPagerAdapter.getRegisteredFragment(1).asInstanceOf[CreateEquationsFragment]
+            } else {
+                symbolsFragment = getSupportFragmentManager.findFragmentById(R.id.symbols_fragment).asInstanceOf[SymbolsFragment]
+                equationsFragment =  getSupportFragmentManager.findFragmentById(R.id.create_es_fragment).asInstanceOf[CreateEquationsFragment]
+            }
             equationsFragment.onVariablesChanged()
-
-            val symbolsFragment = equationPagerAdapter.getRegisteredFragment(0).asInstanceOf[SymbolsFragment]
             symbolsFragment.onVariablesChanged()
         } catch {
             case ex: ClassCastException => {
@@ -93,11 +105,17 @@ class CreateEquationsActivity extends NavigationDrawerActivity with OnSymbolsCha
 
     override def onFunctionsChanged(): Unit = {
         try {
-            val equationsFragment = equationPagerAdapter.getRegisteredFragment(1).asInstanceOf[CreateEquationsFragment]
-            equationsFragment.onFunctionsChanged()
-
-            val symbolsFragment = equationPagerAdapter.getRegisteredFragment(0).asInstanceOf[SymbolsFragment]
+            var equationsFragment: CreateEquationsFragment = null
+            var symbolsFragment: SymbolsFragment = null
+            if(equationPagerAdapter != null) {
+                symbolsFragment = equationPagerAdapter.getRegisteredFragment(0).asInstanceOf[SymbolsFragment]
+                equationsFragment = equationPagerAdapter.getRegisteredFragment(1).asInstanceOf[CreateEquationsFragment]
+            } else {
+                symbolsFragment = getSupportFragmentManager.findFragmentById(R.id.symbols_fragment).asInstanceOf[SymbolsFragment]
+                equationsFragment =  getSupportFragmentManager.findFragmentById(R.id.create_es_fragment).asInstanceOf[CreateEquationsFragment]
+            }
             symbolsFragment.onFunctionsChanged()
+            equationsFragment.onFunctionsChanged()
         } catch {
             case ex: ClassCastException => {
                 Log.e(TAG, ex.getMessage)
@@ -110,7 +128,12 @@ class CreateEquationsActivity extends NavigationDrawerActivity with OnSymbolsCha
 
     override def onNewEquations(newES: ES): Unit = {
         try {
-            val equationsFragment = equationPagerAdapter.getRegisteredFragment(1).asInstanceOf[CreateEquationsFragment]
+            var equationsFragment: CreateEquationsFragment = null
+            if(equationPagerAdapter != null) {
+                equationsFragment = equationPagerAdapter.getRegisteredFragment(1).asInstanceOf[CreateEquationsFragment]
+            } else {
+                equationsFragment =  getSupportFragmentManager.findFragmentById(R.id.create_es_fragment).asInstanceOf[CreateEquationsFragment]
+            }
             equationsFragment.onNewEquations()
         } catch {
             case ex: ClassCastException => {
@@ -124,7 +147,12 @@ class CreateEquationsActivity extends NavigationDrawerActivity with OnSymbolsCha
 
     override def onEquationsAdded(addedES: ES): Unit = {
         try {
-            val equationsFragment = equationPagerAdapter.getRegisteredFragment(1).asInstanceOf[CreateEquationsFragment]
+            var equationsFragment: CreateEquationsFragment = null
+            if(equationPagerAdapter != null) {
+                equationsFragment = equationPagerAdapter.getRegisteredFragment(1).asInstanceOf[CreateEquationsFragment]
+            } else {
+                equationsFragment =  getSupportFragmentManager.findFragmentById(R.id.create_es_fragment).asInstanceOf[CreateEquationsFragment]
+            }
             equationsFragment.onEquationsAdded()
         } catch {
             case ex: ClassCastException => {

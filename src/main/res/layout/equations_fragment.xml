@@ -5,29 +5,11 @@
                 android:paddingRight="16dp" android:paddingTop="16dp">
 
 
-    <Button
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="&lt;"
-            android:id="@+id/undo_button"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" android:layout_alignParentBottom="true"/>
-    <Button
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="&gt;"
-            android:id="@+id/redo_button"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" android:layout_alignParentBottom="true"/>
-
 
     <android.support.v7.widget.RecyclerView
             android:id="@+id/rvEquations"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:layout_above="@id/redo_button"
             android:background="#ff68ff54"/>
 
 
