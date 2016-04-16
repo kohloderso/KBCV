@@ -15,7 +15,7 @@ object Controller {
 
     def addES(newES: ES): Unit = {
 
-        val nis = state.erc._1.size until newES.size+1   // indices
+        val nis = state.erc._1.size until state.erc._1.size + newES.size+1   // indices
         val ies: IES = state.erc._1 ++ (nis zip newES) // equations together with indices
 
         state.erc = new ERCH(ies, state.erc._2, state.erc._3, state.erc._4)

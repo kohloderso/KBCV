@@ -130,7 +130,7 @@ class EquationRuleAdapter[TP <: TermPair](is: TreeMap[Int,TP], itemClickListener
 
     def setNewItems(newTermPairs: ITM): Unit = {
         mBuffer.clear()
-        mBuffer ++ newTermPairs
+        mBuffer ++= newTermPairs
         notifyDataSetChanged()
     }
 

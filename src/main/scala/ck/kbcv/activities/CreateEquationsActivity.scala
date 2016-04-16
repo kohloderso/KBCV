@@ -48,9 +48,9 @@ class CreateEquationsActivity extends NavigationDrawerActivity with OnSymbolsCha
             tabLayout.setTabGravity(TabLayout.GRAVITY_FILL)
 
             val viewPager = findView(TR.viewpager)
-            val test = getSupportFragmentManager
+            val fm = getSupportFragmentManager
 
-            equationPagerAdapter = new CreateEquationsPagerAdapter(test)
+            equationPagerAdapter = new CreateEquationsPagerAdapter(fm)
             viewPager.setAdapter(equationPagerAdapter)
             tabLayout.setupWithViewPager(viewPager)
         }
