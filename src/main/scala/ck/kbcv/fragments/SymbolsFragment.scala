@@ -146,7 +146,9 @@ class SymbolsFragment extends Fragment {
 
         override def onTextChanged(s: CharSequence, start: Int, before: Int, count: Int): Unit = {
             val functions = getFunctions()
-            Controller.state.functions = functions
+            Controller.builder.
+                withFunctions(functions).
+                updateState()
             mCallback.onFunctionsChanged()
         }
 
@@ -163,7 +165,9 @@ class SymbolsFragment extends Fragment {
 
         override def onTextChanged(s: CharSequence, start: Int, before: Int, count: Int): Unit = {
             val variables = getVariables()
-            Controller.state.variables = variables
+            Controller.builder.
+                withVariables(variables).
+                updateState()
             mCallback.onVariablesChanged()
         }
 

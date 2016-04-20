@@ -2,6 +2,7 @@ package ck.kbcv.activities
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.{PorterDuff, Color}
 import android.net.Uri
 import android.os.Bundle
 import android.support.design.widget.TabLayout
@@ -75,10 +76,48 @@ class CreateEquationsActivity extends NavigationDrawerActivity with OnSymbolsCha
                 new ImportDialogFragment().show(getSupportFragmentManager, "ImportDialog")
                 true
             }
+            case R.id.undo => {
+                Controller.undo()
+                updateViews()
+                true
+            }
+            case R.id.redo => {
+                Controller.redo()
+                updateViews()
+                true
+            }
             case _ => false
         }
     }
 
+    override def onPrepareOptionsMenu(menu: Menu): Boolean = {
+        val undoEnabled = Controller.undoable(1)
+        val undoItem =  menu.findItem(R.id.undo)
+        val resIcon = getResources().getDrawable(R.drawable.ic_undo_white_24dp)
+        if(!undoEnabled) {
+            resIcon.mutate().setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_IN)
+        }
+        undoItem.setEnabled(undoEnabled)
+        undoItem.setIcon(resIcon)
+
+        val redoEnabled = Controller.redoable(1)
+        val redoItem =  menu.findItem(R.id.redo)
+        val resIcon2 = getResources().getDrawable(R.drawable.ic_redo_white_24dp)
+        if(!redoEnabled) {
+            resIcon2.mutate().setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_IN)
+        }
+        redoItem.setEnabled(redoEnabled)
+        redoItem.setIcon(resIcon2)
+        true
+    }
+
+
+    def updateViews(): Unit = {
+        invalidateOptionsMenu()
+        onVariablesChanged()
+        onFunctionsChanged()
+        onNewEquations()    // TODO not very good performance
+    }
 
     override def onVariablesChanged(): Unit = {
         try {
@@ -101,6 +140,7 @@ class CreateEquationsActivity extends NavigationDrawerActivity with OnSymbolsCha
                 Log.e(TAG, ex.getMessage)
             }
         }
+        invalidateOptionsMenu()
     }
 
     override def onFunctionsChanged(): Unit = {
@@ -124,9 +164,10 @@ class CreateEquationsActivity extends NavigationDrawerActivity with OnSymbolsCha
                 Log.e(TAG, ex.getMessage)
             }
         }
+        invalidateOptionsMenu()
     }
 
-    override def onNewEquations(newES: ES): Unit = {
+    override def onNewEquations(): Unit = {
         try {
             var equationsFragment: CreateEquationsFragment = null
             if(equationPagerAdapter != null) {
@@ -143,9 +184,10 @@ class CreateEquationsActivity extends NavigationDrawerActivity with OnSymbolsCha
                 Log.e(TAG, ex.getMessage)
             }
         }
+        invalidateOptionsMenu()
     }
 
-    override def onEquationsAdded(addedES: ES): Unit = {
+    override def onEquationsAdded(): Unit = {
         try {
             var equationsFragment: CreateEquationsFragment = null
             if(equationPagerAdapter != null) {
@@ -162,6 +204,7 @@ class CreateEquationsActivity extends NavigationDrawerActivity with OnSymbolsCha
                 Log.e(TAG, ex.getMessage)
             }
         }
+        invalidateOptionsMenu()
     }
 
     override def onActivityResult(requestCode: Int, resultCode: Int, data: Intent): Unit = {

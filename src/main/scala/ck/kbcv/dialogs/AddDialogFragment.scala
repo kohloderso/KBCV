@@ -52,7 +52,7 @@ class AddDialogFragment extends DialogFragment {
                     Controller.setES(es)
                     symbolsListener.onFunctionsChanged()
                     symbolsListener.onVariablesChanged()
-                    equationsListener.onNewEquations(es)
+                    equationsListener.onNewEquations()
                 }
             })
             .setPositiveButton("Add to existing ES", new DialogInterface.OnClickListener() {
@@ -60,7 +60,7 @@ class AddDialogFragment extends DialogFragment {
                     Controller.addES(es)
                     symbolsListener.onFunctionsChanged()
                     symbolsListener.onVariablesChanged()
-                    equationsListener.onEquationsAdded(es)
+                    equationsListener.onEquationsAdded()
                 }
             })
         builder.create()

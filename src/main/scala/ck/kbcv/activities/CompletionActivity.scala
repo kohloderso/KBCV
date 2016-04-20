@@ -1,7 +1,7 @@
 package ck.kbcv.activities
 
 import android.view.View
-import android.graphics.Color
+import android.graphics.{PorterDuff, Color}
 import android.os.Bundle
 import android.support.design.widget.{Snackbar, TabLayout}
 import android.support.v7.app.AppCompatActivity
@@ -57,6 +57,27 @@ class CompletionActivity extends NavigationDrawerActivity with TypedFindView wit
         return true
     }
 
+    override def onPrepareOptionsMenu(menu: Menu): Boolean = {
+        val undoEnabled = Controller.undoable(1)
+        val undoItem =  menu.findItem(R.id.undo)
+        val resIcon = getResources().getDrawable(R.drawable.ic_undo_white_24dp)
+        if(!undoEnabled) {
+            resIcon.mutate().setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_IN)
+        }
+        undoItem.setEnabled(undoEnabled)
+        undoItem.setIcon(resIcon)
+
+        val redoEnabled = Controller.redoable(1)
+        val redoItem =  menu.findItem(R.id.redo)
+        val resIcon2 = getResources().getDrawable(R.drawable.ic_redo_white_24dp)
+        if(!redoEnabled) {
+            resIcon2.mutate().setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_IN)
+        }
+        redoItem.setEnabled(redoEnabled)
+        redoItem.setIcon(resIcon2)
+        true
+    }
+
 
     override def onOptionsItemSelected(item: MenuItem): Boolean = {
         item.getItemId match {
@@ -64,6 +85,16 @@ class CompletionActivity extends NavigationDrawerActivity with TypedFindView wit
                 val complete = Controller.ercIsComplete()
                 if(complete) showSuccessMsg("TRS is complete now")
                 else showErrorMsg("Not complete yet")
+                true
+            }
+            case R.id.undo => {
+                Controller.undo()
+                updateViews()
+                true
+            }
+            case R.id.redo => {
+                Controller.redo()
+                updateViews()
                 true
             }
             case _ => false
@@ -79,10 +110,11 @@ class CompletionActivity extends NavigationDrawerActivity with TypedFindView wit
                 false
             } else {
                 showSuccessMsg(is.size + " equations oriented")
-                Controller.state.erc = erch
-                Controller.state.precedence = op.get
-                updateEquationFragment()
-                updateRulesFragment()
+                Controller.builder.
+                    withErch(erch).
+                    withPrecedence(op.get).
+                    updateState()
+                updateViews()
                 true
             }
         } catch {
@@ -103,10 +135,11 @@ class CompletionActivity extends NavigationDrawerActivity with TypedFindView wit
                 false
             } else {
                 showSuccessMsg(is.size + " equations oriented")
-                Controller.state.erc = erch
-                Controller.state.precedence = op.get
-                updateEquationFragment()
-                updateRulesFragment()
+                Controller.builder.
+                    withErch(erch).
+                    withPrecedence(op.get).
+                    updateState()
+                updateViews()
                 true
             }
         } catch {
@@ -123,8 +156,11 @@ class CompletionActivity extends NavigationDrawerActivity with TypedFindView wit
         val erch = reco.delete(Controller.emptyI ++ is.keys, Controller.state.erc)
         if(erch != Controller.state.erc) {
             showSuccessMsg(getString(R.string.ok_delete))
-            Controller.state.erc = erch
+            Controller.builder.
+                withErch(erch).
+                updateState()
             updateEquationFragment()
+            invalidateOptionsMenu()
         } else {
             showErrorMsg(getString(R.string.error_delete))
         }
@@ -134,8 +170,11 @@ class CompletionActivity extends NavigationDrawerActivity with TypedFindView wit
         val erch = reco.simplifyToNF(Controller.emptyS, Controller.emptyTI, Controller.state.depth)(Controller.emptyI ++ is.keys, Controller.state.erc)
         if(erch != Controller.state.erc) {
             showSuccessMsg(getString(R.string.ok_simplify))
-            Controller.state.erc = erch
+            Controller.builder.
+                withErch(erch).
+                updateState()
             updateEquationFragment()
+            invalidateOptionsMenu()
         } else {
             showErrorMsg(getString(R.string.error_simplify))
         }
@@ -145,8 +184,11 @@ class CompletionActivity extends NavigationDrawerActivity with TypedFindView wit
         val erch = reco.composeToNF(Controller.emptyS, Controller.emptyTI, Controller.state.depth)(Controller.emptyI ++ is.keys, Controller.state.erc)
         if(erch != Controller.state.erc) {
             showSuccessMsg(getString(R.string.ok_compose))
-            Controller.state.erc = erch
+            Controller.builder.
+                withErch(erch).
+                updateState()
             updateRulesFragment()
+            invalidateOptionsMenu()
         } else {
             showErrorMsg(getString(R.string.error_compose))
         }
@@ -156,9 +198,10 @@ class CompletionActivity extends NavigationDrawerActivity with TypedFindView wit
         val erch = reco.collapse(Controller.emptyS, Controller.emptyTI)(Controller.emptyI ++ is.keys, Controller.state.erc)
         if(erch != Controller.state.erc) {
             showSuccessMsg(getString(R.string.ok_collapse))
-            Controller.state.erc = erch
-            updateEquationFragment()
-            updateRulesFragment()
+            Controller.builder.
+                withErch(erch).
+                updateState()
+            updateViews()
         } else {
             showErrorMsg(getString(R.string.error_collapse))
         }
@@ -169,9 +212,10 @@ class CompletionActivity extends NavigationDrawerActivity with TypedFindView wit
         val erch = reco.deduce(new OLS, Controller.emptyTI)(Controller.emptyI ++ is.keys, Controller.state.erc)
         if(erch != Controller.state.erc) {
             showSuccessMsg(getString(R.string.ok_deduced))
-            Controller.state.erc = erch
-            updateEquationFragment()
-            updateRulesFragment()
+            Controller.builder.
+                withErch(erch).
+                updateState()
+            updateViews()
         } else {
             showErrorMsg(getString(R.string.error_deduce))
         }
@@ -191,6 +235,12 @@ class CompletionActivity extends NavigationDrawerActivity with TypedFindView wit
         Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG)
             .setAction("undo", onClickListener)
             .show();
+    }
+
+    def updateViews(): Unit = {
+        invalidateOptionsMenu()
+        updateEquationFragment()
+        updateRulesFragment()
     }
 
     def updateEquationFragment(): Unit = {
