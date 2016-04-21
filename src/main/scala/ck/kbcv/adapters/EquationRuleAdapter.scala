@@ -52,7 +52,6 @@ object EquationRuleAdapter {
 class EquationRuleAdapter[TP <: TermPair](is: TreeMap[Int,TP], itemClickListener: ItemClickListener, layoutId: Int) extends SelectableAdapter[ViewHolder] {
     type ITP = (Int, TP)
     type ITM = TreeMap[Int, TP]
-    private val TIMEOUT = 3000 // 3 sec
     private val TAG = "EquationRuleAdapter"
     private val mBuffer: mutable.Buffer[(Int, TP)] = ListBuffer.empty ++= is.toList // is.toBuffer doesn't provide remove and indexOf functions that I need
 

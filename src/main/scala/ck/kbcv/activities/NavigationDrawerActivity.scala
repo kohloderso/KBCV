@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import android.widget.FrameLayout
 import ck.kbcv.R
-import ck.kbcv.dialogs.{ImportDialogFragment, SaveDialogFragment}
+import ck.kbcv.dialogs.{HistoryDialogFragment, ImportDialogFragment, SaveDialogFragment}
 
 /**
  * Created by Christina on 13.04.2016.
@@ -36,6 +36,10 @@ class NavigationDrawerActivity extends AppCompatActivity with NavigationView.OnN
             case R.id.action_equation_editor => {
                 val intent = new Intent(getApplicationContext, classOf[CreateEquationsActivity])
                 startActivity(intent)
+                true
+            }
+            case R.id.action_history => {
+                new HistoryDialogFragment().show(getSupportFragmentManager, "HistoryDialog")
                 true
             }
             case _ => false

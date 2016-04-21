@@ -20,7 +20,8 @@ object Controller {
         new Precedence(Nil),
         Set(),
         Set(),
-        100
+        100,
+        "initialize"
     )
 
     /** The stack of all executed commands to this point. */
@@ -41,9 +42,10 @@ object Controller {
         def withFunctions(functions: Set[(F, Int)]) = {(ms.functions=functions); this}
         def withVariables(vars: Set[V]) = {(ms.variables=vars); this}
         def withDepth(depth:Int)={(ms.depth=depth);this}
+        def withIdentifier(identifier:String)={(ms.identifier=identifier);this}
 
         def updateState() = {
-            undoStack.push(new State(ms.e0, ms.erc, ms.precedence, ms.functions, ms.variables, ms.depth))
+            undoStack.push(new State(ms.e0, ms.erc, ms.precedence, ms.functions, ms.variables, ms.depth, ms.identifier))
             redoStack.clear()
         }
 

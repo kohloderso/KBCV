@@ -12,7 +12,8 @@ class State(
            val precedence: Precedence,
            val functions: Set[(F, Int)],
            val variables: Set[V],
-           val depth: Int)
+           val depth: Int,
+           val message: String)
 
 class MutableState(s: State) {
     var e0 = s.e0
@@ -21,4 +22,10 @@ class MutableState(s: State) {
     var functions = s.functions
     var variables = s.variables
     var depth = s.depth
+    var identifier = s.message
+}
+
+object UndoRedoType extends Enumeration {
+    type UndoRedoType = UndoRedoType.Value
+    val UNDO, REDO, CURR = Value
 }
