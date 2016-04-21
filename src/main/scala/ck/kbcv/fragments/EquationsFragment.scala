@@ -148,7 +148,7 @@ class EquationsFragment extends Fragment with ItemClickListener {
                     true
                 case R.id.action_delete =>
                     Log.d(TAG, "delete")
-                    mCompletionListener.simplify(selectedItems)
+                    mCompletionListener.delete(selectedItems)
                     actionMode.finish()
                     true
                 case _ => false

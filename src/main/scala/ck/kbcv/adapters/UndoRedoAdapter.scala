@@ -19,7 +19,7 @@ object UndoRedoAdapter {
         val iconView = itemView.findViewById(ck.kbcv.R.id.iconView).asInstanceOf[ImageView]
         //val indexView = itemView.findViewById(ck.kbcv.R.id.indexView).asInstanceOf[TextView]
         val textView = itemView.findViewById(ck.kbcv.R.id.textView).asInstanceOf[TextView]
-        //val selectedOverlay = itemView.findViewById(ck.kbcv.R.id.selected_overlay)
+        val selectedOverlay = itemView.findViewById(ck.kbcv.R.id.selected_overlay)
         itemView.setOnClickListener(this)
 
         override def onClick(view: View): Unit = {
@@ -74,9 +74,18 @@ class UndoRedoAdapter(undoStack: mutable.Stack[State], redoStack: mutable.Stack[
         viewHolder.textView.setText(state.message)
 
         val imageR = t match {
-            case UNDO => R.drawable.ic_undo_black_24dp
-            case REDO => R.drawable.ic_redo_black_24dp
-            case CURR => R.drawable.ic_done_black_24dp
+            case UNDO => {
+                viewHolder.selectedOverlay.setVisibility(View.INVISIBLE)
+                R.drawable.ic_undo_black_18dp
+            }
+            case REDO => {
+                viewHolder.selectedOverlay.setVisibility(View.INVISIBLE)
+                R.drawable.ic_redo_black_18dp
+            }
+            case CURR => {
+                viewHolder.selectedOverlay.setVisibility(View.VISIBLE)
+                R.drawable.ic_done_black_18dp
+            }
         }
         viewHolder.iconView.setImageResource(imageR)
     }

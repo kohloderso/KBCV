@@ -120,6 +120,10 @@ trait OnEquationsChangedListener {
     def onEquationsAdded()
 }
 
+trait UpdateListener {
+    def updateViews()
+}
+
 trait CompletionActionListener {
     def orientRL(is: IS): Boolean
 

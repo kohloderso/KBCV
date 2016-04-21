@@ -20,7 +20,7 @@ import term.util.{E, ES, TRS, S}
 /**
  * Created by Christina on 05.12.2015.
  */
-class CompletionActivity extends NavigationDrawerActivity with TypedFindView with CompletionActionListener {
+class CompletionActivity extends NavigationDrawerActivity with TypedFindView with CompletionActionListener with UpdateListener {
     val TAG = "CompletionActivity"
     var completionPagerAdapter: CompletionPagerAdapter = null
 
@@ -237,7 +237,7 @@ class CompletionActivity extends NavigationDrawerActivity with TypedFindView wit
             .show();
     }
 
-    def updateViews(): Unit = {
+    override def updateViews(): Unit = {
         invalidateOptionsMenu()
         updateEquationFragment()
         updateRulesFragment()

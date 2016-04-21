@@ -20,7 +20,7 @@ import term.util.ES
 /**
  * Created by Christina on 05.12.2015.
  */
-class CreateEquationsActivity extends NavigationDrawerActivity with OnSymbolsChangedListener with OnEquationsChangedListener with TypedFindView {
+class CreateEquationsActivity extends NavigationDrawerActivity with UpdateListener with OnSymbolsChangedListener with OnEquationsChangedListener with TypedFindView {
     val TAG = "CreateEquationsActivity"
     var equationPagerAdapter: CreateEquationsPagerAdapter = null
     var ies: IES = null
