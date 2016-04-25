@@ -13,10 +13,13 @@
 
 
     <!-- ok messages -->
-    <string name="ok_simplify">simplified</string>
-    <string name="ok_delete">deleted</string>
-    <string name="ok_compose">composed</string>
-    <string name="ok_collapse">collapsed</string>
-    <string name="ok_deduced">deduced</string>
+    <string name="ok_orient"><b>orient:</b> %1$d equations oriented</string>
+    <string name="ok_simplify"><b>simplify:</b> some equations simplified</string>
+    <string name="ok_delete"><b>delete:</b> %1$d equations deleted</string>
+    <string name="ok_compose"><b>compose:</b> some rules composed</string>
+    <string name="ok_collapse"><b>collapse:</b> some rules collapsed</string>
+    <string name="ok_deduced"><b>deduce:</b> %1$d new equations deduced</string>
+    <string name="ok_added_es"><b>added ES:</b> %1$d new equations added</string>
+    <string name="ok_new_es"><b>new ES:</b> %1$d new equations</string>
 
 </resources>

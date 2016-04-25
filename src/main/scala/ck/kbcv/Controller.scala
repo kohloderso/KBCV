@@ -42,7 +42,7 @@ object Controller {
         def withFunctions(functions: Set[(F, Int)]) = {(ms.functions=functions); this}
         def withVariables(vars: Set[V]) = {(ms.variables=vars); this}
         def withDepth(depth:Int)={(ms.depth=depth);this}
-        def withIdentifier(identifier:String)={(ms.identifier=identifier);this}
+        def withMessage(identifier:String)={(ms.identifier=identifier);this}
 
         def updateState() = {
             undoStack.push(new State(ms.e0, ms.erc, ms.precedence, ms.functions, ms.variables, ms.depth, ms.identifier))
@@ -61,7 +61,7 @@ object Controller {
       * @param i number of steps to redo */
     def redoable(i: Int) = redoStack.length >= i
 
-    def addES(newES: ES): Unit = {
+    def addES(newES: ES, message: String): Unit = {
 
         val nis = state.erc._1.size +1 until state.erc._1.size + newES.size+1   // indices
         val ies: IES = state.erc._1 ++ (nis zip newES) // equations together with indices
@@ -71,12 +71,13 @@ object Controller {
             withFunctions(state.functions ++ funAris(newES)).
             withVariables(state.variables ++ vars(newES)).
             withErch(new ERCH(ies, state.erc._2, state.erc._3, state.erc._4)).
+            withMessage(message).
             updateState()
         // TODO val h = state.erc._4 ++
     }
 
 
-    def setES(newES: ES): Unit = {
+    def setES(newES: ES, message: String): Unit = {
         val nis = 1 until newES.size+1   // indices
         val ies: IES = new IES ++ (nis zip newES) // equations together with indices
         val h: H = initHistory(ies)
@@ -87,6 +88,7 @@ object Controller {
             withVariables(vars(newES)).
             withErch(new ERCH(ies, new ITRS, new ITRS, h)).
             withPrecedence(new Precedence(Nil)).
+            withMessage(message).
             updateState()
     }
 

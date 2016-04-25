@@ -8,7 +8,7 @@ import android.content.DialogInterface
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
-import ck.kbcv.{Controller, OnEquationsChangedListener, OnSymbolsChangedListener}
+import ck.kbcv.{R, Controller, OnEquationsChangedListener, OnSymbolsChangedListener}
 import term.parser.ParserXmlTRS
 import term.reco.IES
 ;
@@ -49,7 +49,7 @@ class AddDialogFragment extends DialogFragment {
             .setMessage(es.toString())
             .setNegativeButton("Use as new ES", new DialogInterface.OnClickListener() {
                 def onClick(dialogInterface: DialogInterface, which: Int): Unit = {
-                    Controller.setES(es)
+                    Controller.setES(es, getResources.getString(R.string.ok_new_es, new Integer(es.size)))
                     symbolsListener.onFunctionsChanged()
                     symbolsListener.onVariablesChanged()
                     equationsListener.onNewEquations()
@@ -57,7 +57,7 @@ class AddDialogFragment extends DialogFragment {
             })
             .setPositiveButton("Add to existing ES", new DialogInterface.OnClickListener() {
                 def onClick(dialogInterface: DialogInterface, which: Int): Unit = {
-                    Controller.addES(es)
+                    Controller.addES(es, getResources.getString(R.string.ok_added_es, new Integer(es.size)))
                     symbolsListener.onFunctionsChanged()
                     symbolsListener.onVariablesChanged()
                     equationsListener.onEquationsAdded()
