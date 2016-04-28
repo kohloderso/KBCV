@@ -13,9 +13,6 @@ import scala.collection.immutable.TreeMap
 import scala.collection.mutable
 import scala.collection.mutable.ListBuffer
 
-/**
- * Created by Christina on 20.03.2016.
- */
 object EquationRuleAdapter {
     class ViewHolder(itemView: View, onItemClickListener: ItemClickListener) extends RecyclerView.ViewHolder(itemView) with View.OnClickListener with View.OnLongClickListener {
         val indexView = itemView.findViewById(ck.kbcv.R.id.indexView).asInstanceOf[TextView]

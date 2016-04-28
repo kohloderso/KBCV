@@ -39,7 +39,6 @@ class TermPairView (context: Context, attrs: AttributeSet, termPair: TermPair, s
 
         val separatorView = new TextView(context)
         separatorView.setText(separator)
-        separatorView.setBackgroundColor(getResources.getColor(R.color.colorAccent))
         val lp = new LinearLayout.LayoutParams(0, LayoutParams.MATCH_PARENT, 1.0f)
         separatorView.setLayoutParams(lp)
         separatorView.setGravity(Gravity.CENTER)
@@ -50,10 +49,10 @@ class TermPairView (context: Context, attrs: AttributeSet, termPair: TermPair, s
     }
 }
 
-class EquationView (context: Context, attrs: AttributeSet, equation: IE) extends TermPairView(context, attrs, equation._2, "=", equation._1) {
+class EquationView (context: Context, attrs: AttributeSet, equation: IE) extends TermPairView(context, attrs, equation._2, " \u2248 ", equation._1) {
     def this(context: Context, attrs: AttributeSet) = this(context, attrs, new IE(-1, null))
 }
 
-class RuleView (context: Context, attrs: AttributeSet, rule: IR) extends TermPairView(context, attrs, rule._2, "->", rule._1) {
+class RuleView (context: Context, attrs: AttributeSet, rule: IR) extends TermPairView(context, attrs, rule._2, " \u2192 ", rule._1) {
     def this(context: Context, attrs: AttributeSet) = this(context, attrs, new IR(-1, null))
 }

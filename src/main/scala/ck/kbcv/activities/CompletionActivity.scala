@@ -245,7 +245,8 @@ class CompletionActivity extends NavigationDrawerActivity with TypedFindView wit
     def showSuccessMsg(message: String): Unit = {
         val onClickListener = new View.OnClickListener {
             override def onClick(v: View) {
-                // TODO Undo functionality
+                Controller.undo()
+                updateViews()
             }
         }
         Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG)

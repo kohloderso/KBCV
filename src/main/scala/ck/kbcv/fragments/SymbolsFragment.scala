@@ -37,6 +37,8 @@ class SymbolsFragment extends Fragment {
     override def onCreateView( inflater: LayoutInflater, container: ViewGroup, savedInstanceState: Bundle ): View = {
         this.inflater = inflater
         val view = inflater.inflate( R.layout.symbols_fragment, container, false )
+
+        //val radial = new radialpickerlayout()
         functionsContainer = view.findViewById(R.id.container).asInstanceOf[LinearLayout]
         val function_1 = view.findViewById(R.id.function_1)
         functionList = List(function_1)
