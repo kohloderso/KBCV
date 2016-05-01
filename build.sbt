@@ -8,7 +8,6 @@ javacOptions ++=
 // be resolvable with "retrolamda")
 scalaVersion := "2.10.5"
 
-
 libraryDependencies ++=
     "com.android.support" % "appcompat-v7" % "23.1.1" ::
     "com.android.support" % "cardview-v7" % "23.1.0" ::

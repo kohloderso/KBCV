@@ -11,11 +11,32 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="windowActionModeOverlay">true</item>
+        <item name="android:textSize">15sp</item>
     </style>
 
-    <style name="dragButton" parent="@android:style/Widget.Button.Small">
-        <item name="android:textSize">20dip</item>
+    <style name="DragButton" parent="@android:style/Widget.Button.Small">
+        <item name="android:textSize">20sp</item>
         <item name="android:textStyle">bold</item>
     </style>
+
+    <style name="FunArityView">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:background">#A9BFCF</item>
+    </style>
+
+
+    <style name="FunArityView.Arity">
+        <item name="android:background">#56778F</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="Divider">
+        <item name="android:layout_width">1dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">?android:attr/listDivider</item>
+    </style>
+
+
 
 </resources>

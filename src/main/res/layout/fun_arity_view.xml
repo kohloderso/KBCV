@@ -1,0 +1,28 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+           xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:orientation="horizontal"
+              android:layout_margin="16dp"
+              android:divider="@drawable/vertical_divider"
+              android:showDividers="middle">
+
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/funName"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp" android:paddingEnd="5dp"
+            style="@style/FunArityView"/>
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/funArity"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp" android:paddingEnd="5dp"
+            style="@style/FunArityView.Arity"
+            />
+
+
+</LinearLayout>

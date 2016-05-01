@@ -7,6 +7,7 @@
               android:orientation="vertical">
 
     <include layout="@layout/toolbar"/>
+    <include layout="@layout/header_shadow"/>
 
 
     <LinearLayout

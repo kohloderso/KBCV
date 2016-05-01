@@ -16,6 +16,7 @@
                 android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
                 />
+        <include layout="@layout/header_shadow"/>
         
         <android.support.v4.view.ViewPager
                 android:id="@+id/viewpager"
