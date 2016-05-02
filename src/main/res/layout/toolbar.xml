@@ -9,7 +9,6 @@
         android:elevation="4dp"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        app:shadowDrawable="@drawable/header_shadow"
         />
 
 
