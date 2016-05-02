@@ -37,9 +37,7 @@
                     tools:layout="@layout/rules_fragment"/>
         </LinearLayout>
 
-        <View android:layout_width="match_parent"
-              android:layout_height="5dp"
-              android:background="@drawable/bottom_shadow"/>
+        <include layout="@layout/header_shadow"/>
 
     </FrameLayout>
 
