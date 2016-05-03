@@ -61,6 +61,20 @@ object Controller {
       * @param i number of steps to redo */
     def redoable(i: Int) = redoStack.length >= i
 
+    def addFunction(function: F, arity: Int, message: String): Unit = {
+        builder.
+            withFunctions(state.functions + ((function, arity))).
+            withMessage(message).
+            updateState()
+    }
+
+    def addVar(variable: V, message: String): Unit = {
+        builder.
+            withVariables(state.variables + variable).
+            withMessage(message).
+            updateState()
+    }
+
     def addES(newES: ES, message: String): Unit = {
 
         val nis = state.erc._1.size +1 until state.erc._1.size + newES.size+1   // indices

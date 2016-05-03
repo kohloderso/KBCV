@@ -22,4 +22,7 @@
     <string name="ok_added_es"><b>added ES:</b> %1$d new equations added</string>
     <string name="ok_new_es"><b>new ES:</b> %1$d new equations</string>
 
+    <string name="added_var">Added a variable</string>
+    <string name="added_fun">Added a function symbol</string>
+
 </resources>

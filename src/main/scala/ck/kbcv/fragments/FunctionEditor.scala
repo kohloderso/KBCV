@@ -2,8 +2,10 @@ package ck.kbcv.fragments
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.view.View.OnClickListener
 import android.view.{View, ViewGroup, LayoutInflater}
 import android.widget.{TextView, Button}
+import ck.kbcv.dialogs.{FunctionDialog, VariableDialog}
 import ck.kbcv.{HorizontalFlowLayout, Controller, R}
 
 
@@ -16,7 +18,12 @@ class FunctionEditor extends Fragment {
         val view = inflater.inflate( R.layout.function_editor, container, false )
         flowLayout = view.findViewById(R.id.functionFlowLayout).asInstanceOf[HorizontalFlowLayout]
         plusButton = view.findViewById(R.id.plusButton).asInstanceOf[Button]
-        // TODO plusButton add OnClickListener that opens a new dialog to create a new variable
+        plusButton.setOnClickListener(new OnClickListener {
+            override def onClick(v: View): Unit = {
+                new FunctionDialog().show(getChildFragmentManager, "FunctionDialog")
+            }
+        })
+
         setFunctions()
         return view
     }
