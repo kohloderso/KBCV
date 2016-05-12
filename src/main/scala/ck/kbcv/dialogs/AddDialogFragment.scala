@@ -1,6 +1,6 @@
 package ck.kbcv.dialogs
 
-import java.io.InputStream
+import java.io.{InputStreamReader, FileReader, Reader, InputStream}
 
 import android.app.AlertDialog.Builder
 import android.app.{Activity, Dialog}
@@ -9,7 +9,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import ck.kbcv.{R, Controller, OnEquationsChangedListener, OnSymbolsChangedListener}
-import term.parser.ParserXmlTRS
+import term.parser.{ParserOldTRS, Parser, ParserXmlTRS}
 import term.reco.IES
 ;
 
@@ -33,6 +33,7 @@ class AddDialogFragment extends DialogFragment {
     }
 
     override def onCreateDialog(savedInstanceState: Bundle): Dialog = {
+        var parser: Parser = ParserXmlTRS
         val builder = new Builder((getActivity))
 
         val filename = getArguments.getCharSequence("filename")
@@ -41,12 +42,16 @@ class AddDialogFragment extends DialogFragment {
         if(filename != null) {
             stream = getActivity.openFileInput(filename.toString)
         } else if(fileURI != null) {
+            if(fileURI.toString.contains(".trs")) parser = ParserOldTRS
             stream = getActivity.getContentResolver.openInputStream(Uri.parse(fileURI.toString))
         }
-
-        val es = ParserXmlTRS.parse(stream)
+        val es = parser.parse(stream)
+        var esString = ""
+        for(e <- es) {
+            esString += e + "\n"
+        }
         builder.setTitle("Add ES")
-            .setMessage(es.toString())
+            .setMessage(esString)
             .setNegativeButton("Use as new ES", new DialogInterface.OnClickListener() {
                 def onClick(dialogInterface: DialogInterface, which: Int): Unit = {
                     Controller.setES(es, getResources.getString(R.string.ok_new_es, new Integer(es.size)))

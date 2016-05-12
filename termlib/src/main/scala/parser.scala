@@ -23,6 +23,8 @@
 
 package term
 
+import java.io.InputStreamReader
+
 /** Provides some parsing functionality for terms.
   *
   * There are two formats for terms which can be parsed by usage of the parsers
@@ -42,6 +44,7 @@ package object parser {
     /** Returns an equational system containting the equations parsed from
       * ''file''. */
     def parse(file: String): ES
+    def parse(stream: InputStream): ES
   }
 
   /** A parser from a subset of the TPTP format to an equational proof. */
@@ -90,6 +93,8 @@ package object parser {
       val es = parseAll(spec(path),input).getOrElse(Nil)
       es
     }
+
+    override def parse(stream: InputStream): ES = null
   }
 
   /** A parser from a subset of the old trs format to an equational system. */
@@ -137,6 +142,13 @@ package object parser {
       val (x,e) = parseAll(spec, reader).getOrElse((Nil,Nil))
       e
     }
+
+    def parse(stream: InputStream): ES = {
+      val reader = new InputStreamReader(stream)
+      val (x,e) = parseAll(spec, reader).getOrElse((Nil,Nil))
+      e
+    }
+
     /** Returns the equational system parsed from the string ''s''. */
     def parseInline(s: String): ES = {
       parseAll(inlineRules, s).getOrElse(Nil)

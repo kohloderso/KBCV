@@ -38,7 +38,7 @@ class ImportDialogFragment extends DialogFragment {
     def chooseFile(): Unit = {
 
         val intent = new Intent(Intent.ACTION_GET_CONTENT)
-        intent.setType("text/xml");   //XML file only
+        intent.setType("text/*");
         intent.addCategory(Intent.CATEGORY_OPENABLE)
 
         try {
