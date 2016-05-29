@@ -17,8 +17,6 @@ class TermPairView (context: Context, attrs: AttributeSet, termPair: TermPair, s
     def this(context: Context, attrs: AttributeSet) = this(context, attrs, null, "", -1)
 
     this.setOrientation(LinearLayout.HORIZONTAL)
-    this.setClickable(true)
-    this.setFocusable(true)
 
     setTermPair(termPair)
 
