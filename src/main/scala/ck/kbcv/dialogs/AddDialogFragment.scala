@@ -1,6 +1,6 @@
 package ck.kbcv.dialogs
 
-import java.io.{InputStreamReader, FileReader, Reader, InputStream}
+import java.io.InputStream
 
 import android.app.AlertDialog.Builder
 import android.app.{Activity, Dialog}
@@ -8,9 +8,8 @@ import android.content.DialogInterface
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
-import ck.kbcv.{R, Controller, OnEquationsChangedListener, OnSymbolsChangedListener}
-import term.parser.{ParserOldTRS, Parser, ParserXmlTRS}
-import term.reco.IES
+import ck.kbcv.{Controller, OnEquationsChangedListener, OnSymbolsChangedListener, R}
+import term.parser.{Parser, ParserOldTRS, ParserXmlTRS}
 ;
 
 class AddDialogFragment extends DialogFragment {

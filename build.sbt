@@ -13,8 +13,8 @@ libraryDependencies ++=
     "com.android.support" % "cardview-v7" % "23.1.0" ::
     "com.android.support" % "design" % "23.1.1" ::
     //"com.android.support" % "gridlayout-v7" % "23.1.0" ::
-    "com.android.support" % "recyclerview-v7" % "23.1.0" ::
-    "com.android.support" % "support-v4" % "23.1.1" ::
+    "com.android.support" % "recyclerview-v7" % "23.3.0" ::
+    "com.android.support" % "support-v4" % "23.3.0" ::
         "org.scala-lang" % "scala-actors" % "2.10.5"::
     // Version 2.4.x requires Java 8
     //"com.typesafe.play" %% "play-json" % "2.3.10" ::

@@ -4,10 +4,9 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.Gravity
 import android.view.ViewGroup.LayoutParams
-import android.widget.{TextView, LinearLayout}
-import ck.kbcv.R
+import android.widget.{LinearLayout, TextView}
 import term.Term
-import term.reco.{IR, IE}
+import term.reco.{IE, IR}
 import term.util._
 
 /**

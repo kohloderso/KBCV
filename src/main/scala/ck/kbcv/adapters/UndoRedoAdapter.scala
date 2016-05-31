@@ -1,19 +1,17 @@
 package ck.kbcv.adapters
 
-import ck.kbcv.R
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.{LayoutInflater, View, ViewGroup}
 import android.widget.{ImageView, TextView}
-import ck.kbcv.adapters.UndoRedoAdapter.{HistoryClickListener, ViewHolder}
-import ck.kbcv.State
+import ck.kbcv.{R, State}
 import ck.kbcv.UndoRedoType._
+import ck.kbcv.adapters.UndoRedoAdapter.{HistoryClickListener, ViewHolder}
 
 import scala.collection.mutable
 
 
 object UndoRedoAdapter {
-
 
     class ViewHolder(itemView: View, historyClickListener: HistoryClickListener) extends RecyclerView.ViewHolder(itemView) with View.OnClickListener {
         val iconView = itemView.findViewById(ck.kbcv.R.id.iconView).asInstanceOf[ImageView]

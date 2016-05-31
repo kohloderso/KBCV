@@ -3,9 +3,9 @@
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:orientation="horizontal"
-              android:layout_margin="16dp"
-              android:divider="@drawable/vertical_divider"
-              android:showDividers="middle">
+              android:layout_margin="16dp">
+              <!--android:divider="@drawable/vertical_divider"
+              android:showDividers="middle"-->
 
 
     <TextView

@@ -1,20 +1,15 @@
 package ck.kbcv.activities
 
-import android.view.View
-import android.graphics.{PorterDuff, Color}
+import android.graphics.{Color, PorterDuff}
 import android.os.Bundle
 import android.support.design.widget.{Snackbar, TabLayout}
-import android.support.v7.app.AppCompatActivity
 import android.util.Log
-import android.view.{Menu, MenuItem}
-import android.widget.{LinearLayout, ArrayAdapter, ListView}
+import android.view.{Menu, MenuItem, View}
 import ck.kbcv._
 import ck.kbcv.adapters.CompletionPagerAdapter
-import ck.kbcv.dialogs.{ImportDialogFragment, SaveDialogFragment}
-import ck.kbcv.fragments.{RulesFragment, EquationsFragment}
+import ck.kbcv.fragments.{EquationsFragment, RulesFragment}
 import term.reco
-import term.reco.{OLS, IS, I, IE}
-import term.util.{E, ES, TRS, S}
+import term.reco.{IS, OLS}
 
 
 /**

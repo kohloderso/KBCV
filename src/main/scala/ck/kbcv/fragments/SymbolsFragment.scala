@@ -3,11 +3,8 @@ package ck.kbcv.fragments
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.text.{Editable, TextWatcher}
 import android.view.{LayoutInflater, View, ViewGroup}
-import android.widget._
-import ck.kbcv.{Controller, OnSymbolsChangedListener, R}
-import term.Term.{F, V}
+import ck.kbcv.{OnSymbolsChangedListener, R}
 
 
 class SymbolsFragment extends Fragment {

@@ -5,7 +5,7 @@ import android.util.Log
 import android.view.{LayoutInflater, View, ViewGroup}
 import android.widget.TextView
 import ck.kbcv.adapters.EquationRuleAdapter.{ItemClickListener, ViewHolder}
-import ck.kbcv.views.{TermPairView, EquationView}
+import ck.kbcv.views.TermPairView
 import term.reco._
 import term.util._
 

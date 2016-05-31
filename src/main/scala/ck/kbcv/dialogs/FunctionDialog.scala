@@ -7,9 +7,9 @@ import android.support.design.widget.TextInputLayout
 import android.support.v4.app.DialogFragment
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AlertDialog.Builder
-import android.text.{InputType, Editable, TextWatcher}
+import android.text.{Editable, TextWatcher}
 import android.view.View
-import android.widget.{FrameLayout, EditText}
+import android.widget.{EditText, FrameLayout}
 import ck.kbcv.{Controller, OnSymbolsChangedListener, R}
 
 

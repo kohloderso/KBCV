@@ -1,14 +1,13 @@
 package ck.kbcv.views
 
 import android.content.Context
+import android.graphics.Color
 import android.util.AttributeSet
 import android.view.Gravity
-import android.widget.{TextView, LinearLayout}
-import ck.kbcv.R
+import android.view.ViewGroup.LayoutParams
+import android.widget.{LinearLayout, TextView}
 import term.Term
 import term.reco.IE
-import term.util.TermPair
-import android.view.ViewGroup.LayoutParams
 
 /** 
  * View which allows editing (deleting, adding, changing) parts or a whole Equation.
@@ -20,6 +19,7 @@ class EquationEditView (context: Context, attrs: AttributeSet, equation: IE) ext
     var index: Int = -1
 
     this.setOrientation(LinearLayout.HORIZONTAL)
+    this.setBackgroundColor(Color.WHITE)
    
     setEquation(equation)
 
@@ -40,8 +40,7 @@ class EquationEditView (context: Context, attrs: AttributeSet, equation: IE) ext
         this.addView(new TermView(context, attrs, lhs))
 
         val separatorView = new TextView(context)
-        separatorView.setText("=")
-        separatorView.setBackgroundColor(getResources.getColor(R.color.colorAccent))
+        separatorView.setText("\u2248")
         val lp = new LinearLayout.LayoutParams(0, LayoutParams.MATCH_PARENT, 1.0f)
         separatorView.setLayoutParams(lp)
         separatorView.setGravity(Gravity.CENTER)

@@ -6,21 +6,18 @@ import android.view.{DragEvent, Gravity, View}
 import android.widget.{ImageView, LinearLayout, TextView}
 import ck.kbcv.R
 
-/**
- * Created by Christina on 01.01.2016.
- */
 class DropView(context: Context, attrs: AttributeSet) extends ImageView(context, attrs) {
     val TAG = "EquationDropzone"
-    this.setBackgroundColor(getResources.getColor(R.color.colorPrimary))
+    this.setBackgroundColor(getResources.getColor(R.color.colorAccent))
     this.setOnDragListener(new View.OnDragListener() {
         override def onDrag(v: View, event: DragEvent): Boolean = {
             val action = event.getAction
             Log.d(TAG, "Action: " + action)
             action match {
                 case DragEvent.ACTION_DRAG_STARTED => val test = event.getClipDescription//  Do nothing
-                case DragEvent.ACTION_DRAG_ENTERED => v.setBackgroundColor(getResources.getColor(R.color.colorAccent))
-                case DragEvent.ACTION_DRAG_EXITED => v.setBackgroundColor(getResources.getColor(R.color.colorPrimary))
-                case DragEvent.ACTION_DRAG_ENDED => v.setBackgroundColor(getResources.getColor(R.color.colorPrimary))
+                case DragEvent.ACTION_DRAG_ENTERED => v.setBackgroundColor(getResources.getColor(R.color.colorPrimaryBright))
+                case DragEvent.ACTION_DRAG_EXITED => v.setBackgroundColor(getResources.getColor(R.color.colorAccent))
+                case DragEvent.ACTION_DRAG_ENDED => v.setBackgroundColor(getResources.getColor(R.color.colorAccent))
                 case DragEvent.ACTION_DROP =>
                     replaceDropzone(event.getClipData)
                 case _ =>
@@ -77,14 +74,6 @@ class DropView(context: Context, attrs: AttributeSet) extends ImageView(context,
 
 
     override def onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int): Unit = {
-        val desiredWidth = 40
-        val desiredHeight = 40
-
-        val metrics = getContext().getResources().getDisplayMetrics()
-        val pixelsWidth = (metrics.density * desiredWidth + 0.5f).toInt
-        val pixelsHeight = (metrics.density * desiredHeight + 0.5f).toInt
-
-        // TODO maybe add some more sophisticated stuff here?
 
         setMeasuredDimension(getResources.getDimension(R.dimen.drop_view).toInt, getResources.getDimension(R.dimen.drop_view).toInt)
     }

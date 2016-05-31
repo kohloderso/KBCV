@@ -3,8 +3,7 @@ package ck.kbcv
 
 import term.Term.{F, V}
 import term.lpo.Precedence
-import term.reco.{IES, ERCH}
-import term.util._
+import term.reco.{ERCH, IES}
 
 class State(
            val e0: IES,

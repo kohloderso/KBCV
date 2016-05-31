@@ -1,18 +1,16 @@
 package ck.kbcv.dialogs
 
 import android.app.Dialog
-import android.content.{Context, DialogInterface}
+import android.content.DialogInterface
 import android.os.Bundle
 import android.support.design.widget.TextInputLayout
 import android.support.v4.app.DialogFragment
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AlertDialog.Builder
 import android.text.{Editable, TextWatcher}
-import android.view.{WindowManager, View}
+import android.view.View
 import android.widget.EditText
-import ck.kbcv.{OnSymbolsChangedListener, R, Controller}
-import term.Term.V
-import term.parser.ParserXmlTRS
+import ck.kbcv.{Controller, OnSymbolsChangedListener, R}
 
 
 class VariableDialog extends DialogFragment {

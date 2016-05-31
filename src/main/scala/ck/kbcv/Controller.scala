@@ -1,13 +1,12 @@
 package ck.kbcv
 
-import android.util.Log
 import term.Term._
-import term.{reco, lpo}
 import term.lpo.Precedence
 import term.reco._
 import term.util._
+import term.{lpo, reco}
 
-import scala.collection.immutable.{HashMap, HashSet, TreeMap}
+import scala.collection.immutable.{HashMap, HashSet}
 import scala.collection.mutable
 
 
@@ -102,6 +101,24 @@ object Controller {
             withVariables(vars(newES)).
             withErch(new ERCH(ies, new ITRS, new ITRS, h)).
             withPrecedence(new Precedence(Nil)).
+            withMessage(message).
+            updateState()
+    }
+
+    def updateEq(ie: IE, message: String): Unit = {
+        val ies = state.erc._1 + ie
+        builder.
+            withE0(ies).
+            withErch(new ERCH(ies, state.erc._2, state.erc._3, state.erc._4)).
+            withMessage(message).
+            updateState()
+    }
+
+    def removeEq(id: Int, message: String): Unit = {
+        val ies = state.erc._1 - id
+        builder.
+            withE0(ies).
+            withErch(new ERCH(ies, state.erc._2, state.erc._3, state.erc._4)).
             withMessage(message).
             updateState()
     }

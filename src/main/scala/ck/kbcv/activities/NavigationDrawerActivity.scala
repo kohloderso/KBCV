@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import android.widget.FrameLayout
 import ck.kbcv.R
-import ck.kbcv.dialogs.{HistoryDialogFragment, ImportDialogFragment, SaveDialogFragment}
+import ck.kbcv.dialogs.HistoryDialogFragment
 
 /**
  * Created by Christina on 13.04.2016.

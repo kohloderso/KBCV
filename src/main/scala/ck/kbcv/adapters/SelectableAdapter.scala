@@ -6,11 +6,8 @@ import android.support.v7.widget.RecyclerView.ViewHolder
 
 import scala.collection.mutable.ListBuffer
 
-/**
- * Created by Christina on 23.03.2016.
- */
 trait SelectableAdapter[VH <: ViewHolder] extends RecyclerView.Adapter[VH] {
-
+    var singleSelection = false
     val selectedItems = new ListBuffer[Int]
 
     def isSelected(position: Int): Boolean = {
@@ -20,7 +17,12 @@ trait SelectableAdapter[VH <: ViewHolder] extends RecyclerView.Adapter[VH] {
     def toggleSelection(position: Int): Unit = {
         isSelected(position) match {
             case true => selectedItems -= position
-            case false => selectedItems += position
+            case false => {
+                if(singleSelection) {
+                    clearSelection()
+                }
+                selectedItems += position
+            }
         }
         notifyItemChanged(position)
     }

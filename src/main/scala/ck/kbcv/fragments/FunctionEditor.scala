@@ -3,10 +3,10 @@ package ck.kbcv.fragments
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.View.OnClickListener
-import android.view.{View, ViewGroup, LayoutInflater}
-import android.widget.{TextView, Button}
-import ck.kbcv.dialogs.{FunctionDialog, VariableDialog}
-import ck.kbcv.{HorizontalFlowLayout, Controller, R}
+import android.view.{LayoutInflater, View, ViewGroup}
+import android.widget.{Button, TextView}
+import ck.kbcv.dialogs.FunctionDialog
+import ck.kbcv.{Controller, HorizontalFlowLayout, R}
 
 
 class FunctionEditor extends Fragment {

@@ -3,14 +3,12 @@ package ck.kbcv.fragments
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v7.widget.helper.ItemTouchHelper
 import android.support.v7.widget.{LinearLayoutManager, RecyclerView}
 import android.util.Log
 import android.view._
 import ck.kbcv.adapters.EquationRuleAdapter.ItemClickListener
-import ck.kbcv.adapters.{RulesAdapter, EquationsAdapter}
-import ck.kbcv.{Controller, CompletionActionListener, R}
-import term.parser.ParserXmlTRS
+import ck.kbcv.adapters.RulesAdapter
+import ck.kbcv.{CompletionActionListener, Controller, R}
 
 /**
  * Created by Christina on 09.12.2015.

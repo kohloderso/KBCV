@@ -2,9 +2,8 @@ package ck.kbcv
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.view.View
-import ck.kbcv.activities.{NavigationDrawerActivity, CompletionActivity, CreateEquationsActivity}
+import ck.kbcv.activities.{CompletionActivity, CreateEquationsActivity, NavigationDrawerActivity}
 
 class MainActivity extends NavigationDrawerActivity with TypedFindView with UpdateListener{
 

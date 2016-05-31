@@ -8,7 +8,6 @@ import android.support.v4.app.DialogFragment
 import android.widget.EditText
 import ck.kbcv.Controller
 import term.parser.ParserXmlTRS
-import term.util.ES
 ;
 
 class SaveDialogFragment extends DialogFragment {

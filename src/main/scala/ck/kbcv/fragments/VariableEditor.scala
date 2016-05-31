@@ -1,15 +1,12 @@
 package ck.kbcv.fragments
 
-import android.content.{DialogInterface, Context}
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.util.Log
 import android.view.View.OnClickListener
-import android.view.ViewGroup.{LayoutParams, MarginLayoutParams}
-import android.view.{View, ViewGroup, LayoutInflater}
+import android.view.{LayoutInflater, View, ViewGroup}
 import android.widget._
 import ck.kbcv.dialogs.VariableDialog
-import ck.kbcv.{HorizontalFlowLayout, Controller, R, OnSymbolsChangedListener}
+import ck.kbcv.{Controller, HorizontalFlowLayout, R}
 
 // TODO listen to clicks on the variables which will open a dialog to edit them
 class VariableEditor extends Fragment {

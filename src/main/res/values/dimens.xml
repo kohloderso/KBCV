@@ -8,5 +8,5 @@
     <dimen name="custom_tab_layout_height">72dp</dimen>
 
     <!--<dimen name="equation_text">11dp</dimen>-->
-    <dimen name="drop_view">26dp</dimen>
+    <dimen name="drop_view">50dp</dimen>
 </resources>

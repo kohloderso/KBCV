@@ -1,15 +1,14 @@
 package ck.kbcv.dialogs
 
 import android.app.Dialog
-import android.content.DialogInterface
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.{LinearLayoutManager, RecyclerView}
-import ck.kbcv.adapters.UndoRedoAdapter.{HistoryClickListener}
-import ck.kbcv.{UpdateListener, CompletionActionListener, Controller, R}
-import ck.kbcv.adapters.{UndoRedoAdapter, RulesAdapter}
 import ck.kbcv.UndoRedoType._
+import ck.kbcv.adapters.UndoRedoAdapter
+import ck.kbcv.adapters.UndoRedoAdapter.HistoryClickListener
+import ck.kbcv.{Controller, R, UpdateListener}
 
 
 class HistoryDialogFragment extends DialogFragment with HistoryClickListener {

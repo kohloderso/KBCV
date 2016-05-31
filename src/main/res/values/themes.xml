@@ -29,9 +29,4 @@
     </style>
 
 
-    <!-- make text in buttons lowercase by default-->
-    <style name="textAppearanceButton" parent="Widget.AppCompat.Button">
-        <item name="android:textAllCaps">false</item>
-    </style>
-
 </resources>

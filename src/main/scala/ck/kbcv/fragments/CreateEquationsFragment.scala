@@ -1,95 +1,72 @@
 package ck.kbcv.fragments
 
-import android.content.ClipData
-import android.content.DialogInterface.OnClickListener
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.{LinearLayoutManager, RecyclerView}
-import android.view.ViewGroup.LayoutParams
+import android.util.Log
 import android.view._
-import android.widget._
 import ck.kbcv.adapters.EquationRuleAdapter.ItemClickListener
 import ck.kbcv.adapters.EquationsAdapter
-import ck.kbcv.views.EquationView
+import ck.kbcv.adapters.SymbolAdapter.{FunctionAdapter, VariableAdapter}
+import ck.kbcv.views.EquationEditView
 import ck.kbcv.{Controller, R}
-import term.util.ES
 
-/**
- * Created by Christina on 09.12.2015.
- */
 class CreateEquationsFragment extends Fragment with ItemClickListener {
     val TAG = "CreateEquationsFragment"
-    var functionSymbolContainer: LinearLayout = null
-    var variableSymbolContainer: LinearLayout = null
+    var functionSymbolContainer: RecyclerView = null
+    var functionAdapter: FunctionAdapter = null
+    var variableSymbolContainer: RecyclerView = null
+    var variableAdapter: VariableAdapter = null
+    var equationEditView: EquationEditView = null
     var equationContainer: RecyclerView = null
     var mAdapter: EquationsAdapter = null
+    var mActionMode: ActionMode = null
+    var mActionModeCallback = new ActionModeCallback
 
     override def onCreateView( inflater: LayoutInflater, container: ViewGroup, savedInstanceState: Bundle ): View = {
         val view = inflater.inflate( R.layout.create_equations_fragment, container, false )
 
         equationContainer = view.findViewById(R.id.equationsContainer).asInstanceOf[RecyclerView]
-        functionSymbolContainer = view.findViewById(R.id.functionSymbolsContainer).asInstanceOf[LinearLayout]
-        variableSymbolContainer = view.findViewById(R.id.variableSymbolContainer).asInstanceOf[LinearLayout]
+        functionSymbolContainer = view.findViewById(R.id.functionSymbolsContainer).asInstanceOf[RecyclerView]
+        variableSymbolContainer = view.findViewById(R.id.variableSymbolContainer).asInstanceOf[RecyclerView]
+        equationEditView = view.findViewById(R.id.edit_view).asInstanceOf[EquationEditView]
 
+        val linearLayoutManager = new LinearLayoutManager(getActivity)
+        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL)
+        functionSymbolContainer.setLayoutManager(linearLayoutManager)
+        functionAdapter = new FunctionAdapter(Controller.state.functions)
+        functionSymbolContainer.setAdapter(functionAdapter)
+
+        val linearLayoutManager2 = new LinearLayoutManager(getActivity)
+        linearLayoutManager2.setOrientation(LinearLayoutManager.HORIZONTAL)
+        variableSymbolContainer.setLayoutManager(linearLayoutManager2)
+        variableAdapter = new VariableAdapter(Controller.state.variables)
+        variableSymbolContainer.setAdapter(variableAdapter)
+
+        
         mAdapter = new EquationsAdapter(Controller.state.erc._1, this)
+        // allow only one equation to be selected at a time, because only one can be edited at a time
+        mAdapter.singleSelection = true
         equationContainer.setAdapter(mAdapter)
         equationContainer.setLayoutManager(new LinearLayoutManager(getActivity))
         equationContainer.setHasFixedSize(true)   // if every e_item has the same size, use this for better performance
 
 
-        return view
+        view
     }
 
     def onVariablesChanged(): Unit = {
         val variables = Controller.state.variables
-        variableSymbolContainer.removeAllViews()
         for(variable <- variables) {
-            val b = new Button(getContext, null, android.R.attr.buttonStyleSmall)
-            //b.setTextSize(getResources.getDimension(R.dimen.abc_text_size_medium_material))
-            b.setText(variable)
-            b.setOnTouchListener(new View.OnTouchListener() {
-                override def onTouch(v: View, event: MotionEvent): Boolean = {
-                    if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                        val data = ClipData.newPlainText("variable", variable)
-                        val shadow = new View.DragShadowBuilder(b)
-                        v.startDrag(data, shadow, null, 0)
-                        true
-                    } else {
-                        false
-                    }
-                }
-            })
-            b.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT))
-            variableSymbolContainer.addView(b)
+            variableAdapter.addItem(variable)
         }
     }
 
 
     def onFunctionsChanged(): Unit = {
         val functions = Controller.state.functions
-        functionSymbolContainer.removeAllViews()
-        val i = 0
         for(function <- functions) {
-            val functionSymbol = function._1
-            val arity = function._2
-            val b = new Button(getContext, null, android.R.attr.buttonStyleSmall)
-            b.setText(functionSymbol)
-            b.setOnTouchListener(new View.OnTouchListener() {
-                override def onTouch(v: View, event: MotionEvent): Boolean = {
-                    if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                        val data = ClipData.newPlainText("function", functionSymbol)
-                        data.addItem(new ClipData.Item(arity.toString))
-                        val shadow = new View.DragShadowBuilder(b)
-                        v.startDrag(data, shadow, null, 0)
-                        true
-                    } else {
-                        false
-                    }
-
-                }
-            })
-            b.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT))
-            functionSymbolContainer.addView(b)
+            functionAdapter.addItem(function)
         }
     }
 
@@ -101,11 +78,73 @@ class CreateEquationsFragment extends Fragment with ItemClickListener {
         mAdapter.updateItems(Controller.state.erc._1)
     }
 
-    override def onItemClicked(position: Int): Unit = {
 
+    override def onItemClicked(position: Int): Unit = {
+        if(mActionMode == null) {
+            mActionMode = getActivity.startActionMode(mActionModeCallback)
+        }
+        toggleSelection(position)
     }
 
     override def onItemLongClicked(position: Int): Unit = {
+        if(mActionMode == null) {
+            mActionMode = getActivity.startActionMode(mActionModeCallback)
+        }
+        toggleSelection(position)
+    }
+
+    def toggleSelection(position: Int): Unit = {
+        mAdapter.toggleSelection(position)
+
+        val count = mAdapter.selectedItems.size
+        if(count == 0) {
+            mActionMode.finish()
+        }
+//        else {
+//            mActionMode.setTitle(count.toString)
+//            mActionMode.invalidate()
+//        } no count needed when max 1 can be selected
+    }
+
+
+    class ActionModeCallback extends ActionMode.Callback {
+        private val TAG = "ACTIONMODE"
+
+        override def onCreateActionMode(actionMode: ActionMode, menu: Menu): Boolean = {
+            actionMode.getMenuInflater.inflate(R.menu.edit_equation_menu, menu)
+            true
+        }
+
+        override def onPrepareActionMode(actionMode: ActionMode, menu: Menu): Boolean = {
+            false
+        }
+
+        override def onActionItemClicked(actionMode: ActionMode, item: MenuItem): Boolean = {
+            val selectedPositions = mAdapter.selectedItems.clone()
+            val selectedItems = mAdapter.getItems(selectedPositions)
+            val id = selectedItems.firstKey
+            val eq = selectedItems.get(id)
+            item.getItemId match {
+                case R.id.action_edit =>
+                    Log.d(TAG, "edit")
+                    equationEditView.setEquation((id, eq.get))
+                    actionMode.finish()
+                    true
+                case R.id.action_delete =>
+                    Log.d(TAG, "delete")
+                    val message = getString(R.string.removed_eq, new Integer(id))
+                    Controller.removeEq(id, message)
+                    mAdapter.notifyItemChanged(selectedPositions(0))
+                    actionMode.finish()
+                    true
+                case _ => false
+            }
+        }
+
+        override def onDestroyActionMode(actionMode: ActionMode): Unit = {
+            mAdapter.clearSelection()
+            mActionMode = null
+        }
 
     }
 }

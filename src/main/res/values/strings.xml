@@ -24,5 +24,7 @@
 
     <string name="added_var">Added a variable</string>
     <string name="added_fun">Added a function symbol</string>
+    <string name="removed_eq">Removed equation %1$d</string>
+    <string name="edited_eq">Edited equation %1$d</string>
 
 </resources>

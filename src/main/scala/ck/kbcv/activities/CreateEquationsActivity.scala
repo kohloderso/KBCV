@@ -2,11 +2,10 @@ package ck.kbcv.activities
 
 import android.app.Activity
 import android.content.Intent
-import android.graphics.{PorterDuff, Color}
+import android.graphics.{Color, PorterDuff}
 import android.net.Uri
 import android.os.Bundle
 import android.support.design.widget.TabLayout
-import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.{Menu, MenuItem}
 import ck.kbcv._
@@ -14,7 +13,6 @@ import ck.kbcv.adapters.CreateEquationsPagerAdapter
 import ck.kbcv.dialogs.{AddDialogFragment, ImportDialogFragment, SaveDialogFragment}
 import ck.kbcv.fragments.{CreateEquationsFragment, SymbolsFragment}
 import term.reco.IES
-import term.util.ES
 
 
 /**

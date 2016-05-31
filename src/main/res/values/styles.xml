@@ -14,7 +14,14 @@
         <item name="android:textSize">15sp</item>
     </style>
 
-    <style name="DragButton" parent="@android:style/Widget.Button.Small">
+    <style name="MyButton">
+        <item name="colorControlHighlight">@color/colorPrimaryBright</item>
+        <item name="colorButtonNormal">@color/colorPrimary</item>
+        <item name="android:textColor">@color/textColorPrimary</item>
+        <item name="android:minWidth">48dp</item>
+    </style>
+
+    <style name="DragButton" parent="MyButton">
         <item name="android:textSize">20sp</item>
         <item name="android:textStyle">bold</item>
     </style>
@@ -22,12 +29,13 @@
     <style name="FunArityView">
         <item name="android:textSize">20sp</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:background">#A9BFCF</item>
+        <item name="android:background">@color/colorPrimaryBright</item>
     </style>
 
 
     <style name="FunArityView.Arity">
-        <item name="android:background">#56778F</item>
+        <item name="android:textColor">@color/textColorPrimary</item>
+        <item name="android:background">@color/colorPrimaryDark</item>
         <item name="android:textStyle">normal</item>
     </style>
 
@@ -36,6 +44,13 @@
         <item name="android:layout_height">match_parent</item>
         <item name="android:background">?android:attr/listDivider</item>
     </style>
+
+    <style name="EquationEditor">
+        <item name="android:textSize">25sp</item>
+        <!-- TODO different font?-->
+    </style>
+
+
 
 
 

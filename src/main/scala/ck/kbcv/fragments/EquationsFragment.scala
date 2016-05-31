@@ -10,8 +10,7 @@ import android.util.Log
 import android.view._
 import ck.kbcv.adapters.EquationRuleAdapter.ItemClickListener
 import ck.kbcv.adapters.EquationsAdapter
-import ck.kbcv.{CompletionActionListener, OnSymbolsChangedListener, Controller, R}
-import term.parser.ParserXmlTRS
+import ck.kbcv.{CompletionActionListener, Controller, R}
 import term.reco.IS
 
 
