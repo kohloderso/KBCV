@@ -3,17 +3,18 @@ package ck.kbcv.views
 import android.content.Context
 import android.util.AttributeSet
 import android.widget.{LinearLayout, TextView}
+import ck.kbcv.R
 import term.Term
 import term.Term._
 
-/**
- * Created by Christina on 01.03.2016.
- */
+
 class FunView (context: Context, attrs: AttributeSet, funName: F, funArgs: List[Term]) extends LinearLayout(context: Context, attrs: AttributeSet) {
     this.setOrientation(LinearLayout.HORIZONTAL)
 
+
     val nameView = new TextView(context, attrs)
     nameView.setText(funName)
+    nameView.setTextColor(getResources.getColor(R.color.textColorFunction))
     //nameView.setTextSize(getResources.getDimension(R.dimen.equation_text))
     this.addView(nameView)
 

@@ -1,12 +1,14 @@
 package ck.kbcv.views
 
 import android.content.{ClipData, Context}
+import android.support.v4.view.ViewCompat
+import android.support.v7.widget.CardView
 import android.util.{AttributeSet, Log}
 import android.view.{DragEvent, Gravity, View}
 import android.widget.{ImageView, LinearLayout, TextView}
 import ck.kbcv.R
 
-class DropView(context: Context, attrs: AttributeSet) extends ImageView(context, attrs) {
+class DropView(context: Context, attrs: AttributeSet) extends CardView(context, attrs) {
     val TAG = "EquationDropzone"
     this.setBackgroundColor(getResources.getColor(R.color.colorAccent))
     this.setOnDragListener(new View.OnDragListener() {
@@ -25,6 +27,7 @@ class DropView(context: Context, attrs: AttributeSet) extends ImageView(context,
             true
         }
     })
+
 
 
     def replaceDropzone(clipData: ClipData): Unit = {

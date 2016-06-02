@@ -134,7 +134,7 @@ class CreateEquationsFragment extends Fragment with ItemClickListener {
                     Log.d(TAG, "delete")
                     val message = getString(R.string.removed_eq, new Integer(id))
                     Controller.removeEq(id, message)
-                    mAdapter.notifyItemChanged(selectedPositions(0))
+                    mAdapter.notifyItemRemoved(selectedPositions.head)
                     actionMode.finish()
                     true
                 case _ => false
