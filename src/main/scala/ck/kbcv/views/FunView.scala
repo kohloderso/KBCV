@@ -2,6 +2,7 @@ package ck.kbcv.views
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.View
 import android.widget.{LinearLayout, TextView}
 import ck.kbcv.R
 import term.Term
@@ -15,7 +16,7 @@ class FunView (context: Context, attrs: AttributeSet, funName: F, funArgs: List[
     val nameView = new TextView(context, attrs)
     nameView.setText(funName)
     nameView.setTextColor(getResources.getColor(R.color.textColorFunction))
-    //nameView.setTextSize(getResources.getDimension(R.dimen.equation_text))
+
     this.addView(nameView)
 
     if(!funArgs.isEmpty) {
@@ -34,6 +35,10 @@ class FunView (context: Context, attrs: AttributeSet, funName: F, funArgs: List[
         }
         this.removeViewAt(this.getChildCount-1) // remove last comma
         this.addView(bracketR)
+    }
+
+    override def setOnDragListener(listener: View.OnDragListener): Unit = {
+        nameView.setOnDragListener(listener)
     }
 
 
