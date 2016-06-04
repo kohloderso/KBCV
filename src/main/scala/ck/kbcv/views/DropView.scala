@@ -1,16 +1,18 @@
 package ck.kbcv.views
 
 import android.content.{ClipData, Context}
+import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewCompat
 import android.support.v7.widget.CardView
 import android.util.{AttributeSet, Log}
 import android.view.{DragEvent, Gravity, View}
 import android.widget.{ImageView, LinearLayout, TextView}
 import ck.kbcv.R
+import term.{Fun, Var, Term}
 
-class DropView(context: Context, attrs: AttributeSet) extends CardView(context, attrs) {
+class DropView(context: Context, attrs: AttributeSet, equationEditView: EquationEditView = null) extends CardView(context, attrs) {
     val TAG = "EquationDropzone"
-    this.setBackgroundColor(getResources.getColor(R.color.colorAccent))
+    this.setCardBackgroundColor(getResources.getColor(R.color.colorAccent))
     this.setOnDragListener(new View.OnDragListener() {
         override def onDrag(v: View, event: DragEvent): Boolean = {
             val action = event.getAction
@@ -34,44 +36,14 @@ class DropView(context: Context, attrs: AttributeSet) extends CardView(context, 
         val equation = getParent.asInstanceOf[LinearLayout]
         val index = equation.indexOfChild(this)
         equation.removeViewAt(index)
-        if(clipData.getDescription.getLabel.equals("variable")) {
-            val symbol = clipData.getItemAt(0).getText
-            val symbolView = new TextView(context)
-            symbolView.setText(symbol)
-            equation.addView(symbolView, index)
-        } else if(clipData.getDescription.getLabel.equals("function")) {
-            val functionSymbol = clipData.getItemAt(0).getText.toString
-            val arity = clipData.getItemAt(1).getText.toString.toInt
-
-            val symbolView = new TextView(context)
-            symbolView.setText(functionSymbol)
-            symbolView.setGravity(Gravity.CENTER)
-
-            if(arity != 0) {
-                val brace1 = new TextView(context)
-                brace1.setText("(")
-                brace1.setGravity((Gravity.CENTER))
-                val brace2 = new TextView(context)
-                brace2.setText(")")
-                brace2.setGravity(Gravity.CENTER)
-                equation.addView(brace2, index)
-
-                val dropZone = new DropView(context, null)
-                equation.addView(dropZone, index)
-
-                for(i <- 2 to arity) {
-                    val comma = new TextView(context)
-                    comma.setText(",")
-                    comma.setGravity(Gravity.CENTER)
-                    equation.addView(comma, index)
-
-                    val dropZone = new DropView(context, null)
-                    equation.addView(dropZone, index)
-                }
-                equation.addView(brace1, index)
-            }
-            equation.addView(symbolView, index)
+        val term = clipData.getDescription.getLabel match {
+            case "variable" => new Var(clipData.getItemAt(0).getText.toString)
+            case "function" =>
+                val functionSymbol = clipData.getItemAt(0).getText.toString
+                val arity = clipData.getItemAt(1).getText.toString.toInt
+                new Fun(functionSymbol, List.fill(arity)(null))
         }
+        equation.addView(new TermView(context, attrs, term, equationEditView), index)
     }
 
 

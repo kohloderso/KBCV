@@ -8,7 +8,7 @@ import term.Term
 import term.Term._
 
 
-class FunView (context: Context, attrs: AttributeSet, funName: F, funArgs: List[Term]) extends LinearLayout(context: Context, attrs: AttributeSet) {
+class FunView (context: Context, attrs: AttributeSet, funName: F, funArgs: List[Term], equationEditView: EquationEditView = null) extends LinearLayout(context: Context, attrs: AttributeSet) {
     this.setOrientation(LinearLayout.HORIZONTAL)
 
 
@@ -26,7 +26,7 @@ class FunView (context: Context, attrs: AttributeSet, funName: F, funArgs: List[
 
         this.addView(bracketL)
         for(arg <- funArgs) {
-            val termView = new TermView(context, attrs, arg)
+            val termView = new TermView(context, attrs, arg, equationEditView)
             this.addView(termView)
             val comma = new TextView(context, attrs)
             comma.setText(", ")
