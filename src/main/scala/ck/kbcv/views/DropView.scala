@@ -44,6 +44,7 @@ class DropView(context: Context, attrs: AttributeSet, equationEditView: Equation
                 new Fun(functionSymbol, List.fill(arity)(null))
         }
         equation.addView(new TermView(context, attrs, term, equationEditView), index)
+        equationEditView.onSymbolDropped()
     }
 
 

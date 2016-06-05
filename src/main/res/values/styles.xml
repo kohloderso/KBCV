@@ -21,9 +21,9 @@
         <item name="android:minWidth">48dp</item>
     </style>
 
-    <style name="DragButton" parent="MyButton">
-        <item name="android:textSize">20sp</item>
-        <item name="android:textStyle">bold</item>
+    <style name="DragButton">
+        <item name="colorButtonNormal">@color/colorAccent</item>
+        <item name="android:minWidth">48dp</item>
     </style>
 
     <style name="FunArityView">
@@ -49,6 +49,7 @@
         <item name="android:textSize">25sp</item>
         <!-- TODO different font?-->
     </style>
+
 
 
 

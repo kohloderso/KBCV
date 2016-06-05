@@ -7,24 +7,30 @@ import android.view.{View, Gravity}
 import android.view.View.OnClickListener
 import android.view.ViewGroup.LayoutParams
 import android.widget.{LinearLayout, TextView}
+import ck.kbcv.fragments.EquationEditor
 import term.Term
 import term.reco.IE
+import term.util._
 
 /** 
  * View which allows editing (deleting, adding, changing) parts or a whole Equation.
  * Constructor either takes an existing equation (+ it's index) or null, which means new equation from scratch.
  */
-class EquationEditView (context: Context, attrs: AttributeSet, equation: IE) extends LinearLayout(context, attrs){
+class EquationEditView (context: Context, attrs: AttributeSet, equation: IE, var equationEditor: EquationEditor = null) extends LinearLayout(context, attrs){
     def this(context: Context, attrs: AttributeSet) = this(context, attrs, null)
 
     var index: Int = -1
-    var selectedTerm: TermView = null
+    var leftTerm: TermView = null
+    var rightTerm: TermView = null
 
     this.setOrientation(LinearLayout.HORIZONTAL)
     this.setBackgroundColor(Color.WHITE)
    
     setEquation(equation)
 
+    def setEquationEditor(equationEditor: EquationEditor): Unit = {
+        this.equationEditor = equationEditor
+    }
 
     def setEquation(ie: IE): Unit = {
         this.removeAllViews()
@@ -39,7 +45,8 @@ class EquationEditView (context: Context, attrs: AttributeSet, equation: IE) ext
 
         }
 
-        this.addView(new TermView(context, attrs, lhs, this))
+        leftTerm = new TermView(context, attrs, lhs, this)
+        this.addView(leftTerm)
 
         val equalitySign = new TextView(context)
         equalitySign.setText("\u2248")
@@ -49,7 +56,29 @@ class EquationEditView (context: Context, attrs: AttributeSet, equation: IE) ext
 
         this.addView(equalitySign)
 
-        this.addView(new TermView(context, attrs, rhs, this))
+        rightTerm = new TermView(context, attrs, rhs, this)
+        this.addView(rightTerm)
+    }
+
+    def containsDropZones(): Boolean = {
+        rightTerm.containsDropZones() || leftTerm.containsDropZones()
+    }
+
+    /**
+     *
+     * @return the equation currently set in the edit view, null if it's not valid (i.e. containing DropZones)
+     */
+    def getEquation(): E = {
+        if(containsDropZones()) return null
+        new Equation(leftTerm.getTerm, rightTerm.getTerm)
+    }
+
+    def clear(): Unit = {
+        setEquation(null)
+    }
+
+    def onSymbolDropped(): Unit = {
+        equationEditor.onSymbolDropped()
     }
 
 }

@@ -3,8 +3,9 @@ package ck.kbcv.adapters
 import android.content.ClipData
 import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup.LayoutParams
-import android.view.{MotionEvent, View, ViewGroup}
+import android.view.{LayoutInflater, MotionEvent, View, ViewGroup}
 import android.widget.Button
+import ck.kbcv.R
 import term.Term.{F, V}
 
 import scala.collection.mutable
@@ -28,7 +29,8 @@ abstract class SymbolAdapter[S](symbols: Set[S]) extends RecyclerView.Adapter[Sy
 
 
     override def onCreateViewHolder(parent: ViewGroup, viewType: Int): SymbolAdapter.ViewHolder = {
-        new SymbolAdapter.ViewHolder( new Button(parent.getContext, null, android.R.attr.buttonStyleSmall))
+        val view = LayoutInflater.from(parent.getContext).inflate(R.layout.drag_button, parent, false)
+        new SymbolAdapter.ViewHolder(view)
     }
 
     override def getItemCount: Int = {

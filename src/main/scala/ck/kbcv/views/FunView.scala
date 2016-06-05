@@ -1,12 +1,15 @@
 package ck.kbcv.views
 
 import android.content.Context
+import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import android.view.View
 import android.widget.{LinearLayout, TextView}
 import ck.kbcv.R
-import term.Term
+import term.{Fun, Term}
 import term.Term._
+
+import scala.collection.mutable
 
 
 class FunView (context: Context, attrs: AttributeSet, funName: F, funArgs: List[Term], equationEditView: EquationEditView = null) extends LinearLayout(context: Context, attrs: AttributeSet) {
@@ -39,6 +42,32 @@ class FunView (context: Context, attrs: AttributeSet, funName: F, funArgs: List[
 
     override def setOnDragListener(listener: View.OnDragListener): Unit = {
         nameView.setOnDragListener(listener)
+        nameView.setBackground(ContextCompat.getDrawable(context, R.drawable.dotted_line))
+    }
+
+    def containsDropZones(): Boolean = {
+        if(funArgs.isEmpty) return false
+        for(i <- 2 to 2+funArgs.size + funArgs.size -1 by 2){
+            this.getChildAt(i) match {
+                case _: DropView => return true
+                case _: VarView =>
+                case v: FunView => if(v.containsDropZones) return true
+                case t: TermView => if(t.containsDropZones) return true
+            }
+        }
+        false
+    }
+
+    def getTerm: Term = {
+        val args = new mutable.MutableList[Term]
+        for(i <- 2 to 2+funArgs.size + funArgs.size -1 by 2){
+            this.getChildAt(i) match {
+                case v: VarView => args += v.getTerm
+                case f: FunView => args += f.getTerm
+                case t: TermView => args += t.getTerm
+            }
+        }
+        new Fun(funName, args.toList)
     }
 
 

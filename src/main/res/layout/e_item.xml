@@ -6,7 +6,7 @@
 	android:layout_height="wrap_content"
 	android:foreground="?android:attr/selectableItemBackground"
 	android:clickable="true"
-	app:cardUseCompatPadding="true" >
+	app:cardUseCompatPadding="true">
 
 	<RelativeLayout
 		android:layout_width="match_parent"

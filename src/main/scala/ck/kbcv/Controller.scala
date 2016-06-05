@@ -74,6 +74,11 @@ object Controller {
             updateState()
     }
 
+    def addEquation(equation: E, message: String): Unit = {
+      val es = List.empty[E].::(equation)
+      addES(es, message)
+    }
+
     def addES(newES: ES, message: String): Unit = {
 
         val nis = state.erc._1.size +1 until state.erc._1.size + newES.size+1   // indices
