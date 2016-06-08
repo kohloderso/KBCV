@@ -1,5 +1,6 @@
 package ck.kbcv.fragments
 
+import android.graphics.{PorterDuff, Color}
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
@@ -40,9 +41,9 @@ class EquationEditor extends Fragment with OnClickListener {
     }
 
     /**
-     * check if there's still a DropZone, if not activate the 'save'-Button
+     * check if there's still a DropZone, if not enable the 'save'-Button
      */
-    def onSymbolDropped(): Unit = {
+    def setSaveButton(): Unit = {
         if(equationEditView.containsDropZones()) {
             saveButton.setEnabled(false)
         } else {
@@ -55,12 +56,19 @@ class EquationEditor extends Fragment with OnClickListener {
             if(equationEditView.containsDropZones()) {} // TODO: throw error or something
             else {
                 val equation = equationEditView.getEquation()
-                Controller.addEquation(equation, getString(R.string.created_eq))
-                equationsListener.onNewEquations()
+                if(equationEditView.index > 0) {    // not a new equation, it's an edited equation
+                    val ie = (equationEditView.index, equation)
+                    Controller.updateEq(ie, getString(R.string.edited_eq, new Integer(ie._1)))
+                    equationsListener.onEquationUpdated(ie)
+                } else {
+                    Controller.addEquation(equation, getString(R.string.created_eq))
+                    equationsListener.onEquationsAdded()
+                }
                 equationEditView.clear()
             }
         } else if(clearButton.equals(v)) {
             equationEditView.clear()
         }
+        setSaveButton()
     }
 }

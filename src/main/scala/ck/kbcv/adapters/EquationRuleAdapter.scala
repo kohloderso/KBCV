@@ -1,5 +1,7 @@
 package ck.kbcv.adapters
 
+import android.content.Context
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.{LayoutInflater, View, ViewGroup}
@@ -51,9 +53,12 @@ class EquationRuleAdapter[TP <: TermPair](is: TreeMap[Int,TP], itemClickListener
     type ITM = TreeMap[Int, TP]
     private val TAG = "EquationRuleAdapter"
     private val mBuffer: mutable.Buffer[(Int, TP)] = ListBuffer.empty ++= is.toList // is.toBuffer doesn't provide remove and indexOf functions that I need
+    private var markedItem: Int = -1
+    private var context: Context = null
 
     override def onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder = {
-        val itemView = LayoutInflater.from(parent.getContext).inflate(layoutId, parent, false)
+        context = parent.getContext
+        val itemView = LayoutInflater.from(context).inflate(layoutId, parent, false)
         new ViewHolder(itemView, itemClickListener)
     }
 
@@ -64,7 +69,12 @@ class EquationRuleAdapter[TP <: TermPair](is: TreeMap[Int,TP], itemClickListener
         viewHolder.equationView.setTermPair(item._2)
         if(isSelected(position)) {
             viewHolder.selectedOverlay.setVisibility(View.VISIBLE)
-        } else {// we need to show the "normal" state
+            viewHolder.selectedOverlay.setBackgroundColor(ContextCompat.getColor(context, ck.kbcv.R.color.selected_overlay))
+        } else if(markedItem == position) {
+            viewHolder.selectedOverlay.setVisibility(View.VISIBLE)
+            viewHolder.selectedOverlay.setBackgroundColor(ContextCompat.getColor(context, ck.kbcv.R.color.marked_overlay))
+        }
+        else {// we need to show the "normal" state
             viewHolder.selectedOverlay.setVisibility(View.INVISIBLE)
         }
     }
@@ -128,6 +138,19 @@ class EquationRuleAdapter[TP <: TermPair](is: TreeMap[Int,TP], itemClickListener
         mBuffer.clear()
         mBuffer ++= newTermPairs
         notifyDataSetChanged()
+    }
+
+    def markItem(position: Int): Unit = {
+        val old = markedItem
+        markedItem = position
+        if(old >= 0) notifyItemChanged(old)
+        notifyItemChanged(markedItem)
+    }
+
+    def unmarkItem(): Unit = {
+        val old = markedItem
+        markedItem = -1
+        notifyItemChanged(old)
     }
 
 }

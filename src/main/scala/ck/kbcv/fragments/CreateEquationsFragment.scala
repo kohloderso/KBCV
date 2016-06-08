@@ -10,6 +10,7 @@ import ck.kbcv.adapters.EquationsAdapter
 import ck.kbcv.adapters.SymbolAdapter.{FunctionAdapter, VariableAdapter}
 import ck.kbcv.views.EquationEditView
 import ck.kbcv.{Controller, R}
+import term.reco.IE
 
 class CreateEquationsFragment extends Fragment with ItemClickListener {
     val TAG = "CreateEquationsFragment"
@@ -78,6 +79,11 @@ class CreateEquationsFragment extends Fragment with ItemClickListener {
         mAdapter.updateItems(Controller.state.erc._1)
     }
 
+    def onEquationUpdated(ie: IE): Unit = {
+        mAdapter.unmarkItem()
+        mAdapter.updateInsertItem(ie)
+    }
+
 
     override def onItemClicked(position: Int): Unit = {
         if(mActionMode == null) {
@@ -128,6 +134,7 @@ class CreateEquationsFragment extends Fragment with ItemClickListener {
                 case R.id.action_edit =>
                     Log.d(TAG, "edit")
                     equationEditView.setEquation((id, eq.get))
+                    mAdapter.markItem(selectedPositions.head)
                     actionMode.finish()
                     true
                 case R.id.action_delete =>

@@ -156,6 +156,9 @@ trait OnEquationsChangedListener {
     def onNewEquations()
 
     def onEquationsAdded()
+
+    def onEquationUpdated(iE: IE)
+
 }
 
 trait UpdateListener {

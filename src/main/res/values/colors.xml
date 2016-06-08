@@ -9,7 +9,14 @@
     <color name="navigationBarColor">#90a4ae</color>
     <color name="colorAccent">#ffab40</color>
     <color name="selected_overlay">#8890a4ae</color>
+    <color name="marked_overlay">#88ffab40</color>
     <color name="textColorVariable">#ffab00</color>
     <color name="textColorFunction">#aeea00</color>
+    <color name="colorDisabled">#7f0a0023</color>
 
 </resources>
+
+
+
+
+

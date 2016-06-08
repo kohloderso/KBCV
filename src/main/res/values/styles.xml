@@ -16,7 +16,7 @@
 
     <style name="MyButton">
         <item name="colorControlHighlight">@color/colorPrimaryBright</item>
-        <item name="colorButtonNormal">@color/colorPrimary</item>
+        <item name="colorButtonNormal">@color/button_color</item>
         <item name="android:textColor">@color/textColorPrimary</item>
         <item name="android:minWidth">48dp</item>
     </style>

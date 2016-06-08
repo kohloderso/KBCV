@@ -51,6 +51,7 @@ class TermView(context: Context, attrs: AttributeSet, term: Term = null, equatio
         }
         this.removeAllViews()
         this.addView(new TermView(context, attrs, term, equationEditView))
+        equationEditView.onSymbolDropped()
     }
 
     def containsDropZones(): Boolean = {

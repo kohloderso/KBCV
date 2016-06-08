@@ -12,7 +12,7 @@ import ck.kbcv._
 import ck.kbcv.adapters.CreateEquationsPagerAdapter
 import ck.kbcv.dialogs.{AddDialogFragment, ImportDialogFragment, SaveDialogFragment}
 import ck.kbcv.fragments.{CreateEquationsFragment, SymbolsFragment}
-import term.reco.IES
+import term.reco.{IE, IES}
 
 
 /**
@@ -194,6 +194,26 @@ class CreateEquationsActivity extends NavigationDrawerActivity with UpdateListen
                 equationsFragment =  getSupportFragmentManager.findFragmentById(R.id.create_es_fragment).asInstanceOf[CreateEquationsFragment]
             }
             equationsFragment.onEquationsAdded()
+        } catch {
+            case ex: ClassCastException => {
+                Log.e(TAG, ex.getMessage)
+            }
+            case ex: NullPointerException => {
+                Log.e(TAG, ex.getMessage)
+            }
+        }
+        invalidateOptionsMenu()
+    }
+
+    override def onEquationUpdated(ie: IE): Unit = {
+        try {
+            var equationsFragment: CreateEquationsFragment = null
+            if(equationPagerAdapter != null) {
+                equationsFragment = equationPagerAdapter.getRegisteredFragment(1).asInstanceOf[CreateEquationsFragment]
+            } else {
+                equationsFragment =  getSupportFragmentManager.findFragmentById(R.id.create_es_fragment).asInstanceOf[CreateEquationsFragment]
+            }
+            equationsFragment.onEquationUpdated(ie)
         } catch {
             case ex: ClassCastException => {
                 Log.e(TAG, ex.getMessage)

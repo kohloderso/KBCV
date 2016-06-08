@@ -66,7 +66,7 @@ class EquationEditView (context: Context, attrs: AttributeSet, equation: IE, var
 
     /**
      *
-     * @return the equation currently set in the edit view, null if it's not valid (i.e. containing DropZones)
+     * @return the equation currently set in the edit view, null if it's not valid (containing DropZones)
      */
     def getEquation(): E = {
         if(containsDropZones()) return null
@@ -78,7 +78,7 @@ class EquationEditView (context: Context, attrs: AttributeSet, equation: IE, var
     }
 
     def onSymbolDropped(): Unit = {
-        equationEditor.onSymbolDropped()
+        equationEditor.setSaveButton()
     }
 
 }
