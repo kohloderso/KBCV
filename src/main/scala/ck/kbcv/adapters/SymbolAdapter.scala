@@ -43,6 +43,25 @@ abstract class SymbolAdapter[S](symbols: Set[S]) extends RecyclerView.Adapter[Sy
             notifyItemInserted(mBuffer.size-1)
         }
     }
+
+    def removeItem(item: S): Unit = {
+        if (mBuffer.contains(item)) {
+            val position = mBuffer.indexOf(item)
+            mBuffer.remove(position)
+            notifyItemRemoved(position)
+        }
+    }
+
+    def updateItems(items: Set[S]): Unit = {
+        // remove items that are not in the new List
+        for(oldT <- mBuffer) {
+            if(!items.contains(oldT)) removeItem(oldT)
+        }
+        // add all items that are new or have changed
+        for(newT <- items) {
+            if(!mBuffer.contains(newT)) addItem(newT)
+        }
+    }
 }
 
 class VariableAdapter(variables: Set[V]) extends SymbolAdapter[V](variables) {

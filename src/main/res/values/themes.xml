@@ -13,19 +13,6 @@
     <style name="Theme.Base"
            parent="Theme.AppCompat.Light.NoActionBar">
 
-        <!--<e_item name="colorAccent">@color/highlight</e_item>
-        <e_item name="colorPrimary">@color/highlight</e_item>
-        <e_item name="colorPrimaryDark">@color/highlight_dark</e_item>
-
-
-
-        <e_item name="android:textColor">@color/main</e_item>
-        <e_item name="android:textColorPrimary">@color/neutral</e_item>
-        <e_item name="android:textSize">16sp</e_item>-->
-        <!--<e_item name="android:windowBackground">@color/neutral</e_item>
-
-        <e_item name="android:textAppearanceButton">@style/textAppearanceButton</e_item>
-        <e_item name="android:editTextStyle">@style/customEditText</e_item>-->
     </style>
 
 

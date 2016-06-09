@@ -58,17 +58,13 @@ class CreateEquationsFragment extends Fragment with ItemClickListener {
 
     def onVariablesChanged(): Unit = {
         val variables = Controller.state.variables
-        for(variable <- variables) {
-            variableAdapter.addItem(variable)
-        }
+        variableAdapter.updateItems(variables)
     }
 
 
     def onFunctionsChanged(): Unit = {
         val functions = Controller.state.functions
-        for(function <- functions) {
-            functionAdapter.addItem(function)
-        }
+        functionAdapter.updateItems(functions)
     }
 
     def onNewEquations(): Unit = {

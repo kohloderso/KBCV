@@ -128,6 +128,17 @@ object Controller {
             updateState()
     }
 
+    def clearAll(): Unit = {
+        builder.
+            withE0(new IES).
+            withErch((new IES,new ITRS,new ITRS,new H)).
+            withPrecedence(new Precedence(Nil)).
+            withVariables(Set()).
+            withFunctions(Set()).
+            withMessage("cleared all").
+            updateState()
+    }
+
     def getNextI: Int = m(state.erc._4)
 
     def getTMIncremental(prec: Precedence)(trs: ITRS): (Boolean, Option[Precedence]) = {

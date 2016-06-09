@@ -84,6 +84,11 @@ class CreateEquationsActivity extends NavigationDrawerActivity with UpdateListen
                 updateViews()
                 true
             }
+            case R.id.action_clear =>{
+                Controller.clearAll()
+                updateViews()
+                true
+            }
             case _ => false
         }
     }
