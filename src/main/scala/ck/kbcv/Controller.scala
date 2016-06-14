@@ -20,6 +20,7 @@ object Controller {
         Set(),
         Set(),
         100,
+        new OLS,
         "initialize"
     )
 
@@ -41,10 +42,11 @@ object Controller {
         def withFunctions(functions: Set[(F, Int)]) = {(ms.functions=functions); this}
         def withVariables(vars: Set[V]) = {(ms.variables=vars); this}
         def withDepth(depth:Int)={(ms.depth=depth);this}
-        def withMessage(identifier:String)={(ms.identifier=identifier);this}
+        def withOLS(ols: OLS)={(ms.ols=ols);this}
+        def withMessage(identifier:String)={(ms.message=identifier);this}
 
         def updateState() = {
-            undoStack.push(new State(ms.e0, ms.erc, ms.precedence, ms.functions, ms.variables, ms.depth, ms.identifier))
+            undoStack.push(new State(ms.e0, ms.erc, ms.precedence, ms.functions, ms.variables, ms.depth, ms.ols, ms.message))
             redoStack.clear()
         }
 
@@ -135,6 +137,7 @@ object Controller {
             withPrecedence(new Precedence(Nil)).
             withVariables(Set()).
             withFunctions(Set()).
+            withOLS(new OLS).
             withMessage("cleared all").
             updateState()
     }
@@ -146,7 +149,7 @@ object Controller {
     }
 
     def ercIsComplete(): Boolean = {
-        return reco.isComplete(new OLS, emptyTI) (state.erc)
+        return reco.isComplete(state.ols, emptyTI) (state.erc)
     }
 
     val emptyI:I = new HashSet[Int]

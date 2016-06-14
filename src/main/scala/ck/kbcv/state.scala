@@ -3,7 +3,7 @@ package ck.kbcv
 
 import term.Term.{F, V}
 import term.lpo.Precedence
-import term.reco.{ERCH, IES}
+import term.reco.{OLS, ERCH, IES}
 
 class State(
            val e0: IES,
@@ -12,6 +12,7 @@ class State(
            val functions: Set[(F, Int)],
            val variables: Set[V],
            val depth: Int,
+           val ols: OLS,
            val message: String)
 
 class MutableState(s: State) {
@@ -21,7 +22,9 @@ class MutableState(s: State) {
     var functions = s.functions
     var variables = s.variables
     var depth = s.depth
-    var identifier = s.message
+    var ols = s.ols
+    var message = s.message
+    
 }
 
 object UndoRedoType extends Enumeration {

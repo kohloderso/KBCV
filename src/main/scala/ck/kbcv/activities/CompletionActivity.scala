@@ -12,9 +12,7 @@ import term.reco
 import term.reco.{IS, OLS}
 
 
-/**
- * Created by Christina on 05.12.2015.
- */
+
 class CompletionActivity extends NavigationDrawerActivity with TypedFindView with CompletionActionListener with UpdateListener {
     val TAG = "CompletionActivity"
     var completionPagerAdapter: CompletionPagerAdapter = null
@@ -217,13 +215,23 @@ class CompletionActivity extends NavigationDrawerActivity with TypedFindView wit
 
     override def deduce(is: IS): Unit = {
         // TODO deduce caching
-        val erch = reco.deduce(new OLS, Controller.emptyTI)(Controller.emptyI ++ is.keys, Controller.state.erc)
+        val erch = reco.deduce(Controller.state.ols, Controller.emptyTI)(Controller.emptyI ++ is.keys, Controller.state.erc)
         val numberNew = erch._1.size - Controller.state.erc._1.size
         if(numberNew > 0) {
+            // compute which overlaps where considered this round
+            // first get indices of new equations
+            val nis = erch._1.keySet.filterNot(Controller.state.erc._1.contains(_))
+            // second make list of newly considered overlaps
+            // IMPORTANT: nols has to be a List, otherwise duplicates are thrown
+            // out, and we don't want that to happen here!
+            val nols = erch._4.filterKeys(nis.contains(_)).toList.map(t=>(t._2._2._1,t._2._4._1))
+            // add new overlaps to already previously considered overlaps and save
+            val ols = Controller.state.ols ++ nols
             val message = getString(R.string.ok_deduced, new Integer(numberNew))
             showSuccessMsg(message)
             Controller.builder.
                 withErch(erch).
+                withOLS(ols).
                 withMessage(message).
                 updateState()
             updateViews()
