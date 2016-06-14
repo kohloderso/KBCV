@@ -4,9 +4,9 @@ import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.{LayoutInflater, View, ViewGroup}
 import android.widget.{ImageView, TextView}
-import ck.kbcv.{R, State}
 import ck.kbcv.UndoRedoType._
 import ck.kbcv.adapters.UndoRedoAdapter.{HistoryClickListener, ViewHolder}
+import ck.kbcv.{R, State}
 
 import scala.collection.mutable
 

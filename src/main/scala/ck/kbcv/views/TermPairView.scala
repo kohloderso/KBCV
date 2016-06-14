@@ -53,3 +53,4 @@ class EquationView (context: Context, attrs: AttributeSet, equation: IE) extends
 class RuleView (context: Context, attrs: AttributeSet, rule: IR) extends TermPairView(context, attrs, rule._2, " \u2192 ", rule._1) {
     def this(context: Context, attrs: AttributeSet) = this(context, attrs, new IR(-1, null))
 }
+

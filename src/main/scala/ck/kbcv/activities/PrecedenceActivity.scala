@@ -1,11 +1,9 @@
 package ck.kbcv.activities
 
 import android.os.Bundle
-import android.support.design.widget.TabLayout
-import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.{LinearLayoutManager, RecyclerView}
-import ck.kbcv.adapters.{PrecedenceAdapter, CreateEquationsPagerAdapter}
 import ck.kbcv._
+import ck.kbcv.adapters.PrecedenceAdapter
 
 
 class PrecedenceActivity extends NavigationDrawerActivity with TypedFindView {

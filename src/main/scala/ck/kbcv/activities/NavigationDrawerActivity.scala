@@ -8,9 +8,7 @@ import android.widget.FrameLayout
 import ck.kbcv.R
 import ck.kbcv.dialogs.HistoryDialogFragment
 
-/**
- * Created by Christina on 13.04.2016.
- */
+
 class NavigationDrawerActivity extends AppCompatActivity with NavigationView.OnNavigationItemSelectedListener {
     var mainLayout: FrameLayout = null
 
@@ -40,6 +38,11 @@ class NavigationDrawerActivity extends AppCompatActivity with NavigationView.OnN
             }
             case R.id.action_history => {
                 new HistoryDialogFragment().show(getSupportFragmentManager, "HistoryDialog")
+                true
+            }
+            case R.id.action_precedence => {
+                val intent = new Intent(getApplicationContext, classOf[PrecedenceActivity])
+                startActivity(intent)
                 true
             }
             case _ => false

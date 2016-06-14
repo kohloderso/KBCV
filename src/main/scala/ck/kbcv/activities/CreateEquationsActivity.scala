@@ -15,9 +15,7 @@ import ck.kbcv.fragments.{CreateEquationsFragment, SymbolsFragment}
 import term.reco.{IE, IES}
 
 
-/**
- * Created by Christina on 05.12.2015.
- */
+
 class CreateEquationsActivity extends NavigationDrawerActivity with UpdateListener with OnSymbolsChangedListener with OnEquationsChangedListener with TypedFindView {
     val TAG = "CreateEquationsActivity"
     var equationPagerAdapter: CreateEquationsPagerAdapter = null

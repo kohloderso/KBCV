@@ -6,8 +6,8 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.{LinearLayout, TextView}
 import ck.kbcv.R
-import term.{Fun, Term}
 import term.Term._
+import term.{Fun, Term}
 
 import scala.collection.mutable
 

@@ -6,12 +6,12 @@ import android.support.v4.app.Fragment
 import android.support.v7.widget.{LinearLayoutManager, RecyclerView}
 import android.util.Log
 import android.view._
-import android.widget.{Button, TextView}
+import android.widget.Button
 import ck.kbcv.adapters.EquationRuleAdapter.ItemClickListener
 import ck.kbcv.adapters.EquationsAdapter
 import ck.kbcv.adapters.SymbolAdapter.{FunctionAdapter, VariableAdapter}
 import ck.kbcv.views.EquationEditView
-import ck.kbcv.{HorizontalFlowLayout, Controller, R}
+import ck.kbcv.{Controller, HorizontalFlowLayout, R}
 import term.Term._
 import term.reco.IE
 

@@ -3,8 +3,7 @@ package ck.kbcv.views
 import android.content.Context
 import android.graphics.Color
 import android.util.AttributeSet
-import android.view.{View, Gravity}
-import android.view.View.OnClickListener
+import android.view.Gravity
 import android.view.ViewGroup.LayoutParams
 import android.widget.{LinearLayout, TextView}
 import ck.kbcv.fragments.EquationEditor

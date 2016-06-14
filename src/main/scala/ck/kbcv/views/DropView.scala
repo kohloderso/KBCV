@@ -1,14 +1,12 @@
 package ck.kbcv.views
 
 import android.content.{ClipData, Context}
-import android.support.v4.content.ContextCompat
-import android.support.v4.view.ViewCompat
 import android.support.v7.widget.CardView
 import android.util.{AttributeSet, Log}
-import android.view.{DragEvent, Gravity, View}
-import android.widget.{ImageView, LinearLayout, TextView}
+import android.view.{DragEvent, View}
+import android.widget.LinearLayout
 import ck.kbcv.R
-import term.{Fun, Var, Term}
+import term.{Fun, Var}
 
 class DropView(context: Context, attrs: AttributeSet, equationEditView: EquationEditView = null) extends CardView(context, attrs) {
     val TAG = "EquationDropzone"

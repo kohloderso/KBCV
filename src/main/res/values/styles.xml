@@ -27,7 +27,7 @@
     </style>
 
     <style name="DragButton">
-        <item name="colorButtonNormal">@color/colorSecondary</item>
+        <item name="colorButtonNormal">@color/colorPrimaryBright</item>
         <item name="android:minWidth">48dp</item>
     </style>
 

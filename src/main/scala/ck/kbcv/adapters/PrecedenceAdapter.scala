@@ -1,10 +1,9 @@
 package ck.kbcv.adapters
 
-import android.support.v7.widget.{CardView, RecyclerView}
+import android.support.v7.widget.RecyclerView
 import android.text.Html
-import android.view.{LayoutInflater, ViewGroup, View}
-import android.view.ViewGroup.LayoutParams
-import android.widget.{TextView, Button}
+import android.view.{LayoutInflater, View, ViewGroup}
+import android.widget.TextView
 import ck.kbcv.R
 import ck.kbcv.adapters.PrecedenceAdapter.ViewHolder
 import term.Term.F
@@ -64,7 +63,7 @@ class PrecedenceAdapter(precedence: Precedence)  extends RecyclerView.Adapter[Pr
 
     override def onBindViewHolder(vh: ViewHolder, i: Int): Unit = {
         val (f1, f2) = mBuffer(i)
-        val text = "<font color=#ffab00>" + f1 + "</font> <font> < </font> <font color=#ffab00>" + f2 + "</font>"
+        val text = "<font color=#aeea00>" + f1 + "</font> <font> < </font> <font color=#aeea00>" + f2 + "</font>"
         vh.textView.setText(Html.fromHtml(text))
     }
 

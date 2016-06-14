@@ -10,9 +10,7 @@ import ck.kbcv.adapters.EquationRuleAdapter.ItemClickListener
 import ck.kbcv.adapters.RulesAdapter
 import ck.kbcv.{CompletionActionListener, Controller, R}
 
-/**
- * Created by Christina on 09.12.2015.
- */
+
 class RulesFragment extends Fragment with ItemClickListener {
     val TAG = "RulesFragment"
     var mCompletionListener: CompletionActionListener = null

@@ -6,8 +6,8 @@ import android.util.AttributeSet
 import android.view.View.OnDragListener
 import android.widget.TextView
 import ck.kbcv.R
-import term.{Var, Term}
 import term.Term.V
+import term.{Term, Var}
 
 
 class VarView(context: Context, attrs: AttributeSet, variable: V) extends TextView(context: Context, attrs: AttributeSet) {

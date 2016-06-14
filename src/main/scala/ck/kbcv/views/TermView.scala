@@ -1,16 +1,13 @@
 package ck.kbcv.views
 
 import android.content.{ClipData, Context}
-import android.graphics.Color
 import android.support.v4.content.ContextCompat
-import android.util.{Log, AttributeSet}
+import android.util.AttributeSet
+import android.view.View.OnDragListener
 import android.view.{DragEvent, View}
-import android.view.View.{OnDragListener, OnClickListener}
 import android.widget.LinearLayout
 import ck.kbcv.R
 import term.{Fun, Term, Var}
-
-import scala.collection.mutable
 
 
 class TermView(context: Context, attrs: AttributeSet, term: Term = null, equationEditView: EquationEditView = null) extends LinearLayout(context: Context, attrs: AttributeSet) with OnDragListener{

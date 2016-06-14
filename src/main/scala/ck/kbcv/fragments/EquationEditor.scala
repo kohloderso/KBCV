@@ -1,15 +1,12 @@
 package ck.kbcv.fragments
 
-import android.graphics.{PorterDuff, Color}
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v4.content.ContextCompat
 import android.view.View.OnClickListener
 import android.view.{LayoutInflater, View, ViewGroup}
 import android.widget.Button
-import ck.kbcv.{Controller, OnSymbolsChangedListener, OnEquationsChangedListener, R}
 import ck.kbcv.views.EquationEditView
-import term.util.E
+import ck.kbcv.{Controller, OnEquationsChangedListener, R}
 
 class EquationEditor extends Fragment with OnClickListener {
     var equationEditView: EquationEditView = null
