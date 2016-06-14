@@ -1,20 +1,23 @@
 package ck.kbcv.fragments
 
+import android.content.ClipData
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.{LinearLayoutManager, RecyclerView}
 import android.util.Log
 import android.view._
+import android.widget.{Button, TextView}
 import ck.kbcv.adapters.EquationRuleAdapter.ItemClickListener
 import ck.kbcv.adapters.EquationsAdapter
 import ck.kbcv.adapters.SymbolAdapter.{FunctionAdapter, VariableAdapter}
 import ck.kbcv.views.EquationEditView
-import ck.kbcv.{Controller, R}
+import ck.kbcv.{HorizontalFlowLayout, Controller, R}
+import term.Term._
 import term.reco.IE
 
 class CreateEquationsFragment extends Fragment with ItemClickListener {
     val TAG = "CreateEquationsFragment"
-    var functionSymbolContainer: RecyclerView = null
+    var functionSymbolContainer: HorizontalFlowLayout = null
     var functionAdapter: FunctionAdapter = null
     var variableSymbolContainer: RecyclerView = null
     var variableAdapter: VariableAdapter = null
@@ -23,20 +26,22 @@ class CreateEquationsFragment extends Fragment with ItemClickListener {
     var mAdapter: EquationsAdapter = null
     var mActionMode: ActionMode = null
     var mActionModeCallback = new ActionModeCallback
+    var inflater: LayoutInflater = null
 
     override def onCreateView( inflater: LayoutInflater, container: ViewGroup, savedInstanceState: Bundle ): View = {
         val view = inflater.inflate( R.layout.create_equations_fragment, container, false )
+        this.inflater = inflater
 
         equationContainer = view.findViewById(R.id.equationsContainer).asInstanceOf[RecyclerView]
-        functionSymbolContainer = view.findViewById(R.id.functionSymbolsContainer).asInstanceOf[RecyclerView]
+        functionSymbolContainer = view.findViewById(R.id.functionSymbolsContainer).asInstanceOf[HorizontalFlowLayout]
         variableSymbolContainer = view.findViewById(R.id.variableSymbolContainer).asInstanceOf[RecyclerView]
         equationEditView = view.findViewById(R.id.edit_view).asInstanceOf[EquationEditView]
 
-        val linearLayoutManager = new LinearLayoutManager(getActivity)
-        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL)
-        functionSymbolContainer.setLayoutManager(linearLayoutManager)
-        functionAdapter = new FunctionAdapter(Controller.state.functions)
-        functionSymbolContainer.setAdapter(functionAdapter)
+        //val linearLayoutManager = new LinearLayoutManager(getActivity)
+        //linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL)
+        //functionSymbolContainer.setLayoutManager(linearLayoutManager)
+        //functionAdapter = new FunctionAdapter(Controller.state.functions)
+        //functionSymbolContainer.setAdapter(functionAdapter)
 
         val linearLayoutManager2 = new LinearLayoutManager(getActivity)
         linearLayoutManager2.setOrientation(LinearLayoutManager.HORIZONTAL)
@@ -64,7 +69,31 @@ class CreateEquationsFragment extends Fragment with ItemClickListener {
 
     def onFunctionsChanged(): Unit = {
         val functions = Controller.state.functions
-        functionAdapter.updateItems(functions)
+        functionSymbolContainer.removeAllViews()
+        val inflater = getActivity.getLayoutInflater
+        for((funName, funArity) <- functions) {
+            val button = inflater.inflate(R.layout.drag_button, functionSymbolContainer, false).asInstanceOf[Button]
+            button.setText(funName)
+            setOnTouchFunction(button, (funName, funArity))
+            functionSymbolContainer.addView(button)
+        }
+    }
+
+    def setOnTouchFunction(button: Button, f: (F, Int)): Unit = {
+        val (function, arity) = f
+        button.setOnTouchListener(new View.OnTouchListener() {
+            override def onTouch(v: View, event: MotionEvent): Boolean = {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    val data = ClipData.newPlainText("function", function)
+                    data.addItem(new ClipData.Item(arity.toString))
+                    val shadow = new View.DragShadowBuilder(button)
+                    v.startDrag(data, shadow, null, 0)
+                    true
+                } else {
+                    false
+                }
+            }
+        })
     }
 
     def onNewEquations(): Unit = {

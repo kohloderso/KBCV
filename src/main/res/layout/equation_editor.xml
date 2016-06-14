@@ -6,20 +6,29 @@
                 android:paddingTop="5dp" android:paddingBottom="5dp">
 
 
+    <HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fillViewport="true"
+                android:id="@+id/scrollview"
+                android:layout_below="@+id/variableSymbolContainer">
+
     <view
             style="@style/EquationEditor"
             android:theme="@style/EquationEditor"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           class="ck.kbcv.views.EquationEditView"
-          android:id="@+id/edit_view" android:layout_below="@+id/variableSymbolContainer"/>
+          android:id="@+id/edit_view" />
+    </HorizontalScrollView>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/functionSymbolsContainer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/edit_view"
-        android:layout_centerHorizontal="true" />
+    <view android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          class="ck.kbcv.HorizontalFlowLayout"
+          android:id="@+id/functionSymbolsContainer"
+          android:layout_below="@+id/scrollview"
+          android:layout_centerHorizontal="true" />
+
 
 
     <android.support.v7.widget.RecyclerView
