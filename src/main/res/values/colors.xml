@@ -5,6 +5,9 @@
     <color name="colorPrimary">#607d8b</color>
     <color name="colorPrimaryDark">#455a64</color>
     <color name="colorPrimaryBright">#90a4ae</color>
+    <color name="colorSecondary">#ff9800</color>
+    <color name="colorSecondaryBright">#ffb74d</color>
+    <color name="colorSecondaryDark">#f57c00</color>
     <color name="textColorPrimary">#FFFFFF</color>
     <color name="navigationBarColor">#90a4ae</color>
     <color name="colorAccent">#ffab40</color>

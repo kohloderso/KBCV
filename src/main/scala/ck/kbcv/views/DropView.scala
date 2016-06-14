@@ -12,7 +12,7 @@ import term.{Fun, Var, Term}
 
 class DropView(context: Context, attrs: AttributeSet, equationEditView: EquationEditView = null) extends CardView(context, attrs) {
     val TAG = "EquationDropzone"
-    this.setCardBackgroundColor(getResources.getColor(R.color.colorAccent))
+    this.setCardBackgroundColor(getResources.getColor(R.color.colorSecondaryBright))
     this.setOnDragListener(new View.OnDragListener() {
         override def onDrag(v: View, event: DragEvent): Boolean = {
             val action = event.getAction

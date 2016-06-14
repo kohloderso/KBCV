@@ -42,6 +42,7 @@ class CreateEquationsFragment extends Fragment with ItemClickListener {
         //functionSymbolContainer.setLayoutManager(linearLayoutManager)
         //functionAdapter = new FunctionAdapter(Controller.state.functions)
         //functionSymbolContainer.setAdapter(functionAdapter)
+        onFunctionsChanged()
 
         val linearLayoutManager2 = new LinearLayoutManager(getActivity)
         linearLayoutManager2.setOrientation(LinearLayoutManager.HORIZONTAL)
