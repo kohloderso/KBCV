@@ -9,7 +9,7 @@ import ck.kbcv._
 import ck.kbcv.adapters.CompletionPagerAdapter
 import ck.kbcv.fragments.{EquationsFragment, RulesFragment}
 import term.reco
-import term.reco.{IS, OLS}
+import term.reco.IS
 
 
 

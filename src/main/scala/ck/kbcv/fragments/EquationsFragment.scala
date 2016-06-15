@@ -58,11 +58,13 @@ class EquationsFragment extends Fragment with ItemClickListener {
     def onLeftSwipe(position: Int): Unit = {
         val success = mCompletionListener.orientRL(new IS + mAdapter.getItem(position))
         if(!success) mAdapter.notifyItemChanged(position)
+        else mAdapter.moveSelection(position)
     }
 
     def onRightSwipe(position: Int): Unit = {
         val success = mCompletionListener.orientLR(new IS + mAdapter.getItem(position))
         if(!success) mAdapter.notifyItemChanged(position)
+        else mAdapter.moveSelection(position)
     }
 
     override def onItemClicked(position: Int): Unit = {
@@ -95,7 +97,7 @@ class EquationsFragment extends Fragment with ItemClickListener {
 
         override def getMovementFlags(recyclerView: RecyclerView, viewHolder: ViewHolder): Int = {
             val position = viewHolder.getAdapterPosition
-            //if(mAdapter.isSelected(position)) return 0 TODO: allow swiping when it's selected?
+            if (mAdapter.isSelected(position)) return 0
             return ItemTouchHelper.Callback.makeMovementFlags(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT )
         }
 
@@ -149,6 +151,9 @@ class EquationsFragment extends Fragment with ItemClickListener {
                     Log.d(TAG, "delete")
                     mCompletionListener.delete(selectedItems)
                     actionMode.finish()
+                    true
+                case R.id.action_select_all =>
+                    mAdapter.selectAll()
                     true
                 case _ => false
             }

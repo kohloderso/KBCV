@@ -110,6 +110,9 @@ class RulesFragment extends Fragment with ItemClickListener {
                     mCompletionListener.deduce(selectedItems)
                     actionMode.finish()
                     true
+                case R.id.action_select_all =>
+                    mAdapter.selectAll()
+                    true
                 case _ => false
             }
         }

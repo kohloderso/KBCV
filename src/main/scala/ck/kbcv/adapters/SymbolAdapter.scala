@@ -12,6 +12,7 @@ import scala.collection.mutable
 import scala.collection.mutable.ListBuffer
 
 object SymbolAdapter {
+
     class ViewHolder(itemView: View) extends RecyclerView.ViewHolder(itemView) {
         val button = itemView.asInstanceOf[Button]
         button.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT))
@@ -19,6 +20,8 @@ object SymbolAdapter {
         def setText(text: String): Unit = {
             button.setText(text)
         }
+    }
+
 }
 
 
@@ -108,5 +111,4 @@ class FunctionAdapter(functions: Set[(F, Int)]) extends SymbolAdapter[(F, Int)](
             }
         })
     }
-}
 }

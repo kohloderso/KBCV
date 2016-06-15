@@ -8,7 +8,7 @@ import scala.collection.mutable.ListBuffer
 
 trait SelectableAdapter[VH <: ViewHolder] extends RecyclerView.Adapter[VH] {
     var singleSelection = false
-    val selectedItems = new ListBuffer[Int]
+    var selectedItems = new ListBuffer[Int]
 
     def isSelected(position: Int): Boolean = {
         selectedItems.contains(position)
@@ -31,6 +31,23 @@ trait SelectableAdapter[VH <: ViewHolder] extends RecyclerView.Adapter[VH] {
         for(position <- selectedItems) {
             selectedItems -= position
             notifyItemChanged(position)
+        }
+    }
+
+    def selectAll(): Unit = {
+        if (!singleSelection) {
+            val count = getItemCount
+            selectedItems = ListBuffer.empty ++ List.range(0, count)
+            notifyDataSetChanged()
+        }
+    }
+
+    def moveSelection(removedItem: Int): Unit = {
+        for (item <- selectedItems.clone()) {
+            if (item > removedItem) {
+                selectedItems -= item
+                selectedItems += item - 1
+            }
         }
     }
 

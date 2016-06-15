@@ -8,8 +8,7 @@ import android.util.Log
 import android.view._
 import android.widget.Button
 import ck.kbcv.adapters.EquationRuleAdapter.ItemClickListener
-import ck.kbcv.adapters.EquationsAdapter
-import ck.kbcv.adapters.SymbolAdapter.{FunctionAdapter, VariableAdapter}
+import ck.kbcv.adapters.{EquationsAdapter, FunctionAdapter, VariableAdapter}
 import ck.kbcv.views.EquationEditView
 import ck.kbcv.{Controller, HorizontalFlowLayout, R}
 import term.Term._
