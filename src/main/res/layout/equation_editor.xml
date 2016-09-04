@@ -31,11 +31,13 @@
 
 
 
-    <android.support.v7.widget.RecyclerView
+    <view
+            class="ck.kbcv.HorizontalFlowLayout"
             android:id="@+id/variableSymbolContainer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true" android:layout_centerHorizontal="true"/>
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"/>
     <Button
             style="@style/MyButton"
             android:theme="@style/MyButton"
@@ -51,8 +53,8 @@
             android:theme="@style/MyButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="save"
-            android:id="@+id/saveButton"
+            android:text="add"
+            android:id="@+id/addButton"
             android:layout_alignParentRight="true" android:layout_alignParentEnd="true"
             android:layout_below="@+id/functionSymbolsContainer"/>
 

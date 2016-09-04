@@ -77,7 +77,7 @@ class EquationEditView (context: Context, attrs: AttributeSet, equation: IE, var
     }
 
     def onSymbolDropped(): Unit = {
-        equationEditor.setSaveButton()
+        equationEditor.setAddButton()
     }
 
 }

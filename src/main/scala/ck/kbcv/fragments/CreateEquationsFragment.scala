@@ -18,7 +18,7 @@ class CreateEquationsFragment extends Fragment with ItemClickListener {
     val TAG = "CreateEquationsFragment"
     var functionSymbolContainer: HorizontalFlowLayout = null
     var functionAdapter: FunctionAdapter = null
-    var variableSymbolContainer: RecyclerView = null
+    var variableSymbolContainer: HorizontalFlowLayout = null
     var variableAdapter: VariableAdapter = null
     var equationEditView: EquationEditView = null
     var equationContainer: RecyclerView = null
@@ -33,7 +33,7 @@ class CreateEquationsFragment extends Fragment with ItemClickListener {
 
         equationContainer = view.findViewById(R.id.equationsContainer).asInstanceOf[RecyclerView]
         functionSymbolContainer = view.findViewById(R.id.functionSymbolsContainer).asInstanceOf[HorizontalFlowLayout]
-        variableSymbolContainer = view.findViewById(R.id.variableSymbolContainer).asInstanceOf[RecyclerView]
+        variableSymbolContainer = view.findViewById(R.id.variableSymbolContainer).asInstanceOf[HorizontalFlowLayout]
         equationEditView = view.findViewById(R.id.edit_view).asInstanceOf[EquationEditView]
 
         //val linearLayoutManager = new LinearLayoutManager(getActivity)
@@ -43,13 +43,6 @@ class CreateEquationsFragment extends Fragment with ItemClickListener {
         //functionSymbolContainer.setAdapter(functionAdapter)
         onFunctionsChanged()
 
-        val linearLayoutManager2 = new LinearLayoutManager(getActivity)
-        linearLayoutManager2.setOrientation(LinearLayoutManager.HORIZONTAL)
-        variableSymbolContainer.setLayoutManager(linearLayoutManager2)
-        variableAdapter = new VariableAdapter(Controller.state.variables)
-        variableSymbolContainer.setAdapter(variableAdapter)
-
-        
         mAdapter = new EquationsAdapter(Controller.state.erc._1, this)
         // allow only one equation to be selected at a time, because only one can be edited at a time
         mAdapter.singleSelection = true
@@ -63,7 +56,14 @@ class CreateEquationsFragment extends Fragment with ItemClickListener {
 
     def onVariablesChanged(): Unit = {
         val variables = Controller.state.variables
-        variableAdapter.updateItems(variables)
+        variableSymbolContainer.removeAllViews()
+        val inflater = getActivity.getLayoutInflater
+        for(variable <- variables) {
+            val button = inflater.inflate(R.layout.drag_button, functionSymbolContainer, false).asInstanceOf[Button]
+            button.setText(variable)
+            setOnTouchVariable(button, variable)
+            variableSymbolContainer.addView(button)
+        }
     }
 
 
@@ -86,6 +86,21 @@ class CreateEquationsFragment extends Fragment with ItemClickListener {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     val data = ClipData.newPlainText("function", function)
                     data.addItem(new ClipData.Item(arity.toString))
+                    val shadow = new View.DragShadowBuilder(button)
+                    v.startDrag(data, shadow, null, 0)
+                    true
+                } else {
+                    false
+                }
+            }
+        })
+    }
+
+    def setOnTouchVariable(button: Button, variable: V): Unit = {
+        button.setOnTouchListener(new View.OnTouchListener() {
+            override def onTouch(v: View, event: MotionEvent): Boolean = {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    val data = ClipData.newPlainText("variable", variable)
                     val shadow = new View.DragShadowBuilder(button)
                     v.startDrag(data, shadow, null, 0)
                     true

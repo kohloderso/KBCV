@@ -38,8 +38,10 @@ public class HorizontalFlowLayout extends RelativeLayout {
     // need to call super.onMeasure(...) otherwise get some funny behaviour
     super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
-    final int width = MeasureSpec.getSize(widthMeasureSpec);
+    int width = MeasureSpec.getSize(widthMeasureSpec);
     int height = MeasureSpec.getSize(heightMeasureSpec);
+
+    int maxwidth = 0;
 
     // increment the x position as we progress through a line
     int xpos = getPaddingLeft();
@@ -98,8 +100,11 @@ public class HorizontalFlowLayout extends RelativeLayout {
         }
 
         xpos += childMarginLeft + childWidth + childMarginRight;
+        maxwidth = Math.max(maxwidth, xpos);
+
       }
     }
+    width = maxwidth;
 
     ypos += line_height + getPaddingBottom();
 

@@ -75,6 +75,7 @@ class VariableAdapter(variables: Set[V]) extends SymbolAdapter[V](variables) {
 
     def setOnTouchVariable(button: Button, variable: V): Unit = {
         button.setOnTouchListener(new View.OnTouchListener() {
+
             override def onTouch(v: View, event: MotionEvent): Boolean = {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     val data = ClipData.newPlainText("variable", variable)

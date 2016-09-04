@@ -10,7 +10,7 @@ import ck.kbcv.{Controller, OnEquationsChangedListener, R}
 
 class EquationEditor extends Fragment with OnClickListener {
     var equationEditView: EquationEditView = null
-    var saveButton: Button = null
+    var addButton: Button = null
     var clearButton: Button = null
     var equationsListener: OnEquationsChangedListener = null
 
@@ -18,9 +18,9 @@ class EquationEditor extends Fragment with OnClickListener {
         val view = inflater.inflate( R.layout.equation_editor, container, false )
         equationEditView = view.findViewById(R.id.edit_view).asInstanceOf[EquationEditView]
         equationEditView.setEquationEditor(this)
-        saveButton = view.findViewById(R.id.saveButton).asInstanceOf[Button]
-        saveButton.setEnabled(false)
-        saveButton.setOnClickListener(this)
+        addButton = view.findViewById(R.id.addButton).asInstanceOf[Button]
+        addButton.setEnabled(false)
+        addButton.setOnClickListener(this)
         clearButton = view.findViewById(R.id.clearButton).asInstanceOf[Button]
         clearButton.setOnClickListener(this)
 
@@ -38,18 +38,18 @@ class EquationEditor extends Fragment with OnClickListener {
     }
 
     /**
-     * check if there's still a DropZone, if not enable the 'save'-Button
+     * check if there's still a DropZone, if not enable the 'add'-Button
      */
-    def setSaveButton(): Unit = {
+    def setAddButton(): Unit = {
         if(equationEditView.containsDropZones()) {
-            saveButton.setEnabled(false)
+            addButton.setEnabled(false)
         } else {
-            saveButton.setEnabled(true)
+            addButton.setEnabled(true)
         }
     }
 
     override def onClick(v: View): Unit = {
-        if(saveButton.equals(v)) {
+        if(addButton.equals(v)) {
             if(equationEditView.containsDropZones()) {} // TODO: throw error or something
             else {
                 val equation = equationEditView.getEquation()
@@ -66,6 +66,6 @@ class EquationEditor extends Fragment with OnClickListener {
         } else if(clearButton.equals(v)) {
             equationEditView.clear()
         }
-        setSaveButton()
+        setAddButton()
     }
 }
