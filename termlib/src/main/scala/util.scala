@@ -98,7 +98,7 @@ package object util {
     * @constructor Creates a new equation from two terms.
     * @param lhs the left-hand side of the equation
     * @param rhs the right-hand side of the equation */
-  case class Equation(override val lhs : Term, override val rhs : Term) extends TermPair(lhs,rhs) {
+  case class Equation(override val lhs : Term, override val rhs : Term) extends TermPair(lhs,rhs) with Serializable {
     private val tuple = (lhs, rhs)
     //def toTuple = tuple
     /** Returns ''this'' equation with swapped left- and right-hand sides. */

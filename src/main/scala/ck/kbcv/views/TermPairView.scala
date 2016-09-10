@@ -20,7 +20,6 @@ class TermPairView (context: Context, attrs: AttributeSet, termPair: TermPair, s
     setTermPair(termPair)
 
 
-    // TODO throw error or something when it's no valid termpair (when it still contains Dropzones)
     def setTermPair(termPair: TermPair): Unit = {
         this.removeAllViews()
 

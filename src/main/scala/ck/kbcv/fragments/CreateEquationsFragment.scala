@@ -12,7 +12,9 @@ import ck.kbcv.adapters.{EquationsAdapter, FunctionAdapter, VariableAdapter}
 import ck.kbcv.views.EquationEditView
 import ck.kbcv.{Controller, HorizontalFlowLayout, R}
 import term.Term._
+import term.parser.{ParserOldTRS, ParserXmlTRS}
 import term.reco.IE
+import term.util.{Equation, ES}
 
 class CreateEquationsFragment extends Fragment with ItemClickListener {
     val TAG = "CreateEquationsFragment"
@@ -150,6 +152,23 @@ class CreateEquationsFragment extends Fragment with ItemClickListener {
 //            mActionMode.setTitle(count.toString)
 //            mActionMode.invalidate()
 //        } no count needed when max 1 can be selected
+    }
+
+
+    override def onSaveInstanceState(outState: Bundle): Unit ={
+        super.onSaveInstanceState(outState)
+        outState.putSerializable("equation", equationEditView.getEquation())
+        outState.putInt("index", equationEditView.index)
+    }
+
+    override def onActivityCreated(savedInstanceState:Bundle): Unit = {
+        super.onActivityCreated(savedInstanceState)
+        if(savedInstanceState != null) {
+
+            val equation = savedInstanceState.getSerializable("equation").asInstanceOf[Equation]
+            val index = savedInstanceState.getInt("index")
+            equationEditView.setEquation((index, equation))
+        }
     }
 
 

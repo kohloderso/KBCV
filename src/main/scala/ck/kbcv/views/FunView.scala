@@ -65,6 +65,7 @@ class FunView (context: Context, attrs: AttributeSet, funName: F, funArgs: List[
                 case v: VarView => args += v.getTerm
                 case f: FunView => args += f.getTerm
                 case t: TermView => args += t.getTerm
+                case _: DropView => args += null
             }
         }
         new Fun(funName, args.toList)

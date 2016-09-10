@@ -28,7 +28,7 @@ class TermView(context: Context, attrs: AttributeSet, term: Term = null, equatio
     override def onDrag(v: View, event: DragEvent): Boolean = {
         val action = event.getAction
         action match {
-            case DragEvent.ACTION_DRAG_STARTED => val test = event.getClipDescription //  Do nothing
+            case DragEvent.ACTION_DRAG_STARTED =>  //  Do nothing
             case DragEvent.ACTION_DRAG_ENTERED => v.setBackgroundColor(getResources.getColor(R.color.colorPrimaryBright))
             case DragEvent.ACTION_DRAG_EXITED => v.setBackground(ContextCompat.getDrawable(context, R.drawable.dotted_line))
             case DragEvent.ACTION_DRAG_ENDED => v.setBackground(ContextCompat.getDrawable(context, R.drawable.dotted_line))
@@ -65,6 +65,7 @@ class TermView(context: Context, attrs: AttributeSet, term: Term = null, equatio
             case v: VarView => v.getTerm
             case f: FunView => f.getTerm
             case t: TermView => t.getTerm
+            case _: DropView => null
         }
     }
 }
