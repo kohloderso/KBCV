@@ -1,21 +1,24 @@
 package ck.kbcv.activities
 
+import android.content.SharedPreferences
 import android.graphics.{Color, PorterDuff}
 import android.os.Bundle
 import android.support.design.widget.{Snackbar, TabLayout}
+import android.support.v7.preference.PreferenceManager
 import android.util.Log
 import android.view.{Menu, MenuItem, View}
 import ck.kbcv._
 import ck.kbcv.adapters.CompletionPagerAdapter
 import ck.kbcv.fragments.{EquationsFragment, RulesFragment}
 import term.reco
-import term.reco.IS
+import term.reco.{IS, OLS}
 
 
 
 class CompletionActivity extends NavigationDrawerActivity with TypedFindView with CompletionActionListener with UpdateListener {
     val TAG = "CompletionActivity"
     var completionPagerAdapter: CompletionPagerAdapter = null
+    var SP: SharedPreferences = null
 
     override def onCreate( savedInstanceState: Bundle ): Unit = {
         super.onCreate( savedInstanceState )
@@ -23,6 +26,8 @@ class CompletionActivity extends NavigationDrawerActivity with TypedFindView wit
 
         val myToolbar = findView( TR.my_toolbar )
         setSupportActionBar( myToolbar )
+
+        SP = PreferenceManager.getDefaultSharedPreferences(getBaseContext)
 
         val utility = new ScreenUtility(this)
 
@@ -110,6 +115,11 @@ class CompletionActivity extends NavigationDrawerActivity with TypedFindView wit
                     withMessage(message).
                     updateState()
                 updateViews()
+                if (SP.getBoolean("pref_completeness", false)) {
+                    val complete = Controller.ercIsComplete()
+                    if (complete) showSuccessMsg("TRS is complete now")
+                }
+
                 true
             }
         } catch {
@@ -137,6 +147,10 @@ class CompletionActivity extends NavigationDrawerActivity with TypedFindView wit
                     withMessage(message).
                     updateState()
                 updateViews()
+                if (SP.getBoolean("pref_completeness", false)) {
+                    val complete = Controller.ercIsComplete()
+                    if (complete) showSuccessMsg("TRS is complete now")
+                }
                 true
             }
         } catch {
@@ -214,8 +228,12 @@ class CompletionActivity extends NavigationDrawerActivity with TypedFindView wit
     }
 
     override def deduce(is: IS): Unit = {
-        // TODO deduce caching
-        val erch = reco.deduce(Controller.state.ols, Controller.emptyTI)(Controller.emptyI ++ is.keys, Controller.state.erc)
+        val ols: OLS = SP.getBoolean("pref_caching", false) match {
+            case true => Controller.state.ols
+            case false => Controller.state.ols.empty
+        }
+
+        val erch = reco.deduce(ols, Controller.emptyTI)(Controller.emptyI ++ is.keys, Controller.state.erc)
         val numberNew = erch._1.size - Controller.state.erc._1.size
         if(numberNew > 0) {
             // compute which overlaps where considered this round
@@ -235,6 +253,10 @@ class CompletionActivity extends NavigationDrawerActivity with TypedFindView wit
                 withMessage(message).
                 updateState()
             updateViews()
+            if (SP.getBoolean("pref_completeness", false)) {
+                val complete = Controller.ercIsComplete()
+                if (complete) showSuccessMsg("TRS is complete now")
+            }
         } else {
             showErrorMsg(getString(R.string.error_deduce))
         }

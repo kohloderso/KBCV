@@ -12,7 +12,7 @@ libraryDependencies ++=
     "com.android.support" % "appcompat-v7" % "23.1.1" ::
     "com.android.support" % "cardview-v7" % "23.1.0" ::
     "com.android.support" % "design" % "23.1.1" ::
-    //"com.android.support" % "gridlayout-v7" % "23.1.0" ::
+        "com.android.support" % "preference-v7" % "23.1.1" ::
     "com.android.support" % "recyclerview-v7" % "23.3.0" ::
     "com.android.support" % "support-v4" % "23.3.0" ::
         "org.scala-lang" % "scala-actors" % "2.10.5"::

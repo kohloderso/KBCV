@@ -45,6 +45,11 @@ class NavigationDrawerActivity extends AppCompatActivity with NavigationView.OnN
                 startActivity(intent)
                 true
             }
+            case R.id.action_settings => {
+                val intent = new Intent(getApplicationContext, classOf[SettingsActivity])
+                startActivity(intent)
+                true
+            }
             case _ => false
         }
     }
