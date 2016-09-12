@@ -31,6 +31,7 @@ class CreateEquationsActivity extends NavigationDrawerActivity with UpdateListen
         super.onCreate( savedInstanceState )
         setContentView( R.layout.create_es_activity)
 
+
         val myToolbar = findView( TR.my_toolbar )
         setSupportActionBar( myToolbar )
 
@@ -52,6 +53,11 @@ class CreateEquationsActivity extends NavigationDrawerActivity with UpdateListen
             tabLayout.setupWithViewPager(viewPager)
         }
 
+    }
+
+    override def onResume(): Unit = {
+        super.onResume()
+        navigationView.setCheckedItem(R.id.action_equation_editor)
     }
 
 

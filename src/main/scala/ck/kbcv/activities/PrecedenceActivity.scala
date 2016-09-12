@@ -21,6 +21,10 @@ class PrecedenceActivity extends NavigationDrawerActivity with TypedFindView {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this))
         mRecyclerView.setAdapter(new PrecedenceAdapter(Controller.state.precedence))
         mRecyclerView.setHasFixedSize(true)
+    }
 
+    override def onResume(): Unit = {
+        super.onResume()
+        navigationView.setCheckedItem(R.id.action_precedence)
     }
 }

@@ -2,6 +2,8 @@ package ck.kbcv.activities
 
 import android.content.Intent
 import android.support.design.widget.NavigationView
+import android.support.v4.view.GravityCompat
+import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import android.widget.FrameLayout
@@ -10,30 +12,29 @@ import ck.kbcv.dialogs.HistoryDialogFragment
 
 
 class NavigationDrawerActivity extends AppCompatActivity with NavigationView.OnNavigationItemSelectedListener {
-    var mainLayout: FrameLayout = null
+    var drawerLayout: DrawerLayout = null
+    var navigationView: NavigationView = null
 
     override def setContentView(layoutResID: Int) = {
 
-        val fullLayout = getLayoutInflater.inflate(R.layout.navigation_drawer, null)
-        mainLayout = fullLayout.findViewById(R.id.main_content).asInstanceOf[FrameLayout]
-        val navigationView = fullLayout.findViewById(R.id.nav_view).asInstanceOf[NavigationView]
+        drawerLayout = getLayoutInflater.inflate(R.layout.navigation_drawer, null).asInstanceOf[DrawerLayout]
+        val mainLayout = drawerLayout.findViewById(R.id.main_content).asInstanceOf[FrameLayout]
+        navigationView = drawerLayout.findViewById(R.id.nav_view).asInstanceOf[NavigationView]
         navigationView.setNavigationItemSelectedListener(this)
 
         getLayoutInflater.inflate(layoutResID, mainLayout, true)
-        super.setContentView(fullLayout)
+        super.setContentView(drawerLayout)
     }
 
 
     override def onNavigationItemSelected(menuItem: MenuItem): Boolean = {
         menuItem.getItemId match {
             case R.id.action_completion => {
-                val intent = new Intent(getApplicationContext, classOf[CompletionActivity])
-                startActivity(intent)
+                startDrawerActivity(classOf[CompletionActivity])
                 true
             }
             case R.id.action_equation_editor => {
-                val intent = new Intent(getApplicationContext, classOf[CreateEquationsActivity])
-                startActivity(intent)
+                startDrawerActivity(classOf[CreateEquationsActivity])
                 true
             }
             case R.id.action_history => {
@@ -41,16 +42,22 @@ class NavigationDrawerActivity extends AppCompatActivity with NavigationView.OnN
                 true
             }
             case R.id.action_precedence => {
-                val intent = new Intent(getApplicationContext, classOf[PrecedenceActivity])
-                startActivity(intent)
+                startDrawerActivity(classOf[PrecedenceActivity])
                 true
             }
             case R.id.action_settings => {
-                val intent = new Intent(getApplicationContext, classOf[SettingsActivity])
-                startActivity(intent)
+                startDrawerActivity(classOf[SettingsActivity])
                 true
             }
             case _ => false
         }
     }
+
+
+    def startDrawerActivity(activity: Class[_]): Unit = {
+        drawerLayout.closeDrawer(GravityCompat.START)
+        startActivity(new Intent(getApplicationContext, activity))
+
+    }
+
 }

@@ -48,6 +48,11 @@ class CompletionActivity extends NavigationDrawerActivity with TypedFindView wit
 
     }
 
+    override def onResume(): Unit = {
+        super.onResume()
+        navigationView.setCheckedItem(R.id.action_completion)
+    }
+
 
     override def onCreateOptionsMenu(menu: Menu): Boolean = {
         val inflater = getMenuInflater

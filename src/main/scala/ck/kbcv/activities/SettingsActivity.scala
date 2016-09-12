@@ -8,7 +8,6 @@ import ck.kbcv.{R, TR, TypedFindView}
 class SettingsActivity extends NavigationDrawerActivity with TypedFindView {
     override def onCreate(savedInstanceState: Bundle): Unit = {
         super.onCreate(savedInstanceState)
-
         setContentView(R.layout.settings_activity)
 
         val myToolbar = findView(TR.my_toolbar)
@@ -18,6 +17,11 @@ class SettingsActivity extends NavigationDrawerActivity with TypedFindView {
             .replace(R.id.frame_layout, new SettingsFragment)
             .commit()
 
+    }
+
+    override def onResume(): Unit = {
+        super.onResume()
+        navigationView.setCheckedItem(R.id.action_settings)
     }
 
 
