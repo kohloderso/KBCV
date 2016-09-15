@@ -99,6 +99,11 @@ class EquationRuleAdapter[TP <: TermPair](is: TreeMap[Int,TP], itemClickListener
         }
     }
 
+    def removeItem(position: Int): Unit = {
+        mBuffer.remove(position)
+        notifyItemRemoved(position)
+    }
+
 
     def addItem(iTerm: ITP): Unit = {
         mBuffer.append(iTerm)

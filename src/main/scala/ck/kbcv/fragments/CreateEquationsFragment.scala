@@ -12,9 +12,8 @@ import ck.kbcv.adapters.{EquationsAdapter, FunctionAdapter, VariableAdapter}
 import ck.kbcv.views.EquationEditView
 import ck.kbcv.{Controller, HorizontalFlowLayout, R}
 import term.Term._
-import term.parser.{ParserOldTRS, ParserXmlTRS}
 import term.reco.IE
-import term.util.{Equation, ES}
+import term.util.Equation
 
 class CreateEquationsFragment extends Fragment with ItemClickListener {
     val TAG = "CreateEquationsFragment"
@@ -200,7 +199,7 @@ class CreateEquationsFragment extends Fragment with ItemClickListener {
                     Log.d(TAG, "delete")
                     val message = getString(R.string.removed_eq, new Integer(id))
                     Controller.removeEq(id, message)
-                    mAdapter.notifyItemRemoved(selectedPositions.head)
+                    mAdapter.removeItem(selectedPositions.head)
                     actionMode.finish()
                     true
                 case _ => false
