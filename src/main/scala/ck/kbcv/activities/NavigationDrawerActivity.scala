@@ -2,7 +2,6 @@ package ck.kbcv.activities
 
 import android.content.Intent
 import android.support.design.widget.NavigationView
-import android.support.v4.view.GravityCompat
 import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
@@ -55,9 +54,8 @@ class NavigationDrawerActivity extends AppCompatActivity with NavigationView.OnN
 
 
     def startDrawerActivity(activity: Class[_]): Unit = {
-        drawerLayout.closeDrawer(GravityCompat.START)
+        //drawerLayout.closeDrawer(GravityCompat.START)
         startActivity(new Intent(getApplicationContext, activity))
-
     }
 
 }

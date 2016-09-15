@@ -10,6 +10,9 @@
     <string name="error_compose">Nothing to compose</string>
     <string name="error_collapse">Nothing to collapse</string>
     <string name="error_deduce">Nothing deduced</string>
+    <string name="error_auto_complete">
+        <b>Automatic completion not successful</b>
+    </string>
 
 
     <!-- ok messages -->
@@ -21,6 +24,9 @@
     <string name="ok_deduced"><b>deduce:</b> %1$d new equations deduced</string>
     <string name="ok_added_es"><b>added ES:</b> %1$d new equations added</string>
     <string name="ok_new_es"><b>new ES:</b> %1$d new equations</string>
+    <string name="ok_auto_complete">
+        <b>Automatic completion successful</b>
+    </string>
 
     <string name="added_var">Added a variable</string>
     <string name="added_fun">Added a function symbol</string>

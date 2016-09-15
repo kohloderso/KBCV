@@ -1,8 +1,9 @@
 package ck.kbcv.activities
 
+import android.app.{Activity, ProgressDialog}
 import android.content.SharedPreferences
 import android.graphics.{Color, PorterDuff}
-import android.os.Bundle
+import android.os.{AsyncTask, Bundle}
 import android.support.design.widget.{Snackbar, TabLayout}
 import android.support.v7.preference.PreferenceManager
 import android.util.Log
@@ -11,8 +12,7 @@ import ck.kbcv._
 import ck.kbcv.adapters.CompletionPagerAdapter
 import ck.kbcv.fragments.{EquationsFragment, RulesFragment}
 import term.reco
-import term.reco.{IS, OLS}
-
+import term.reco._
 
 
 class CompletionActivity extends NavigationDrawerActivity with TypedFindView with CompletionActionListener with UpdateListener {
@@ -20,18 +20,19 @@ class CompletionActivity extends NavigationDrawerActivity with TypedFindView wit
     var completionPagerAdapter: CompletionPagerAdapter = null
     var SP: SharedPreferences = null
 
-    override def onCreate( savedInstanceState: Bundle ): Unit = {
-        super.onCreate( savedInstanceState )
-        setContentView( R.layout.completion_activity)
+    override def onCreate(savedInstanceState: Bundle): Unit = {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.completion_activity)
 
-        val myToolbar = findView( TR.my_toolbar )
-        setSupportActionBar( myToolbar )
+        val myToolbar = findView(TR.my_toolbar)
+        setSupportActionBar(myToolbar)
 
         SP = PreferenceManager.getDefaultSharedPreferences(getBaseContext)
 
         val utility = new ScreenUtility(this)
 
-        if (utility.getWidth() < 400.0) {   // Display tabLayout on small screens
+        if (utility.getWidth() < 400.0) {
+            // Display tabLayout on small screens
 
             val tabLayout = findView(TR.tab_layout)
             tabLayout.addTab(tabLayout.newTab().setText("Equations"))
@@ -62,18 +63,18 @@ class CompletionActivity extends NavigationDrawerActivity with TypedFindView wit
 
     override def onPrepareOptionsMenu(menu: Menu): Boolean = {
         val undoEnabled = Controller.undoable(1)
-        val undoItem =  menu.findItem(R.id.undo)
+        val undoItem = menu.findItem(R.id.undo)
         val resIcon = getResources().getDrawable(R.drawable.ic_undo_white_24dp)
-        if(!undoEnabled) {
+        if (!undoEnabled) {
             resIcon.mutate().setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_IN)
         }
         undoItem.setEnabled(undoEnabled)
         undoItem.setIcon(resIcon)
 
         val redoEnabled = Controller.redoable(1)
-        val redoItem =  menu.findItem(R.id.redo)
+        val redoItem = menu.findItem(R.id.redo)
         val resIcon2 = getResources().getDrawable(R.drawable.ic_redo_white_24dp)
-        if(!redoEnabled) {
+        if (!redoEnabled) {
             resIcon2.mutate().setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_IN)
         }
         redoItem.setEnabled(redoEnabled)
@@ -86,7 +87,7 @@ class CompletionActivity extends NavigationDrawerActivity with TypedFindView wit
         item.getItemId match {
             case R.id.completeness_check => {
                 val complete = Controller.ercIsComplete()
-                if(complete) showSuccessMsg("TRS is complete now")
+                if (complete) showSuccessMsg("TRS is complete now")
                 else showErrorMsg("Not complete yet")
                 true
             }
@@ -100,6 +101,11 @@ class CompletionActivity extends NavigationDrawerActivity with TypedFindView wit
                 updateViews()
                 true
             }
+            case R.id.automatic_completion => {
+                val runner = new AutoCompletionRunner(this)
+                runner.execute()
+                true
+            }
             case _ => false
         }
     }
@@ -108,7 +114,7 @@ class CompletionActivity extends NavigationDrawerActivity with TypedFindView wit
         val tm = Controller.getTMIncremental(Controller.state.precedence) _
         try {
             val (erch, op) = reco.orientR(Controller.emptyI ++ is.keys, Controller.state.erc, tm)
-            if(erch == Controller.state.erc) {
+            if (erch == Controller.state.erc) {
                 showErrorMsg("Equation couldn't be oriented")
                 false
             } else {
@@ -140,7 +146,7 @@ class CompletionActivity extends NavigationDrawerActivity with TypedFindView wit
         val tm = Controller.getTMIncremental(Controller.state.precedence) _
         try {
             val (erch, op) = reco.orientL(Controller.emptyI ++ is.keys, Controller.state.erc, tm)
-            if(erch == Controller.state.erc) {
+            if (erch == Controller.state.erc) {
                 showErrorMsg("Equation couldn't be oriented")
                 false
             } else {
@@ -171,7 +177,7 @@ class CompletionActivity extends NavigationDrawerActivity with TypedFindView wit
     override def delete(is: IS): Unit = {
         val erch = reco.delete(Controller.emptyI ++ is.keys, Controller.state.erc)
         val numberNew = Controller.state.erc._1.size - erch._1.size
-        if(numberNew > 0) {
+        if (numberNew > 0) {
             val message = getString(R.string.ok_delete, new Integer(numberNew))
             showSuccessMsg(message)
             Controller.builder.
@@ -187,7 +193,7 @@ class CompletionActivity extends NavigationDrawerActivity with TypedFindView wit
 
     override def simplify(is: IS): Unit = {
         val erch = reco.simplifyToNF(Controller.emptyS, Controller.emptyTI, Controller.state.depth)(Controller.emptyI ++ is.keys, Controller.state.erc)
-        if(erch != Controller.state.erc) {
+        if (erch != Controller.state.erc) {
             val message = getString(R.string.ok_simplify)
             showSuccessMsg(message)
             Controller.builder.
@@ -203,7 +209,7 @@ class CompletionActivity extends NavigationDrawerActivity with TypedFindView wit
 
     override def compose(is: IS): Unit = {
         val erch = reco.composeToNF(Controller.emptyS, Controller.emptyTI, Controller.state.depth)(Controller.emptyI ++ is.keys, Controller.state.erc)
-        if(erch != Controller.state.erc) {
+        if (erch != Controller.state.erc) {
             val message = getString(R.string.ok_compose)
             showSuccessMsg(message)
             Controller.builder.
@@ -219,7 +225,7 @@ class CompletionActivity extends NavigationDrawerActivity with TypedFindView wit
 
     override def collapse(is: IS): Unit = {
         val erch = reco.collapse(Controller.emptyS, Controller.emptyTI)(Controller.emptyI ++ is.keys, Controller.state.erc)
-        if(erch != Controller.state.erc) {
+        if (erch != Controller.state.erc) {
             val message = getString(R.string.ok_collapse)
             showSuccessMsg(message)
             Controller.builder.
@@ -233,21 +239,18 @@ class CompletionActivity extends NavigationDrawerActivity with TypedFindView wit
     }
 
     override def deduce(is: IS): Unit = {
-        val ols: OLS = SP.getBoolean("pref_caching", false) match {
-            case true => Controller.state.ols
-            case false => Controller.state.ols.empty
-        }
+        val ols: OLS = if (SP.getBoolean("pref_caching", false)) Controller.state.ols else Controller.state.ols.empty
 
         val erch = reco.deduce(ols, Controller.emptyTI)(Controller.emptyI ++ is.keys, Controller.state.erc)
         val numberNew = erch._1.size - Controller.state.erc._1.size
-        if(numberNew > 0) {
+        if (numberNew > 0) {
             // compute which overlaps where considered this round
             // first get indices of new equations
             val nis = erch._1.keySet.filterNot(Controller.state.erc._1.contains(_))
             // second make list of newly considered overlaps
             // IMPORTANT: nols has to be a List, otherwise duplicates are thrown
             // out, and we don't want that to happen here!
-            val nols = erch._4.filterKeys(nis.contains(_)).toList.map(t=>(t._2._2._1,t._2._4._1))
+            val nols = erch._4.filterKeys(nis.contains(_)).toList.map(t => (t._2._2._1, t._2._4._1))
             // add new overlaps to already previously considered overlaps and save
             val ols = Controller.state.ols ++ nols
             val message = getString(R.string.ok_deduced, new Integer(numberNew))
@@ -266,6 +269,7 @@ class CompletionActivity extends NavigationDrawerActivity with TypedFindView wit
             showErrorMsg(getString(R.string.error_deduce))
         }
     }
+
 
     def showErrorMsg(message: String): Unit = {
         Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG)
@@ -292,7 +296,7 @@ class CompletionActivity extends NavigationDrawerActivity with TypedFindView wit
 
     def updateEquationFragment(): Unit = {
         var equationsfr: EquationsFragment = null
-        if(completionPagerAdapter != null) {
+        if (completionPagerAdapter != null) {
             equationsfr = completionPagerAdapter.getRegisteredFragment(0).asInstanceOf[EquationsFragment]
         } else {
             equationsfr = getSupportFragmentManager.findFragmentById(R.id.equations_fragment).asInstanceOf[EquationsFragment]
@@ -303,11 +307,151 @@ class CompletionActivity extends NavigationDrawerActivity with TypedFindView wit
 
     def updateRulesFragment(): Unit = {
         var rulesfr: RulesFragment = null
-        if(completionPagerAdapter != null) {
+        if (completionPagerAdapter != null) {
             rulesfr = completionPagerAdapter.getRegisteredFragment(1).asInstanceOf[RulesFragment]
         } else {
             rulesfr = getSupportFragmentManager.findFragmentById(R.id.rules_fragment).asInstanceOf[RulesFragment]
         }
         rulesfr.updateRules()
     }
+
+    class AutoCompletionRunner(activity: Activity) extends AsyncTask[AnyRef, Integer, Boolean] {
+        var running = true
+        var nosol = false
+        var rounds = 0
+        val depth = Controller.state.depth
+        var step = Controller.state.erc
+        var simps = Controller.emptyS
+        var comps = Controller.emptyS
+        var colls = Controller.emptyS
+        var eis = step._1.keySet
+        var ris = step._2.keySet
+        var eat: I = Controller.emptyI
+        var prec: OP = Some(Controller.state.precedence)
+        var ti = Controller.emptyTI
+        var ols: OLS = if (SP.getBoolean("pref_caching", false)) Controller.state.ols else Controller.state.ols.empty
+        var pd: ProgressDialog = null
+
+        override def doInBackground(params: AnyRef*): Boolean = {
+            while (running) {
+                // SIMPLIFY & DELETE
+                step = reco.composeToNF(simps, ti, depth)(eis, step)
+                simps =
+                    if (depth > 0) simps ++ eis.map(k => (k, step._2.keySet)).toMap
+                    else simps
+                eis = step._1.keySet
+                step = reco.delete(eis, step)
+                eis = step._1.keySet
+
+                if (isComplete(ols, ti)(step) || rounds > 200) {
+                    //TODO maxNumSteps
+                    running = false
+                } else {
+                    rounds += 1
+                }
+
+                // ORIENT
+                if (running) {
+                    var i = 0
+                    // smallest first
+                    val l = step._1.filterKeys(!eat.contains(_))
+                    // calculate a list of the smallest equations
+                    if (l.isEmpty) {
+                        running = false
+                        // there can be no solution
+                        nosol = true
+                    } else {
+                        // get index of "smallest" equation wrt lhs+rhs size
+                        l.minBy(_._2.size)._1
+                        i = l.minBy(_._2.size)._1
+                        // remember rules already tried
+                        eat = eat + i
+                    }
+
+                    var tmp: (ERCH, OP) = (step, prec)
+                    val tm = Controller.getTMIncremental(Controller.state.precedence) _
+                    try {
+                        tmp = orientL(Controller.emptyI + i, step, tm)
+                    } catch {
+                        case _: Throwable => tmp = (step, prec)
+                    }
+                    try {
+                        if (tmp._1 == step) tmp = orientR(Controller.emptyI + i, step, tm)
+                    } catch {
+                        case _: Throwable => tmp = (step, prec)
+                    }
+                    step = tmp._1
+                    prec = tmp._2
+                    eis = step._1.keySet
+                    ris = step._2.keySet
+
+                    // COMPOSE
+                    step = reco.composeToNF(comps, ti, depth)(ris, step)
+                    comps =
+                        if (depth > 0) comps ++ ris.map(k => (k, step._2.keySet)).toMap
+                        else comps
+                    eis = step._1.keySet
+                    ris = step._2.keySet
+
+                    // COLLAPSE
+                    step = reco.collapse(colls, ti)(ris, step)
+                    colls =
+                        if (depth > 0) colls ++ ris.map(k => (k, step._2.keySet)).toMap
+                        else colls
+                    eis = step._1.keySet
+                    ris = step._2.keySet
+
+                    // DEDUCE
+                    val old = step
+                    step = reco.deduce(ols, ti)(ris, step)
+                    eis = step._1.keySet
+                    ris = step._2.keySet
+
+                    // compute which overlaps where considered this round
+                    // first get indices of new equations
+                    val nis = step._1.keySet.filterNot(old._1.contains(_))
+                    // second make list of newly considered overlaps
+                    // IMPORTANT: nols has to be a List, otherwise duplicates are thrown
+                    // out, and we don't want that to happen here!
+                    val nols = step._4.filterKeys(nis.contains(_)).toList.map(t => (t._2._2._1, t._2._4._1))
+                    // add new overlaps to already previously considered overlaps and save
+                    ols = ols ++ nols
+                }
+            }
+            if (isComplete(ols, ti)(step)) return true
+            false
+        }
+
+        override def onPreExecute(): Unit = {
+            pd = new ProgressDialog(activity)
+            pd.setProgressStyle(ProgressDialog.STYLE_SPINNER)
+            pd.setTitle("Automatic completion")
+            pd.setMessage("Computing...")
+            pd.setIndeterminate(true)
+            pd.show()
+        }
+
+        override def onProgressUpdate(progress: Integer*): Unit = {
+            // TODO
+        }
+
+        override def onPostExecute(result: Boolean) {
+            pd.dismiss()
+            if (result) {
+                val message = getString(R.string.ok_auto_complete)
+                showSuccessMsg(message)
+                Controller.builder.
+                    withErch(step).
+                    withOLS(ols).
+                    withPrecedence(prec.get).
+                    withMessage(message).
+                    updateState()
+                updateViews()
+            } else {
+                val message = getString(R.string.error_auto_complete)
+                showErrorMsg(message)
+            }
+        }
+    }
+
 }

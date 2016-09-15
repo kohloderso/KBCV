@@ -156,6 +156,7 @@ object Controller {
     val emptyTI:TI = term.indexing.DT.empty
     val emptyS:reco.S = new HashMap[Int,HashSet[Int]]
 
+
 }
 
 

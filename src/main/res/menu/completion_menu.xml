@@ -12,11 +12,14 @@
             android:title="redo"
             app:showAsAction="always"/>
 
-
     <item
             android:id="@+id/completeness_check"
             android:title="complete?"
             app:showAsAction="ifRoom"/>
+
+    <item android:id="@+id/automatic_completion"
+          android:title="Completion"
+          app:showAsAction="ifRoom"/>
 
 
 </menu>
