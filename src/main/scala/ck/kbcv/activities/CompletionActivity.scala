@@ -315,7 +315,7 @@ class CompletionActivity extends NavigationDrawerActivity with TypedFindView wit
         rulesfr.updateRules()
     }
 
-    class AutoCompletionRunner(activity: Activity) extends AsyncTask[AnyRef, Integer, Boolean] {
+    class AutoCompletionRunner(activity: Activity) extends AsyncTask[AnyRef, AnyRef, Boolean] {
         var running = true
         var nosol = false
         var rounds = 0
@@ -335,7 +335,7 @@ class CompletionActivity extends NavigationDrawerActivity with TypedFindView wit
         override def doInBackground(params: AnyRef*): Boolean = {
             while (running) {
                 // SIMPLIFY & DELETE
-                step = reco.composeToNF(simps, ti, depth)(eis, step)
+                step = reco.simplifyToNF(simps, ti, depth)(eis, step)
                 simps =
                     if (depth > 0) simps ++ eis.map(k => (k, step._2.keySet)).toMap
                     else simps
@@ -343,11 +343,12 @@ class CompletionActivity extends NavigationDrawerActivity with TypedFindView wit
                 step = reco.delete(eis, step)
                 eis = step._1.keySet
 
-                if (isComplete(ols, ti)(step) || rounds > 200) {
+                if (isComplete(ols, ti)(step) || rounds > 400) {
                     //TODO maxNumSteps
                     running = false
                 } else {
                     rounds += 1
+                    publishProgress()
                 }
 
                 // ORIENT
@@ -424,15 +425,17 @@ class CompletionActivity extends NavigationDrawerActivity with TypedFindView wit
 
         override def onPreExecute(): Unit = {
             pd = new ProgressDialog(activity)
-            pd.setProgressStyle(ProgressDialog.STYLE_SPINNER)
+            pd.setMax(400)
+            pd.setProgress(0)
+            pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL)
             pd.setTitle("Automatic completion")
             pd.setMessage("Computing...")
-            pd.setIndeterminate(true)
+            pd.setIndeterminate(false)
             pd.show()
         }
 
-        override def onProgressUpdate(progress: Integer*): Unit = {
-            // TODO
+        override def onProgressUpdate(any: AnyRef*): Unit = {
+            pd.setProgress(rounds)
         }
 
         override def onPostExecute(result: Boolean) {
