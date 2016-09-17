@@ -1,10 +1,10 @@
 package ck.kbcv.dialogs
 
-import android.app.AlertDialog.Builder
 import android.app.{Activity, Dialog}
 import android.content.{DialogInterface, Intent}
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
+import android.support.v7.app.AlertDialog.Builder
 import android.widget.Toast
 
 
@@ -27,7 +27,7 @@ class ImportDialogFragment extends DialogFragment {
                 }
 
             })
-        .setPositiveButton("Import from external", new DialogInterface.OnClickListener() {
+            .setNeutralButton("Import from external", new DialogInterface.OnClickListener() {
             def onClick(dialogInterface: DialogInterface, which: Int): Unit = {
                 chooseFile()
             }

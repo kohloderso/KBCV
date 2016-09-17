@@ -2,12 +2,12 @@ package ck.kbcv.dialogs
 
 import java.io.InputStream
 
-import android.app.AlertDialog.Builder
 import android.app.{Activity, Dialog}
 import android.content.DialogInterface
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
+import android.support.v7.app.AlertDialog.Builder
 import ck.kbcv.{Controller, OnEquationsChangedListener, OnSymbolsChangedListener, R}
 import term.parser.{Parser, ParserOldTRS, ParserXmlTRS}
 ;
@@ -51,7 +51,7 @@ class AddDialogFragment extends DialogFragment {
         }
         builder.setTitle("Add ES")
             .setMessage(esString)
-            .setNegativeButton("Use as new ES", new DialogInterface.OnClickListener() {
+            .setNeutralButton("Use as new ES", new DialogInterface.OnClickListener() {
                 def onClick(dialogInterface: DialogInterface, which: Int): Unit = {
                     Controller.setES(es, getResources.getString(R.string.ok_new_es, new Integer(es.size)))
                     symbolsListener.onFunctionsChanged()
