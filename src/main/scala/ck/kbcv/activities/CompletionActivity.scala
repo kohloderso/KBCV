@@ -319,6 +319,7 @@ class CompletionActivity extends NavigationDrawerActivity with TypedFindView wit
         var running = true
         var nosol = false
         var rounds = 0
+        val limit = SP.getInt("number_rounds", 0)
         val depth = Controller.state.depth
         var step = Controller.state.erc
         var simps = Controller.emptyS
@@ -332,6 +333,8 @@ class CompletionActivity extends NavigationDrawerActivity with TypedFindView wit
         var ols: OLS = if (SP.getBoolean("pref_caching", false)) Controller.state.ols else Controller.state.ols.empty
         var pd: ProgressDialog = null
 
+        def limitReached = limit != 0 && rounds >= limit
+
         override def doInBackground(params: AnyRef*): Boolean = {
             while (running) {
                 // SIMPLIFY & DELETE
@@ -343,7 +346,7 @@ class CompletionActivity extends NavigationDrawerActivity with TypedFindView wit
                 step = reco.delete(eis, step)
                 eis = step._1.keySet
 
-                if (isComplete(ols, ti)(step) || rounds > 400) {
+                if (isComplete(ols, ti)(step) || !limitReached) {
                     //TODO maxNumSteps
                     running = false
                 } else {
@@ -425,7 +428,7 @@ class CompletionActivity extends NavigationDrawerActivity with TypedFindView wit
 
         override def onPreExecute(): Unit = {
             pd = new ProgressDialog(activity)
-            pd.setMax(400)
+            pd.setMax(limit)
             pd.setProgress(0)
             pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL)
             pd.setTitle("Automatic completion")

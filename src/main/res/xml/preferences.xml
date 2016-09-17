@@ -13,5 +13,11 @@
             android:summary="When caching is active, overlaps that have already been considered won't be considered again"
             android:defaultValue="true"/>
 
+    <ck.kbcv.dialogs.NumberPickerPreference
+            android:key="number_rounds"
+            android:title="Rounds"
+            android:summary="Number of rounds in automatic completion"
+            android:defaultValue="100"
+            />
 
 </PreferenceScreen>
