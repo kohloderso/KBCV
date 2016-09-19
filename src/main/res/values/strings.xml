@@ -34,4 +34,6 @@
     <string name="edited_eq">Edited equation %1$d</string>
     <string name="created_eq">Created new equation</string>
 
+    <!-- settings -->
+    <string name="rounds">rounds in automatic completion</string>
 </resources>

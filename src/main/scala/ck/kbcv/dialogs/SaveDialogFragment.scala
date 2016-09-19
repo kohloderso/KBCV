@@ -15,7 +15,7 @@ class SaveDialogFragment extends DialogFragment {
         val activity = getActivity
         val builder = new Builder((activity))
         val edittext = new EditText(activity)
-        edittext.setPadding(8, 8, 8, 8)
+        edittext.setPadding(20, 20, 20, 20)
         edittext.setHint("name")
 
         builder.setTitle("Save TRS")

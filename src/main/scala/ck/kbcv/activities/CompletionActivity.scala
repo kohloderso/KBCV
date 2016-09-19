@@ -346,7 +346,7 @@ class CompletionActivity extends NavigationDrawerActivity with TypedFindView wit
                 step = reco.delete(eis, step)
                 eis = step._1.keySet
 
-                if (isComplete(ols, ti)(step) || !limitReached) {
+                if (isComplete(ols, ti)(step) || limitReached) {
                     //TODO maxNumSteps
                     running = false
                 } else {

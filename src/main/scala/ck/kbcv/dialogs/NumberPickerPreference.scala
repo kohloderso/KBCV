@@ -3,7 +3,6 @@ package ck.kbcv.dialogs
 import android.content.Context
 import android.content.res.TypedArray
 import android.os.Bundle
-import android.support.v7.app.AlertDialog
 import android.support.v7.preference.{DialogPreference, PreferenceDialogFragmentCompat}
 import android.util.AttributeSet
 import android.view.View
@@ -55,11 +54,6 @@ class NumberPickerPreferenceDialogFragmentCompat extends PreferenceDialogFragmen
     val MIN_VALUE = 0
     var picker: NumberPicker = null
 
-    override protected def onPrepareDialogBuilder(builder: AlertDialog.Builder): Unit = {
-        builder.setPositiveButton("test", null)
-
-
-    }
 
     override def onBindDialogView(view: View): Unit = {
         super.onBindDialogView(view)
