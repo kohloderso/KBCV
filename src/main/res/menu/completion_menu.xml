@@ -21,5 +21,9 @@
           android:title="Completion"
           app:showAsAction="ifRoom"/>
 
+    <item
+            android:id="@+id/export_rules"
+            android:title="Export rules"
+            app:showAsAction="never"/>
 
 </menu>

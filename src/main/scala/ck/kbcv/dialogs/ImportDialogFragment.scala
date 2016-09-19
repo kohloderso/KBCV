@@ -42,7 +42,7 @@ class ImportDialogFragment extends DialogFragment {
         intent.addCategory(Intent.CATEGORY_OPENABLE)
 
         try {
-            getActivity.startActivityForResult(Intent.createChooser(intent, "Select a File to Upload"), FILE_REQUEST)
+            getActivity.startActivityForResult(Intent.createChooser(intent, "Select a filemanager"), FILE_REQUEST)
         } catch {
             case ex: android.content.ActivityNotFoundException => {
                 // Potentially direct the user to the Market with a Dialog

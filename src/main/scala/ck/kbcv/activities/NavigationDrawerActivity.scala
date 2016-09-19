@@ -54,7 +54,7 @@ class NavigationDrawerActivity extends AppCompatActivity with NavigationView.OnN
 
 
     def startDrawerActivity(activity: Class[_]): Unit = {
-        //drawerLayout.closeDrawer(GravityCompat.START)
+        drawerLayout.closeDrawers()
         startActivity(new Intent(getApplicationContext, activity))
     }
 
