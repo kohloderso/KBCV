@@ -38,10 +38,18 @@ class EquationEditor extends Fragment with OnClickListener {
     }
 
     /**
+     * set the label of the button either to "add" or "save" depending on whether its a new equation
+     */
+    def setAddButton(name: String): Unit = {
+        addButton.setText(name)
+        checkAddButton()
+    }
+
+    /**
      * check if there's still a DropZone, if not enable the 'add'-Button
      */
-    def setAddButton(): Unit = {
-        if(equationEditView.containsDropZones()) {
+    def checkAddButton(): Unit = {
+        if (equationEditView.containsDropZones()) {
             addButton.setEnabled(false)
         } else {
             addButton.setEnabled(true)
@@ -62,10 +70,11 @@ class EquationEditor extends Fragment with OnClickListener {
                     equationsListener.onEquationsAdded()
                 }
                 equationEditView.clear()
+                setAddButton("add")
             }
         } else if(clearButton.equals(v)) {
             equationEditView.clear()
+            setAddButton("add")
         }
-        setAddButton()
     }
 }

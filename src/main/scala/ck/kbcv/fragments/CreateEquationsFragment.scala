@@ -37,12 +37,8 @@ class CreateEquationsFragment extends Fragment with ItemClickListener {
         variableSymbolContainer = view.findViewById(R.id.variableSymbolContainer).asInstanceOf[HorizontalFlowLayout]
         equationEditView = view.findViewById(R.id.edit_view).asInstanceOf[EquationEditView]
 
-        //val linearLayoutManager = new LinearLayoutManager(getActivity)
-        //linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL)
-        //functionSymbolContainer.setLayoutManager(linearLayoutManager)
-        //functionAdapter = new FunctionAdapter(Controller.state.functions)
-        //functionSymbolContainer.setAdapter(functionAdapter)
         onFunctionsChanged()
+        onVariablesChanged()
 
         mAdapter = new EquationsAdapter(Controller.state.erc._1, this)
         // allow only one equation to be selected at a time, because only one can be edited at a time

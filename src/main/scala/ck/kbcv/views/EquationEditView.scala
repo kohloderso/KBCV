@@ -41,7 +41,6 @@ class EquationEditView (context: Context, attrs: AttributeSet, equation: IE, var
             index = ie._1
             lhs = equation.lhs
             rhs = equation.rhs
-
         }
 
         leftTerm = new TermView(context, attrs, lhs, this)
@@ -57,6 +56,14 @@ class EquationEditView (context: Context, attrs: AttributeSet, equation: IE, var
 
         rightTerm = new TermView(context, attrs, rhs, this)
         this.addView(rightTerm)
+
+        if (equationEditor != null) {
+            if (index >= 0) {
+                equationEditor.setAddButton("save")
+            } else {
+                equationEditor.setAddButton("add")
+            }
+        }
     }
 
     def containsDropZones(): Boolean = {
@@ -77,7 +84,7 @@ class EquationEditView (context: Context, attrs: AttributeSet, equation: IE, var
     }
 
     def onSymbolDropped(): Unit = {
-        equationEditor.setAddButton()
+        equationEditor.checkAddButton()
     }
 
 }
