@@ -1,20 +1,17 @@
 package ck.kbcv.activities
 
-import java.io.{FileNotFoundException, FileOutputStream, IOException}
-
 import android.app.{Activity, ProgressDialog}
-import android.content.{Intent, SharedPreferences}
+import android.content.SharedPreferences
 import android.graphics.{Color, PorterDuff}
 import android.os.{AsyncTask, Bundle}
 import android.support.design.widget.{Snackbar, TabLayout}
 import android.support.v7.preference.PreferenceManager
 import android.util.Log
 import android.view.{Menu, MenuItem, View}
-import android.widget.Toast
 import ck.kbcv._
 import ck.kbcv.adapters.CompletionPagerAdapter
+import ck.kbcv.dialogs.SaveDialogFragment
 import ck.kbcv.fragments.{EquationsFragment, RulesFragment}
-import term.parser.ParserOldTRS
 import term.reco
 import term.reco._
 
@@ -113,41 +110,13 @@ class CompletionActivity extends NavigationDrawerActivity with TypedFindView wit
             }
 
             case R.id.export_rules => {
-                val intent = new Intent(Intent.ACTION_CREATE_DOCUMENT)
-                    .addCategory(Intent.CATEGORY_OPENABLE)
-                    .setType("text/*")
-
-                startActivityForResult(intent, CREATE_REQUEST_CODE)
+                new SaveDialogFragment(true).show(getSupportFragmentManager, "SaveDialog")
                 true
             }
             case _ => false
         }
     }
 
-    override def onActivityResult(requestCode: Int, resultCode: Int, data: Intent): Unit = {
-        // Check which request we're responding to
-        if (requestCode == CREATE_REQUEST_CODE) {
-            // Make sure the request was successful
-            if (resultCode == Activity.RESULT_OK) {
-                if (data != null) {
-                    val uri = data.getData
-                    Toast.makeText(this, "Saving Rules...", Toast.LENGTH_SHORT).show()
-                    try {
-                        val fd = this.getContentResolver.openFileDescriptor(uri, "w")
-                        val outStream = new FileOutputStream(fd.getFileDescriptor)
-                        outStream.write(ParserOldTRS.toOldString(Controller.state.erc._2, false).getBytes)
-                        outStream.close()
-                        fd.close()
-                    } catch {
-                        case e: FileNotFoundException => e.printStackTrace()
-                        case e: IOException => e.printStackTrace()
-                    }
-                }
-            } else {
-                showErrorMsg("There has been a problem with saving")
-            }
-        }
-    }
 
     override def orientRL(is: IS): Boolean = {
         val tm = Controller.getTMIncremental(Controller.state.precedence) _
