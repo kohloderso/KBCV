@@ -14,9 +14,6 @@ class PrecedenceActivity extends NavigationDrawerActivity with TypedFindView {
         super.onCreate( savedInstanceState )
         setContentView( R.layout.precedence_activity)
 
-        val myToolbar = findView( TR.my_toolbar )
-        setSupportActionBar( myToolbar )
-
         mRecyclerView = findView(TR.lpoPrecContainer)
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this))
         mRecyclerView.setAdapter(new PrecedenceAdapter(Controller.state.precedence))

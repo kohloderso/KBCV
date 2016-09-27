@@ -26,9 +26,6 @@ class CompletionActivity extends NavigationDrawerActivity with TypedFindView wit
         super.onCreate(savedInstanceState)
         setContentView(R.layout.completion_activity)
 
-        val myToolbar = findView(TR.my_toolbar)
-        setSupportActionBar(myToolbar)
-
         SP = PreferenceManager.getDefaultSharedPreferences(getBaseContext)
 
         val utility = new ScreenUtility(this)
@@ -113,7 +110,7 @@ class CompletionActivity extends NavigationDrawerActivity with TypedFindView wit
                 new SaveDialogFragment(true).show(getSupportFragmentManager, "SaveDialog")
                 true
             }
-            case _ => false
+            case _ => super.onOptionsItemSelected(item)
         }
     }
 

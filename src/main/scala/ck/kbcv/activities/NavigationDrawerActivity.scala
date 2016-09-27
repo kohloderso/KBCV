@@ -1,18 +1,21 @@
 package ck.kbcv.activities
 
 import android.content.Intent
+import android.os.Bundle
 import android.support.design.widget.NavigationView
+import android.support.v4.view.GravityCompat
 import android.support.v4.widget.DrawerLayout
-import android.support.v7.app.AppCompatActivity
+import android.support.v7.app.{ActionBarDrawerToggle, AppCompatActivity}
 import android.view.MenuItem
 import android.widget.FrameLayout
-import ck.kbcv.R
 import ck.kbcv.dialogs.HistoryDialogFragment
+import ck.kbcv.{R, TR, TypedFindView}
 
 
-class NavigationDrawerActivity extends AppCompatActivity with NavigationView.OnNavigationItemSelectedListener {
+class NavigationDrawerActivity extends AppCompatActivity with NavigationView.OnNavigationItemSelectedListener with TypedFindView {
     var drawerLayout: DrawerLayout = null
     var navigationView: NavigationView = null
+    var drawerToggle: ActionBarDrawerToggle = null
 
     override def setContentView(layoutResID: Int) = {
 
@@ -23,8 +26,31 @@ class NavigationDrawerActivity extends AppCompatActivity with NavigationView.OnN
 
         getLayoutInflater.inflate(layoutResID, mainLayout, true)
         super.setContentView(drawerLayout)
+
+        val myToolbar = findView(TR.my_toolbar)
+        setSupportActionBar(myToolbar)
+
+        drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, myToolbar, R.string.drawer_open, R.string.drawer_close)
+        drawerLayout.addDrawerListener(drawerToggle)
     }
 
+    override def onPostCreate(savedInstanceState: Bundle): Unit = {
+        drawerToggle.syncState()
+        super.onPostCreate(savedInstanceState)
+    }
+
+    override def onOptionsItemSelected(item: MenuItem): Boolean = {
+        if (drawerToggle.onOptionsItemSelected(item)) return true
+        super.onOptionsItemSelected(item)
+    }
+
+    override def onBackPressed(): Unit = {
+        if (drawerLayout.isDrawerOpen(GravityCompat.END)) {
+            drawerLayout.closeDrawer(GravityCompat.END)
+        } else {
+            super.onBackPressed()
+        }
+    }
 
     override def onNavigationItemSelected(menuItem: MenuItem): Boolean = {
         menuItem.getItemId match {
@@ -55,7 +81,12 @@ class NavigationDrawerActivity extends AppCompatActivity with NavigationView.OnN
 
     def startDrawerActivity(activity: Class[_]): Unit = {
         drawerLayout.closeDrawers()
-        startActivity(new Intent(getApplicationContext, activity))
+        drawerLayout.postDelayed(new Runnable() {
+            override def run() {
+                startActivity(new Intent(getApplicationContext, activity))
+            }
+        }, 300);
+
     }
 
 }

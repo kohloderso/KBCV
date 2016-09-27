@@ -31,10 +31,6 @@ class CreateEquationsActivity extends NavigationDrawerActivity with UpdateListen
         super.onCreate( savedInstanceState )
         setContentView( R.layout.create_es_activity)
 
-
-        val myToolbar = findView( TR.my_toolbar )
-        setSupportActionBar( myToolbar )
-
         val utility = new ScreenUtility(this)
 
         if (utility.getWidth() < 400.0) {
@@ -93,7 +89,7 @@ class CreateEquationsActivity extends NavigationDrawerActivity with UpdateListen
                 updateViews()
                 true
             }
-            case _ => false
+            case _ => super.onOptionsItemSelected(item)
         }
     }
 
