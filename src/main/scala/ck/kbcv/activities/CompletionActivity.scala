@@ -448,20 +448,21 @@ class CompletionActivity extends NavigationDrawerActivity with TypedFindView wit
 
         override def onPostExecute(result: Boolean) {
             pd.dismiss()
+            var message = ""
             if (result) {
-                val message = getString(R.string.ok_auto_complete)
+                message = getString(R.string.ok_auto_complete)
                 showSuccessMsg(message)
-                Controller.builder.
-                    withErch(step).
-                    withOLS(ols).
-                    withPrecedence(prec.get).
-                    withMessage(message).
-                    updateState()
-                updateViews()
             } else {
-                val message = getString(R.string.error_auto_complete)
+                message = getString(R.string.error_auto_complete)
                 showErrorMsg(message)
             }
+            Controller.builder.
+                withErch(step).
+                withOLS(ols).
+                withPrecedence(prec.get).
+                withMessage(message).
+                updateState()
+            updateViews()
         }
     }
 

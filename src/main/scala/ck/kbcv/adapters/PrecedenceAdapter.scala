@@ -63,7 +63,7 @@ class PrecedenceAdapter(precedence: Precedence)  extends RecyclerView.Adapter[Pr
 
     override def onBindViewHolder(vh: ViewHolder, i: Int): Unit = {
         val (f1, f2) = mBuffer(i)
-        val text = "<font color=#aeea00>" + f1 + "</font> <font> < </font> <font color=#aeea00>" + f2 + "</font>"
+        val text = "<font color=#aeea00>" + f1 + "</font> <font> > </font> <font color=#aeea00>" + f2 + "</font>"
         vh.textView.setText(Html.fromHtml(text))
     }
 
