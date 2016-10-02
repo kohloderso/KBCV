@@ -13,13 +13,13 @@
                 android:id="@+id/scrollview"
                 android:layout_below="@+id/variableSymbolContainer">
 
-    <view
-            style="@style/EquationEditor"
-            android:theme="@style/EquationEditor"
-            android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          class="ck.kbcv.views.EquationEditView"
-          android:id="@+id/edit_view" />
+        <view
+                style="@style/EditorViewsStyle"
+                android:theme="@style/EditorViewsStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                class="ck.kbcv.views.EquationEditView"
+                android:id="@+id/edit_view"/>
     </HorizontalScrollView>
 
     <view android:layout_width="wrap_content"

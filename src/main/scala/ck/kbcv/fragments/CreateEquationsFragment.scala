@@ -152,7 +152,7 @@ class CreateEquationsFragment extends Fragment with ItemClickListener {
 
     override def onSaveInstanceState(outState: Bundle): Unit ={
         super.onSaveInstanceState(outState)
-        outState.putSerializable("equation", equationEditView.getEquation())
+        outState.putSerializable("equation", equationEditView.getEquation)
         outState.putInt("index", equationEditView.index)
     }
 

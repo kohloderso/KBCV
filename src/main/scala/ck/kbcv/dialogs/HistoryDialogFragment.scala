@@ -6,25 +6,16 @@ import android.support.v4.app.DialogFragment
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.{LinearLayoutManager, RecyclerView}
 import ck.kbcv.UndoRedoType._
+import ck.kbcv.activities.UndoRedoActivity
 import ck.kbcv.adapters.UndoRedoAdapter
 import ck.kbcv.adapters.UndoRedoAdapter.HistoryClickListener
-import ck.kbcv.{Controller, R, UpdateListener}
+import ck.kbcv.{Controller, R}
 
 
 class HistoryDialogFragment extends DialogFragment with HistoryClickListener {
     var mAdapter: UndoRedoAdapter = null
-    var updateListener: UpdateListener = null
 
     override def onCreateDialog(savedInstanceState: Bundle): Dialog = {
-
-        try {
-            updateListener = getActivity.asInstanceOf[UpdateListener]
-        } catch {
-            case ex: ClassCastException => {
-                throw new ClassCastException(getActivity.toString()
-                    + " must implement UpdateListener ")
-            }
-        }
 
         val builder = new AlertDialog.Builder(getActivity())
         // Get the layout inflater
@@ -60,7 +51,15 @@ class HistoryDialogFragment extends DialogFragment with HistoryClickListener {
             }
             case _ =>
         }
-        updateListener.updateViews()
+
+        try {
+            val undoRedoActivity = getActivity.asInstanceOf[UndoRedoActivity]
+            undoRedoActivity.updateViews()
+        } catch {
+            case ex: ClassCastException =>
+        }
+
+
         dismiss()
     }
 }

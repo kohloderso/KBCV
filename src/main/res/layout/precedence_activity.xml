@@ -1,17 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="vertical">
 
     <include layout="@layout/toolbar"/>
 
-    <android.support.v7.widget.RecyclerView
-            android:id="@+id/lpoPrecContainer"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="16dp" android:layout_gravity="center_horizontal"/>
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="16dp">
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                        android:id="@+id/precedenceEditLayout"
+                        android:layout_alignParentBottom="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/textColorPrimary"
+                        android:padding="10dp">
+
+
+            <HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+                                  android:layout_width="wrap_content"
+                                  android:layout_height="wrap_content"
+                                  android:fillViewport="true"
+                                  android:id="@+id/scrollview"
+                                  android:layout_below="@+id/functionSymbolsContainer_prec"
+                                  android:layout_centerHorizontal="true">
+
+                <view
+                        style="@style/EditorViewsStyle"
+                        android:theme="@style/EditorViewsStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        class="ck.kbcv.views.PrecedenceEditView"
+                        android:id="@+id/prec_edit_view"/>
+            </HorizontalScrollView>
+
+            <view android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_marginBottom="5dp"
+                  class="ck.kbcv.HorizontalFlowLayout"
+                  android:id="@+id/functionSymbolsContainer_prec"
+                  android:layout_alignParentTop="true"
+                  android:layout_centerHorizontal="true"/>
+
+            <Button
+                    style="@style/MyButton"
+                    android:theme="@style/MyButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="clear"
+                    android:id="@+id/clearButton_prec"
+                    android:layout_alignBottom="@+id/scrollview" android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"/>
+            <Button
+                    style="@style/MyButton"
+                    android:theme="@style/MyButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="add"
+                    android:id="@+id/addButton_prec"
+                    android:layout_alignBottom="@+id/scrollview" android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"/>
+        </RelativeLayout>
+
+        <android.support.v7.widget.RecyclerView
+                android:id="@+id/lpoPrecContainer"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_above="@+id/precedenceEditLayout"
+                android:layout_marginBottom="16dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_centerHorizontal="true"/>
+    </RelativeLayout>
+
 
 </LinearLayout>

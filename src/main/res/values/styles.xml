@@ -50,14 +50,9 @@
         <item name="android:background">?android:attr/listDivider</item>
     </style>
 
-    <style name="EquationEditor">
+    <style name="EditorViewsStyle">
         <item name="android:textSize">25sp</item>
         <!-- TODO different font?-->
     </style>
-
-
-
-
-
 
 </resources>

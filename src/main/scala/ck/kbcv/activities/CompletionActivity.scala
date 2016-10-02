@@ -1,13 +1,13 @@
 package ck.kbcv.activities
 
 import android.app.{Activity, ProgressDialog}
-import android.content.SharedPreferences
-import android.graphics.{Color, PorterDuff}
+import android.content.DialogInterface.OnClickListener
+import android.content.{DialogInterface, SharedPreferences}
 import android.os.{AsyncTask, Bundle}
-import android.support.design.widget.{Snackbar, TabLayout}
+import android.support.design.widget.TabLayout
 import android.support.v7.preference.PreferenceManager
 import android.util.Log
-import android.view.{Menu, MenuItem, View}
+import android.view.{Menu, MenuItem}
 import ck.kbcv._
 import ck.kbcv.adapters.CompletionPagerAdapter
 import ck.kbcv.dialogs.SaveDialogFragment
@@ -16,7 +16,7 @@ import term.reco
 import term.reco._
 
 
-class CompletionActivity extends NavigationDrawerActivity with TypedFindView with CompletionActionListener with UpdateListener {
+class CompletionActivity extends NavigationDrawerActivity with TypedFindView with CompletionActionListener with UndoRedoActivity {
     val TAG = "CompletionActivity"
     val CREATE_REQUEST_CODE = 40
     var completionPagerAdapter: CompletionPagerAdapter = null
@@ -60,27 +60,6 @@ class CompletionActivity extends NavigationDrawerActivity with TypedFindView wit
         return true
     }
 
-    override def onPrepareOptionsMenu(menu: Menu): Boolean = {
-        val undoEnabled = Controller.undoable(1)
-        val undoItem = menu.findItem(R.id.undo)
-        val resIcon = getResources().getDrawable(R.drawable.ic_undo_white_24dp)
-        if (!undoEnabled) {
-            resIcon.mutate().setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_IN)
-        }
-        undoItem.setEnabled(undoEnabled)
-        undoItem.setIcon(resIcon)
-
-        val redoEnabled = Controller.redoable(1)
-        val redoItem = menu.findItem(R.id.redo)
-        val resIcon2 = getResources().getDrawable(R.drawable.ic_redo_white_24dp)
-        if (!redoEnabled) {
-            resIcon2.mutate().setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_IN)
-        }
-        redoItem.setEnabled(redoEnabled)
-        redoItem.setIcon(resIcon2)
-        true
-    }
-
 
     override def onOptionsItemSelected(item: MenuItem): Boolean = {
         item.getItemId match {
@@ -88,16 +67,6 @@ class CompletionActivity extends NavigationDrawerActivity with TypedFindView wit
                 val complete = Controller.ercIsComplete()
                 if (complete) showSuccessMsg("TRS is complete now")
                 else showErrorMsg("Not complete yet")
-                true
-            }
-            case R.id.undo => {
-                Controller.undo()
-                updateViews()
-                true
-            }
-            case R.id.redo => {
-                Controller.redo()
-                updateViews()
                 true
             }
             case R.id.automatic_completion => {
@@ -275,24 +244,6 @@ class CompletionActivity extends NavigationDrawerActivity with TypedFindView wit
         }
     }
 
-
-    def showErrorMsg(message: String): Unit = {
-        Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG)
-            .show();
-    }
-
-    def showSuccessMsg(message: String): Unit = {
-        val onClickListener = new View.OnClickListener {
-            override def onClick(v: View) {
-                Controller.undo()
-                updateViews()
-            }
-        }
-        Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG)
-            .setAction("undo", onClickListener)
-            .show();
-    }
-
     override def updateViews(): Unit = {
         invalidateOptionsMenu()
         updateEquationFragment()
@@ -320,7 +271,7 @@ class CompletionActivity extends NavigationDrawerActivity with TypedFindView wit
         rulesfr.updateRules()
     }
 
-    class AutoCompletionRunner(activity: Activity) extends AsyncTask[AnyRef, AnyRef, Boolean] {
+    class AutoCompletionRunner(activity: Activity) extends AsyncTask[AnyRef, AnyRef, Boolean] with OnClickListener {
         var running = true
         var nosol = false
         var rounds = 0
@@ -439,7 +390,13 @@ class CompletionActivity extends NavigationDrawerActivity with TypedFindView wit
             pd.setTitle("Automatic completion")
             pd.setMessage("Computing...")
             pd.setIndeterminate(false)
+            pd.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel", this)
+
             pd.show()
+        }
+
+        override def onClick(dialogInterface: DialogInterface, which: Int): Unit = {
+            running = false
         }
 
         override def onProgressUpdate(any: AnyRef*): Unit = {

@@ -12,7 +12,7 @@ import term.{Fun, Term}
 import scala.collection.mutable
 
 
-class FunView (context: Context, attrs: AttributeSet, funName: F, funArgs: List[Term], equationEditView: EquationEditView = null) extends LinearLayout(context: Context, attrs: AttributeSet) {
+class FunView(context: Context, attrs: AttributeSet, funName: F, funArgs: List[Term], symbolListener: DropSymbolsEditor = null) extends LinearLayout(context: Context, attrs: AttributeSet) {
     this.setOrientation(LinearLayout.HORIZONTAL)
 
 
@@ -30,7 +30,7 @@ class FunView (context: Context, attrs: AttributeSet, funName: F, funArgs: List[
 
         this.addView(bracketL)
         for(arg <- funArgs) {
-            val termView = new TermView(context, attrs, arg, equationEditView)
+            val termView = new TermView(context, attrs, arg, symbolListener)
             this.addView(termView)
             val comma = new TextView(context, attrs)
             comma.setText(", ")

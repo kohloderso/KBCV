@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.view.View
 import ck.kbcv.activities.{CompletionActivity, CreateEquationsActivity, NavigationDrawerActivity}
 
-class MainActivity extends NavigationDrawerActivity with TypedFindView with UpdateListener{
+class MainActivity extends NavigationDrawerActivity with TypedFindView {
 
     override def onCreate( savedInstanceState: Bundle ): Unit = {
         super.onCreate( savedInstanceState )
@@ -31,8 +31,5 @@ class MainActivity extends NavigationDrawerActivity with TypedFindView with Upda
         } )
     }
 
-    override def updateViews(): Unit = {
-        // nothing to update
-    }
 
 }

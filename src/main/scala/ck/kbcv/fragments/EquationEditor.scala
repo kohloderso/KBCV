@@ -60,7 +60,7 @@ class EquationEditor extends Fragment with OnClickListener {
         if(addButton.equals(v)) {
             if(equationEditView.containsDropZones()) {} // TODO: throw error or something
             else {
-                val equation = equationEditView.getEquation()
+                val equation = equationEditView.getEquation
                 if(equationEditView.index > 0) {    // not a new equation, it's an edited equation
                     val ie = (equationEditView.index, equation)
                     Controller.updateEq(ie, getString(R.string.edited_eq, new Integer(ie._1)))

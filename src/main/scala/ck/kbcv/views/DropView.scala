@@ -8,7 +8,7 @@ import android.widget.LinearLayout
 import ck.kbcv.R
 import term.{Fun, Var}
 
-class DropView(context: Context, attrs: AttributeSet, equationEditView: EquationEditView = null) extends CardView(context, attrs) {
+class DropView(context: Context, attrs: AttributeSet, symbolListener: DropSymbolsEditor = null) extends CardView(context, attrs) {
     val TAG = "EquationDropzone"
     this.setCardBackgroundColor(getResources.getColor(R.color.colorSecondaryBright))
     this.setOnDragListener(new View.OnDragListener() {
@@ -40,9 +40,10 @@ class DropView(context: Context, attrs: AttributeSet, equationEditView: Equation
                 val functionSymbol = clipData.getItemAt(0).getText.toString
                 val arity = clipData.getItemAt(1).getText.toString.toInt
                 new Fun(functionSymbol, List.fill(arity)(null))
+            case "precedence" => new Fun(clipData.getItemAt(0).getText.toString, List.empty)
         }
-        equation.addView(new TermView(context, attrs, term, equationEditView), index)
-        equationEditView.onSymbolDropped()
+        equation.addView(new TermView(context, attrs, term, symbolListener), index)
+        symbolListener.onSymbolDropped()
     }
 
 

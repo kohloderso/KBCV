@@ -10,19 +10,19 @@ import ck.kbcv.R
 import term.{Fun, Term, Var}
 
 
-class TermView(context: Context, attrs: AttributeSet, term: Term = null, equationEditView: EquationEditView = null) extends LinearLayout(context: Context, attrs: AttributeSet) with OnDragListener{
+class TermView(context: Context, attrs: AttributeSet, term: Term = null, symbolListener: DropSymbolsEditor = null) extends LinearLayout(context: Context, attrs: AttributeSet) with OnDragListener {
 
     if(term == null) {
-        this.addView(new DropView(context, attrs, equationEditView))
+        this.addView(new DropView(context, attrs, symbolListener))
     } else {
         val v = term match {
             case Var(x) =>
                 new VarView(context, attrs, x)
             case Fun(f, ts) =>
-                new FunView(context, attrs, f, ts, equationEditView)
+                new FunView(context, attrs, f, ts, symbolListener)
         }
         this.addView(v)
-        if(equationEditView != null) v.setOnDragListener(this)
+        if (symbolListener != null) v.setOnDragListener(this)
     }
 
     override def onDrag(v: View, event: DragEvent): Boolean = {
@@ -45,10 +45,11 @@ class TermView(context: Context, attrs: AttributeSet, term: Term = null, equatio
                 val functionSymbol = clipData.getItemAt(0).getText.toString
                 val arity = clipData.getItemAt(1).getText.toString.toInt
                 new Fun(functionSymbol, List.fill(arity)(null))
+            case "precedence" => new Fun(clipData.getItemAt(0).getText.toString, List.empty)
         }
         this.removeAllViews()
-        this.addView(new TermView(context, attrs, term, equationEditView))
-        equationEditView.onSymbolDropped()
+        this.addView(new TermView(context, attrs, term, symbolListener))
+        symbolListener.onSymbolDropped()
     }
 
     def containsDropZones(): Boolean = {
@@ -67,5 +68,10 @@ class TermView(context: Context, attrs: AttributeSet, term: Term = null, equatio
             case t: TermView => t.getTerm
             case _: DropView => null
         }
+    }
+
+    def clear(): Unit = {
+        this.removeAllViews()
+        this.addView(new DropView(context, attrs, symbolListener))
     }
 }

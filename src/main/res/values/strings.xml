@@ -13,7 +13,9 @@
     <string name="error_auto_complete">
         <b>Automatic completion not successful</b>
     </string>
-
+    <string name="error_precedence">
+        <b>Could not add to precedence</b>
+    </string>
 
     <!-- ok messages -->
     <string name="ok_orient"><b>orient:</b> %1$d equations oriented</string>
@@ -27,7 +29,9 @@
     <string name="ok_auto_complete">
         <b>Automatic completion successful</b>
     </string>
-
+    <string name="ok_added_precedence">
+        <b>Added %1$s to precedence</b>
+    </string>
     <string name="added_var">Added a variable</string>
     <string name="added_fun">Added a function symbol</string>
     <string name="removed_eq">Removed equation %1$d</string>

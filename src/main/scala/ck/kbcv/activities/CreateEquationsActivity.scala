@@ -2,7 +2,6 @@ package ck.kbcv.activities
 
 import android.app.Activity
 import android.content.Intent
-import android.graphics.{Color, PorterDuff}
 import android.net.Uri
 import android.os.Bundle
 import android.support.design.widget.TabLayout
@@ -15,8 +14,7 @@ import ck.kbcv.fragments.{CreateEquationsFragment, SymbolsFragment}
 import term.reco.{IE, IES}
 
 
-
-class CreateEquationsActivity extends NavigationDrawerActivity with UpdateListener with OnSymbolsChangedListener with OnEquationsChangedListener with TypedFindView {
+class CreateEquationsActivity extends NavigationDrawerActivity with OnSymbolsChangedListener with OnEquationsChangedListener with TypedFindView with UndoRedoActivity {
     val TAG = "CreateEquationsActivity"
     var equationPagerAdapter: CreateEquationsPagerAdapter = null
     var ies: IES = null
@@ -74,16 +72,6 @@ class CreateEquationsActivity extends NavigationDrawerActivity with UpdateListen
                 new ImportDialogFragment().show(getSupportFragmentManager, "ImportDialog")
                 true
             }
-            case R.id.undo => {
-                Controller.undo()
-                updateViews()
-                true
-            }
-            case R.id.redo => {
-                Controller.redo()
-                updateViews()
-                true
-            }
             case R.id.action_clear =>{
                 Controller.clearAll()
                 updateViews()
@@ -91,27 +79,6 @@ class CreateEquationsActivity extends NavigationDrawerActivity with UpdateListen
             }
             case _ => super.onOptionsItemSelected(item)
         }
-    }
-
-    override def onPrepareOptionsMenu(menu: Menu): Boolean = {
-        val undoEnabled = Controller.undoable(1)
-        val undoItem =  menu.findItem(R.id.undo)
-        val resIcon = getResources().getDrawable(R.drawable.ic_undo_white_24dp)
-        if(!undoEnabled) {
-            resIcon.mutate().setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_IN)
-        }
-        undoItem.setEnabled(undoEnabled)
-        undoItem.setIcon(resIcon)
-
-        val redoEnabled = Controller.redoable(1)
-        val redoItem =  menu.findItem(R.id.redo)
-        val resIcon2 = getResources().getDrawable(R.drawable.ic_redo_white_24dp)
-        if(!redoEnabled) {
-            resIcon2.mutate().setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_IN)
-        }
-        redoItem.setEnabled(redoEnabled)
-        redoItem.setIcon(resIcon2)
-        true
     }
 
 

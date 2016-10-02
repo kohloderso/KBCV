@@ -76,6 +76,13 @@ object Controller {
             updateState()
     }
 
+    def addPrecedence(prec: Precedence, message: String): Unit = {
+        builder.
+            withPrecedence(prec).
+            withMessage(message).
+            updateState()
+    }
+
     def addEquation(equation: E, message: String): Unit = {
       val es = List.empty[E].::(equation)
       addES(es, message)
@@ -155,8 +162,6 @@ object Controller {
     val emptyI:I = new HashSet[Int]
     val emptyTI:TI = term.indexing.DT.empty
     val emptyS:reco.S = new HashMap[Int,HashSet[Int]]
-
-
 }
 
 
@@ -164,7 +169,6 @@ trait OnSymbolsChangedListener {
     def onVariablesChanged()
 
     def onFunctionsChanged()
-
 }
 
 trait OnEquationsChangedListener {
@@ -173,11 +177,6 @@ trait OnEquationsChangedListener {
     def onEquationsAdded()
 
     def onEquationUpdated(iE: IE)
-
-}
-
-trait UpdateListener {
-    def updateViews()
 }
 
 trait CompletionActionListener {
