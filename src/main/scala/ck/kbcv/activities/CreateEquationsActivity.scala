@@ -12,6 +12,7 @@ import ck.kbcv.adapters.CreateEquationsPagerAdapter
 import ck.kbcv.dialogs.{AddDialogFragment, ImportDialogFragment, SaveDialogFragment}
 import ck.kbcv.fragments.{CreateEquationsFragment, SymbolsFragment}
 import term.reco.{IE, IES}
+import term.util.Equation
 
 
 class CreateEquationsActivity extends NavigationDrawerActivity with OnSymbolsChangedListener with OnEquationsChangedListener with TypedFindView with UndoRedoActivity {
@@ -47,6 +48,34 @@ class CreateEquationsActivity extends NavigationDrawerActivity with OnSymbolsCha
             tabLayout.setupWithViewPager(viewPager)
         }
 
+        if (savedInstanceState != null && savedInstanceState.containsKey("equation")) {
+            val equation = savedInstanceState.getSerializable("equation").asInstanceOf[Equation]
+            val index = savedInstanceState.getInt("index")
+
+            if (equationPagerAdapter != null) equationPagerAdapter.setEquation((index, equation))
+            else getSupportFragmentManager.findFragmentById(R.id.create_es_fragment).asInstanceOf[CreateEquationsFragment].equationEditView.setEquation((index, equation))
+        }
+    }
+
+    override def onSaveInstanceState(outState: Bundle): Unit = {
+        super.onSaveInstanceState(outState)
+        try {
+            var equationsFragment: CreateEquationsFragment = null
+            if (equationPagerAdapter != null) {
+                equationsFragment = equationPagerAdapter.getRegisteredFragment(1).asInstanceOf[CreateEquationsFragment]
+            } else {
+                equationsFragment = getSupportFragmentManager.findFragmentById(R.id.create_es_fragment).asInstanceOf[CreateEquationsFragment]
+            }
+            outState.putSerializable("equation", equationsFragment.equationEditView.getEquation)
+            outState.putInt("index", equationsFragment.equationEditView.index)
+        } catch {
+            case ex: ClassCastException => {
+                Log.e(TAG, ex.getMessage)
+            }
+            case ex: NullPointerException => {
+                Log.e(TAG, ex.getMessage)
+            }
+        }
     }
 
     override def onResume(): Unit = {

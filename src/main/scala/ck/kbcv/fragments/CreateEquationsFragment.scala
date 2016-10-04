@@ -13,9 +13,8 @@ import ck.kbcv.views.EquationEditView
 import ck.kbcv.{Controller, HorizontalFlowLayout, R}
 import term.Term._
 import term.reco.IE
-import term.util.Equation
 
-class CreateEquationsFragment extends Fragment with ItemClickListener {
+class CreateEquationsFragment(currentIE: IE = null) extends Fragment with ItemClickListener {
     val TAG = "CreateEquationsFragment"
     var functionSymbolContainer: HorizontalFlowLayout = null
     var functionAdapter: FunctionAdapter = null
@@ -28,6 +27,10 @@ class CreateEquationsFragment extends Fragment with ItemClickListener {
     var mActionModeCallback = new ActionModeCallback
     var inflater: LayoutInflater = null
 
+    def this() {
+        this(null)
+    }
+
     override def onCreateView( inflater: LayoutInflater, container: ViewGroup, savedInstanceState: Bundle ): View = {
         val view = inflater.inflate( R.layout.create_equations_fragment, container, false )
         this.inflater = inflater
@@ -36,6 +39,8 @@ class CreateEquationsFragment extends Fragment with ItemClickListener {
         functionSymbolContainer = view.findViewById(R.id.functionSymbolsContainer).asInstanceOf[HorizontalFlowLayout]
         variableSymbolContainer = view.findViewById(R.id.variableSymbolContainer).asInstanceOf[HorizontalFlowLayout]
         equationEditView = view.findViewById(R.id.edit_view).asInstanceOf[EquationEditView]
+
+        equationEditView.setEquation(currentIE)
 
         onFunctionsChanged()
         onVariablesChanged()
@@ -148,24 +153,6 @@ class CreateEquationsFragment extends Fragment with ItemClickListener {
 //            mActionMode.invalidate()
 //        } no count needed when max 1 can be selected
     }
-
-
-    override def onSaveInstanceState(outState: Bundle): Unit ={
-        super.onSaveInstanceState(outState)
-        outState.putSerializable("equation", equationEditView.getEquation)
-        outState.putInt("index", equationEditView.index)
-    }
-
-    override def onActivityCreated(savedInstanceState:Bundle): Unit = {
-        super.onActivityCreated(savedInstanceState)
-        if(savedInstanceState != null) {
-
-            val equation = savedInstanceState.getSerializable("equation").asInstanceOf[Equation]
-            val index = savedInstanceState.getInt("index")
-            equationEditView.setEquation((index, equation))
-        }
-    }
-
 
     class ActionModeCallback extends ActionMode.Callback {
         private val TAG = "ACTIONMODE"
