@@ -129,7 +129,7 @@ class CreateEquationsActivity extends NavigationDrawerActivity with OnSymbolsCha
                 symbolsFragment = getSupportFragmentManager.findFragmentById(R.id.symbols_fragment).asInstanceOf[SymbolsFragment]
                 equationsFragment =  getSupportFragmentManager.findFragmentById(R.id.create_es_fragment).asInstanceOf[CreateEquationsFragment]
             }
-            equationsFragment.onVariablesChanged()
+            equationsFragment.equationEditView.onVariablesChanged()
             symbolsFragment.onVariablesChanged()
         } catch {
             case ex: ClassCastException => {
@@ -154,7 +154,7 @@ class CreateEquationsActivity extends NavigationDrawerActivity with OnSymbolsCha
                 equationsFragment =  getSupportFragmentManager.findFragmentById(R.id.create_es_fragment).asInstanceOf[CreateEquationsFragment]
             }
             symbolsFragment.onFunctionsChanged()
-            equationsFragment.onFunctionsChanged()
+            equationsFragment.equationEditView.onFunctionsChanged()
         } catch {
             case ex: ClassCastException => {
                 Log.e(TAG, ex.getMessage)

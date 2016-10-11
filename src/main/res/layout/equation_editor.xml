@@ -1,4 +1,6 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ck.kbcv.views.EquationEditView xmlns:android="http://schemas.android.com/apk/res/android"
+                                style="@style/EditorViewsStyle"
+                                android:theme="@style/EditorViewsStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/textColorPrimary"
@@ -13,13 +15,12 @@
                 android:id="@+id/scrollview"
                 android:layout_below="@+id/variableSymbolContainer">
 
-        <view
-                style="@style/EditorViewsStyle"
-                android:theme="@style/EditorViewsStyle"
+        <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                class="ck.kbcv.views.EquationEditView"
-                android:id="@+id/edit_view"/>
+                android:background="@color/textColorPrimary"
+                android:id="@+id/linearLayout"/>
     </HorizontalScrollView>
 
     <view android:layout_width="wrap_content"
@@ -28,8 +29,6 @@
           android:id="@+id/functionSymbolsContainer"
           android:layout_below="@+id/scrollview"
           android:layout_centerHorizontal="true" />
-
-
 
     <view
             class="ck.kbcv.HorizontalFlowLayout"
@@ -59,4 +58,4 @@
             android:layout_below="@+id/functionSymbolsContainer"/>
 
 
-</RelativeLayout>
+</ck.kbcv.views.EquationEditView>

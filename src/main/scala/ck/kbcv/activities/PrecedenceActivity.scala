@@ -1,11 +1,11 @@
 package ck.kbcv.activities
 
-import android.content.ClipData
 import android.os.Bundle
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.{LinearLayoutManager, RecyclerView}
-import android.view.View.OnClickListener
-import android.view.{Menu, MotionEvent, View}
-import android.widget.Button
+import android.view.View.OnDragListener
+import android.view.{DragEvent, Menu, View}
+import android.widget.FrameLayout
 import ck.kbcv._
 import ck.kbcv.adapters.PrecedenceAdapter
 import ck.kbcv.views.PrecedenceEditView
@@ -13,14 +13,11 @@ import term.Term._
 import term.lpo.Precedence
 
 
-class PrecedenceActivity extends NavigationDrawerActivity with TypedFindView with OnClickListener with UndoRedoActivity {
+class PrecedenceActivity extends NavigationDrawerActivity with TypedFindView with UndoRedoActivity with OnDragListener {
     var mRecyclerView: RecyclerView = null
     var mAdapter: PrecedenceAdapter = null
-    var addButton: Button = null
-    var clearButton: Button = null
     var precedenceEditView: PrecedenceEditView = null
-    var functionSymbolContainer: HorizontalFlowLayout = null
-
+    var frameLayout: FrameLayout = null
 
     override def onCreate( savedInstanceState: Bundle ): Unit = {
         super.onCreate( savedInstanceState )
@@ -32,22 +29,16 @@ class PrecedenceActivity extends NavigationDrawerActivity with TypedFindView wit
         mRecyclerView.setAdapter(mAdapter)
         mRecyclerView.setHasFixedSize(false)
 
-        precedenceEditView = findViewById(R.id.prec_edit_view).asInstanceOf[PrecedenceEditView]
+        precedenceEditView = findViewById(R.id.precedenceEditView).asInstanceOf[PrecedenceEditView]
         precedenceEditView.setPrecedenceActivity(this)
-
-        addButton = findView(TR.addButton_prec)
-        addButton.setEnabled(false)
-        addButton.setOnClickListener(this)
-        clearButton = findView(TR.clearButton_prec)
-        clearButton.setOnClickListener(this)
-
-        functionSymbolContainer = findViewById(R.id.functionSymbolsContainer_prec).asInstanceOf[HorizontalFlowLayout]
-        onFunctionsChanged()
 
         if (savedInstanceState != null) {
             val (f1, f2) = savedInstanceState.getSerializable("precedence").asInstanceOf[(F, F)]
             precedenceEditView.setPrecedence(f1, f2)
         }
+
+        frameLayout = findView(TR.frame_layout)
+        frameLayout.setOnDragListener(this)
     }
 
     override def onCreateOptionsMenu(menu: Menu): Boolean = {
@@ -56,72 +47,28 @@ class PrecedenceActivity extends NavigationDrawerActivity with TypedFindView wit
         return true
     }
 
+    def addToPrecedence(): Unit = {
+        val newRule = precedenceEditView.getPrecedence
+        var message: String = getString(R.string.error_precedence)
+        val newPrec = new Precedence(newRule, Controller.state.precedence.toList)
+        if (newPrec.star.consistent) {
+            val nc = Controller.state.erc._3.toList.sortWith((t, s) => t._1 < s._1).map(_._2) // TODO understand ;-)
+            val (t, p1) = term.lpo.lpoX(nc, newPrec)
 
-    override def onClick(v: View): Unit = {
-        if (addButton.equals(v)) {
-            if (precedenceEditView.containsDropZones()) {} // TODO: throw error or something
-            else {
-                var message: String = getString(R.string.error_precedence)
-                val newRule = precedenceEditView.getPrecedence
-                val newPrec = new Precedence(newRule, Controller.state.precedence.toList)
-                if (newPrec.star.consistent) {
-                    val nc = Controller.state.erc._3.toList.sortWith((t, s) => t._1 < s._1).map(_._2) // TODO understand ;-)
-                    val (t, p1) = term.lpo.lpoX(nc, newPrec)
-
-                    if (t) {
-                        message = getString(R.string.ok_added_precedence, newRule._1 + " > " + newRule._2)
-                        Controller.addPrecedence(p1.get, message)
-                        updateViews()
-                        precedenceEditView.clear()
-                    } else {
-                        showErrorMsg(message)
-                    }
-                } else {
-                    showErrorMsg(message)
-                }
-
-                setAddButton()
+            if (t) {
+                message = getString(R.string.ok_added_precedence, newRule._1 + " > " + newRule._2)
+                Controller.addPrecedence(p1.get, message)
+                updateViews()
+            } else {
+                showErrorMsg(message)
             }
-        } else if (clearButton.equals(v)) {
-            precedenceEditView.clear()
-            setAddButton()
+        } else {
+            showErrorMsg(message)
         }
     }
 
     override def updateViews(): Unit = {
         mAdapter.updateItems(Controller.state.precedence)
-    }
-
-    def setAddButton(): Unit = {
-        if (precedenceEditView.containsDropZones()) addButton.setEnabled(false)
-        else addButton.setEnabled(true)
-    }
-
-    def onFunctionsChanged(): Unit = {
-        val functions = Controller.state.functions
-        functionSymbolContainer.removeAllViews()
-        val inflater = getLayoutInflater
-        for ((funName, funArity) <- functions) {
-            val button = inflater.inflate(R.layout.drag_button, functionSymbolContainer, false).asInstanceOf[Button]
-            button.setText(funName)
-            setOnTouchFunction(button, funName)
-            functionSymbolContainer.addView(button)
-        }
-    }
-
-    def setOnTouchFunction(button: Button, f: F): Unit = {
-        button.setOnTouchListener(new View.OnTouchListener() {
-            override def onTouch(v: View, event: MotionEvent): Boolean = {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    val data = ClipData.newPlainText("precedence", f)
-                    val shadow = new View.DragShadowBuilder(button)
-                    v.startDrag(data, shadow, null, 0)
-                    true
-                } else {
-                    false
-                }
-            }
-        })
     }
 
     override def onSaveInstanceState(outState: Bundle): Unit = {
@@ -132,7 +79,22 @@ class PrecedenceActivity extends NavigationDrawerActivity with TypedFindView wit
     override def onResume(): Unit = {
         super.onResume()
         navigationView.setCheckedItem(R.id.action_precedence)
-        onFunctionsChanged()
+        precedenceEditView.onFunctionsChanged()
     }
 
+    override def onDrag(v: View, event: DragEvent): Boolean = {
+        val action = event.getAction
+        action match {
+            case DragEvent.ACTION_DRAG_STARTED => //  Do nothing
+            case DragEvent.ACTION_DRAG_ENTERED => if (event.getClipDescription.getLabel == "newPrec") v.setBackground(ContextCompat.getDrawable(this, R.drawable.solid_border))
+            case DragEvent.ACTION_DRAG_EXITED => v.setBackground(null)
+            case DragEvent.ACTION_DRAG_ENDED => v.setBackground(null)
+            case DragEvent.ACTION_DROP => {
+                if (event.getClipDescription.getLabel == "newPrec") addToPrecedence()
+                v.setBackground(null)
+            }
+            case _ =>
+        }
+        true
+    }
 }

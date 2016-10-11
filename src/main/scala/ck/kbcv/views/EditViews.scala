@@ -1,23 +1,30 @@
 package ck.kbcv.views
 
-import android.content.Context
-import android.graphics.Color
+import android.content.{ClipData, Context}
 import android.util.AttributeSet
-import android.view.Gravity
+import android.view.View.{OnClickListener, OnTouchListener}
 import android.view.ViewGroup.LayoutParams
-import android.widget.{LinearLayout, TextView}
+import android.view._
+import android.widget._
 import ck.kbcv.activities.PrecedenceActivity
-import ck.kbcv.fragments.EquationEditor
-import term.Term.F
+import ck.kbcv.fragments.CreateEquationsFragment
+import ck.kbcv.{Controller, HorizontalFlowLayout, R}
+import term.Term._
 import term.reco._
 import term.util.{E, Equation}
 import term.{Fun, Term}
 
-trait DropSymbolsEditor {
-    var left: TermView
-    var right: TermView
+trait DropSymbolsEditor extends OnTouchListener with OnClickListener {
+    var linearLayout: LinearLayout = null
+    var left: TermView = null
+    var right: TermView = null
+    var middle: TextView = null
+    var addButton: Button = null
+    var clearButton: Button = null
 
-    def onSymbolDropped(): Unit
+    def onSymbolDropped(): Unit = {
+        checkAddButton()
+    }
 
     def clear(): Unit = {
         left.clear()
@@ -27,33 +34,62 @@ trait DropSymbolsEditor {
     def containsDropZones(): Boolean = {
         right.containsDropZones() || left.containsDropZones()
     }
+
+    /**
+     * set the label of the button either to "add" or "save" depending on whether its a new equation
+     */
+    def setAddButton(name: String): Unit = {
+        addButton.setText(name)
+        checkAddButton()
+    }
+
+    /**
+     * check if there's still a DropZone, if not enable the 'add'-Button
+     */
+    def checkAddButton(): Unit = {
+        if (containsDropZones()) {
+            addButton.setEnabled(false)
+            middle.setOnTouchListener(null)
+        } else {
+            addButton.setEnabled(true)
+            middle.setOnTouchListener(this)
+        }
+    }
+
 }
 
-class PrecedenceEditView(context: Context, attrs: AttributeSet) extends LinearLayout(context, attrs) with DropSymbolsEditor {
+class PrecedenceEditView(context: Context, attrs: AttributeSet) extends RelativeLayout(context, attrs) with DropSymbolsEditor {
     var precedenceActivity: PrecedenceActivity = null
+    var functionSymbolContainer: HorizontalFlowLayout = null
+    var variableSymbolContainer: HorizontalFlowLayout = null
+    var inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE).asInstanceOf[LayoutInflater]
 
-    this.setOrientation(LinearLayout.HORIZONTAL)
-    this.setBackgroundColor(Color.WHITE)
+    override def onFinishInflate(): Unit = {
+        functionSymbolContainer = this.findViewById(R.id.functionSymbolsContainer_prec).asInstanceOf[HorizontalFlowLayout]
+        onFunctionsChanged()
 
-    override var left: TermView = new TermView(context, attrs, null, this)
-    override var right: TermView = new TermView(context, attrs, null, this)
+        linearLayout = this.findViewById(R.id.linearLayout).asInstanceOf[LinearLayout]
+        addButton = this.findViewById(R.id.addButton).asInstanceOf[Button]
+        clearButton = this.findViewById(R.id.clearButton).asInstanceOf[Button]
 
-    val greaterSign = new TextView(context)
-    greaterSign.setText(">")
-    val lp = new LinearLayout.LayoutParams(0, LayoutParams.MATCH_PARENT, 1.0f)
-    greaterSign.setLayoutParams(lp)
-    greaterSign.setGravity(Gravity.CENTER)
+        addButton.setOnClickListener(this)
+        clearButton.setOnClickListener(this)
 
-    this.addView(left)
-    this.addView(greaterSign)
-    this.addView(right)
+        middle = new TextView(context)
+        middle.setText(">")
+        val lp = new LinearLayout.LayoutParams(0, LayoutParams.MATCH_PARENT, 1.0f)
+        middle.setLayoutParams(lp)
+        middle.setGravity(Gravity.CENTER)
+
+        left = new TermView(context, attrs, null, this)
+        right = new TermView(context, attrs, null, this)
+        linearLayout.addView(left)
+        linearLayout.addView(middle)
+        linearLayout.addView(right)
+    }
 
     def setPrecedenceActivity(activity: PrecedenceActivity): Unit = {
         precedenceActivity = activity
-    }
-
-    override def onSymbolDropped(): Unit = {
-        precedenceActivity.setAddButton()
     }
 
     def getPrecedence: (F, F) = {
@@ -64,7 +100,7 @@ class PrecedenceEditView(context: Context, attrs: AttributeSet) extends LinearLa
     }
 
     def setPrecedence(f1: F, f2: F): Unit = {
-        this.removeAllViews()
+        linearLayout.removeAllViews()
 
         if (f1 != null) left = new TermView(context, attrs, new Fun(f1, List.empty), this)
         else left = new TermView(context, attrs, null, this)
@@ -73,8 +109,60 @@ class PrecedenceEditView(context: Context, attrs: AttributeSet) extends LinearLa
         else right = new TermView(context, attrs, null, this)
 
         this.addView(left)
-        this.addView(greaterSign)
+        this.addView(middle)
         this.addView(right)
+    }
+
+    def onFunctionsChanged(): Unit = {
+        val functions = Controller.state.functions
+        functionSymbolContainer.removeAllViews()
+        for ((funName, funArity) <- functions) {
+            val button = inflater.inflate(R.layout.drag_button, functionSymbolContainer, false).asInstanceOf[Button]
+            button.setText(funName)
+            setOnTouchFunction(button, funName)
+            functionSymbolContainer.addView(button)
+        }
+    }
+
+    def setOnTouchFunction(button: Button, f: F): Unit = {
+        button.setOnTouchListener(new View.OnTouchListener() {
+            override def onTouch(v: View, event: MotionEvent): Boolean = {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    val data = ClipData.newPlainText("precedence", f)
+                    val shadow = new View.DragShadowBuilder(button)
+                    v.startDrag(data, shadow, null, 0)
+                    true
+                } else {
+                    false
+                }
+            }
+        })
+    }
+
+
+    override def onClick(v: View): Unit = {
+        if (addButton.equals(v)) {
+            if (containsDropZones()) {} // TODO: throw error or something
+            else {
+                precedenceActivity.addToPrecedence()
+                clear()
+                checkAddButton()
+            }
+        } else if (clearButton.equals(v)) {
+            clear()
+            checkAddButton()
+        }
+    }
+
+    override def onTouch(v: View, event: MotionEvent): Boolean = {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            val data = ClipData.newPlainText("newPrec", "")
+            val shadow = new View.DragShadowBuilder(linearLayout)
+            v.startDrag(data, shadow, null, 0)
+            true
+        } else {
+            false
+        }
     }
 }
 
@@ -83,24 +171,42 @@ class PrecedenceEditView(context: Context, attrs: AttributeSet) extends LinearLa
  * View which allows editing (deleting, adding, changing) parts or a whole Equation.
  * Constructor either takes an existing equation (+ it's index) or null, which means new equation from scratch.
  */
-class EquationEditView(context: Context, attrs: AttributeSet, equation: IE, var equationEditor: EquationEditor = null) extends LinearLayout(context, attrs) with DropSymbolsEditor {
+class EquationEditView(context: Context, attrs: AttributeSet, equation: IE, var createEquationsFragment: CreateEquationsFragment = null) extends RelativeLayout(context, attrs) with DropSymbolsEditor {
     def this(context: Context, attrs: AttributeSet) = this(context, attrs, null)
 
     var index: Int = -1
-    override var left: TermView = null
-    override var right: TermView = null
+    var functionSymbolContainer: HorizontalFlowLayout = null
+    var variableSymbolContainer: HorizontalFlowLayout = null
+    var inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE).asInstanceOf[LayoutInflater]
 
-    this.setOrientation(LinearLayout.HORIZONTAL)
-    this.setBackgroundColor(Color.WHITE)
+    override def onFinishInflate(): Unit = {
+        functionSymbolContainer = this.findViewById(R.id.functionSymbolsContainer).asInstanceOf[HorizontalFlowLayout]
+        variableSymbolContainer = this.findViewById(R.id.variableSymbolContainer).asInstanceOf[HorizontalFlowLayout]
+        onFunctionsChanged()
+        onVariablesChanged()
 
-    setEquation(equation)
+        linearLayout = this.findViewById(R.id.linearLayout).asInstanceOf[LinearLayout]
+        addButton = this.findViewById(R.id.addButton).asInstanceOf[Button]
+        clearButton = this.findViewById(R.id.clearButton).asInstanceOf[Button]
 
-    def setEquationEditor(equationEditor: EquationEditor): Unit = {
-        this.equationEditor = equationEditor
+        addButton.setOnClickListener(this)
+        clearButton.setOnClickListener(this)
+
+        middle = new TextView(context)
+        middle.setText("\u2248")
+        val lp = new LinearLayout.LayoutParams(0, LayoutParams.MATCH_PARENT, 1.0f)
+        middle.setLayoutParams(lp)
+        middle.setGravity(Gravity.CENTER)
+
+        setEquation(equation)
+    }
+
+    def setFragment(createEquationsFragment: CreateEquationsFragment): Unit = {
+        this.createEquationsFragment = createEquationsFragment
     }
 
     def setEquation(ie: IE): Unit = {
-        this.removeAllViews()
+        linearLayout.removeAllViews()
 
         var lhs: Term = null
         var rhs: Term = null
@@ -114,21 +220,16 @@ class EquationEditView(context: Context, attrs: AttributeSet, equation: IE, var 
         left = new TermView(context, attrs, lhs, this)
         right = new TermView(context, attrs, rhs, this)
 
-        val equalitySign = new TextView(context)
-        equalitySign.setText("\u2248")
-        val lp = new LinearLayout.LayoutParams(0, LayoutParams.MATCH_PARENT, 1.0f)
-        equalitySign.setLayoutParams(lp)
-        equalitySign.setGravity(Gravity.CENTER)
+        linearLayout.addView(left)
+        linearLayout.addView(middle)
+        linearLayout.addView(right)
 
-        this.addView(left)
-        this.addView(equalitySign)
-        this.addView(right)
 
-        if (equationEditor != null) {
+        if (createEquationsFragment != null) {
             if (index >= 0) {
-                equationEditor.setAddButton("save")
+                setAddButton("save")
             } else {
-                equationEditor.setAddButton("add")
+                setAddButton("add")
             }
         }
     }
@@ -142,8 +243,80 @@ class EquationEditView(context: Context, attrs: AttributeSet, equation: IE, var 
         new Equation(left.getTerm, right.getTerm)
     }
 
-    def onSymbolDropped(): Unit = {
-        equationEditor.checkAddButton()
+    def onVariablesChanged(): Unit = {
+        val variables = Controller.state.variables
+        variableSymbolContainer.removeAllViews()
+        for (variable <- variables) {
+            val button = inflater.inflate(R.layout.drag_button, functionSymbolContainer, false).asInstanceOf[Button]
+            button.setText(variable)
+            setOnTouchVariable(button, variable)
+            variableSymbolContainer.addView(button)
+        }
+    }
+
+    def onFunctionsChanged(): Unit = {
+        val functions = Controller.state.functions
+        functionSymbolContainer.removeAllViews()
+        for ((funName, funArity) <- functions) {
+            val button = inflater.inflate(R.layout.drag_button, functionSymbolContainer, false).asInstanceOf[Button]
+            button.setText(funName)
+            setOnTouchFunction(button, (funName, funArity))
+            functionSymbolContainer.addView(button)
+        }
+    }
+
+    def setOnTouchFunction(button: Button, f: (F, Int)): Unit = {
+        val (function, arity) = f
+        button.setOnTouchListener(new View.OnTouchListener() {
+            override def onTouch(v: View, event: MotionEvent): Boolean = {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    val data = ClipData.newPlainText("function", function)
+                    data.addItem(new ClipData.Item(arity.toString))
+                    val shadow = new View.DragShadowBuilder(button)
+                    v.startDrag(data, shadow, null, 0)
+                    true
+                } else {
+                    false
+                }
+            }
+        })
+    }
+
+    def setOnTouchVariable(button: Button, variable: V): Unit = {
+        button.setOnTouchListener(new View.OnTouchListener() {
+            override def onTouch(v: View, event: MotionEvent): Boolean = {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    val data = ClipData.newPlainText("variable", variable)
+                    val shadow = new View.DragShadowBuilder(button)
+                    v.startDrag(data, shadow, null, 0)
+                    true
+                } else {
+                    false
+                }
+            }
+        })
+    }
+
+
+    override def onClick(v: View): Unit = {
+        if (addButton.equals(v)) {
+            createEquationsFragment.addEquationFromEditor()
+        } else if (clearButton.equals(v)) {
+            clear()
+            index = -1
+            setAddButton("add")
+        }
+    }
+
+    override def onTouch(v: View, event: MotionEvent): Boolean = {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            val data = ClipData.newPlainText("newEquation", "")
+            val shadow = new View.DragShadowBuilder(linearLayout)
+            v.startDrag(data, shadow, null, 0)
+            true
+        } else {
+            false
+        }
     }
 
 }

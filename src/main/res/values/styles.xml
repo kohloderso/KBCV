@@ -51,6 +51,10 @@
     </style>
 
     <style name="EditorViewsStyle">
+        <item name="android:textViewStyle">@style/largeText</item>
+    </style>
+
+    <style name="largeText" parent="android:Widget.TextView">
         <item name="android:textSize">25sp</item>
         <!-- TODO different font?-->
     </style>
