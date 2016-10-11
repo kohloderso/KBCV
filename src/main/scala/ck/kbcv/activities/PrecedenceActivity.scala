@@ -59,6 +59,7 @@ class PrecedenceActivity extends NavigationDrawerActivity with TypedFindView wit
                 message = getString(R.string.ok_added_precedence, newRule._1 + " > " + newRule._2)
                 Controller.addPrecedence(p1.get, message)
                 updateViews()
+                precedenceEditView.clear()
             } else {
                 showErrorMsg(message)
             }

@@ -69,7 +69,7 @@
         <FrameLayout
                 android:padding="2dp"
                 android:id="@+id/frame_layout"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_above="@+id/precedenceEditView"
                 android:layout_marginBottom="16dp"

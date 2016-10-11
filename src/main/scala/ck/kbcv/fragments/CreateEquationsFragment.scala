@@ -102,6 +102,7 @@ class CreateEquationsFragment(currentIE: IE = null) extends Fragment with ItemCl
                 onEquationsAdded()
             }
             equationEditView.clear()
+            equationEditView.index = -1
         }
     }
 
@@ -113,7 +114,7 @@ class CreateEquationsFragment(currentIE: IE = null) extends Fragment with ItemCl
             case DragEvent.ACTION_DRAG_EXITED => v.setBackground(null)
             case DragEvent.ACTION_DRAG_ENDED => v.setBackground(null)
             case DragEvent.ACTION_DROP => {
-                if (event.getClipDescription.getLabel == "newPrec") addEquationFromEditor()
+                if (event.getClipDescription.getLabel == "newEquation") addEquationFromEditor()
                 v.setBackground(null)
             }
             case _ =>
