@@ -227,9 +227,9 @@ class EquationEditView(context: Context, attrs: AttributeSet, equation: IE, var 
 
         if (createEquationsFragment != null) {
             if (index >= 0) {
-                setAddButton("save")
+                setAddButton(context.getString(R.string.save))
             } else {
-                setAddButton("add")
+                setAddButton(context.getString(R.string.add))
             }
         }
     }
@@ -304,7 +304,7 @@ class EquationEditView(context: Context, attrs: AttributeSet, equation: IE, var 
         } else if (clearButton.equals(v)) {
             clear()
             index = -1
-            setAddButton("add")
+            setAddButton(context.getString(R.string.add))
         }
     }
 

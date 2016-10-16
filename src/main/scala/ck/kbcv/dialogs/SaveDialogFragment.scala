@@ -9,23 +9,23 @@ import android.support.v4.app.DialogFragment
 import android.support.v7.app.AlertDialog.Builder
 import android.util.Log
 import android.widget.{EditText, Toast}
-import ck.kbcv.Controller
+import ck.kbcv.{Controller, R}
 import term.parser.{ParserOldTRS, ParserXmlTRS}
 
 
 class SaveDialogFragment(saveRules: Boolean = false) extends DialogFragment {
-    val TAG = "SAVE_DIALOG"
+    val TAG = "SaveDialog"
 
     override def onCreateDialog(savedInstanceState: Bundle): Dialog = {
         val activity = getActivity
         val builder = new Builder((activity))
         val edittext = new EditText(activity)
         edittext.setPadding(20, 20, 20, 20)
-        edittext.setHint("name")
+        edittext.setHint(getString(R.string.hint_name))
 
-        builder.setTitle("Save TRS")
+        builder.setTitle(getString(R.string.save_trs))
             .setView(edittext)
-            .setPositiveButton("save", new DialogInterface.OnClickListener() {
+            .setPositiveButton(getString(R.string.save), new DialogInterface.OnClickListener() {
                 def onClick(dialogInterface: DialogInterface, which: Int): Unit = {
                     val filename = edittext.getText.toString
                     if (!saveRules) saveESxml(filename, activity)
@@ -57,7 +57,7 @@ class SaveDialogFragment(saveRules: Boolean = false) extends DialogFragment {
             val outputStream = new FileOutputStream(file)
             outputStream.write(ParserOldTRS.toOldString(Controller.state.erc._2, false).getBytes)
             outputStream.close()
-            Toast.makeText(activity, "Saved Rules as " + filename + " in " + path.getPath, Toast.LENGTH_LONG)
+            Toast.makeText(activity, getString(R.string.saved_as, filename, path.getPath), Toast.LENGTH_LONG)
                 .show()
         } catch {
             case e: Exception => e.printStackTrace()

@@ -4,18 +4,55 @@
 
     <string name="name">KBCV</string>
 
+    <!-- labels -->
+    <string name="equations">Equations</string>
+    <string name="rules">Rules</string>
+    <string name="functions">Functions</string>
+    <string name="variables">Variables</string>
+    <string name="symbols">Symbols</string>
+    <string name="arity">arity</string>
+    <string name="automatic_completion">Automatic completion</string>
+    <string name="computing">Computing&#8230;</string>
+    <string name="cancel">Cancel</string>
+    <string name="undo">undo</string>
+    <string name="done">done</string>
+    <string name="save">save</string>
+    <string name="add">add</string>
+    <string name="clear">clear</string>
+
+    <!-- dialogs -->
+    <string name="add_es">Add ES</string>
+    <string name="as_new">Use as new ES</string>
+    <string name="add_to">Add to existing ES</string>
+
+    <string name="new_fun">New Function</string>
+    <string name="err_empty">You have to enter something</string>
+    <string name="err_fun_exists">Function already exists</string>
+    <string name="err_nan">No valid number</string>
+    <string name="new_var">New Variable</string>
+    <string name="err_var_exists">Variable already exists</string>
+
+    <string name="undo_dialog">Undo/Redo History</string>
+
+    <string name="import_dialog">Import ES</string>
+    <string name="import_external">Import from external file</string>
+    <string name="select_filemanager">Select a File Manager</string>
+    <string name="err_filemanager">Please install a File Manager</string>
+
+    <string name="hint_name">name</string>
+    <string name="save_trs">Save TRS</string>
+    <string name="saved_as">Saved rules as %1$s in %1$s</string>
+
     <!-- error messages -->
     <string name="error_simplify">Nothing to simplify</string>
     <string name="error_delete">Nothing to delete</string>
     <string name="error_compose">Nothing to compose</string>
     <string name="error_collapse">Nothing to collapse</string>
     <string name="error_deduce">Nothing deduced</string>
-    <string name="error_auto_complete">
-        <b>Automatic completion not successful</b>
-    </string>
-    <string name="error_precedence">
-        <b>Could not add to precedence</b>
-    </string>
+    <string name="error_auto_complete">Automatic completion not successful</string>
+    <string name="error_precedence">Could not add to precedence</string>
+    <string name="error_orient">Equation could not be oriented</string>
+    <string name="error_complete">TRS is not complete yet</string>
 
     <!-- ok messages -->
     <string name="ok_orient"><b>orient:</b> %1$d equations oriented</string>
@@ -26,17 +63,16 @@
     <string name="ok_deduced"><b>deduce:</b> %1$d new equations deduced</string>
     <string name="ok_added_es"><b>added ES:</b> %1$d new equations added</string>
     <string name="ok_new_es"><b>new ES:</b> %1$d new equations</string>
-    <string name="ok_auto_complete">
-        <b>Automatic completion successful</b>
-    </string>
-    <string name="ok_added_precedence">
-        <b>Added %1$s to precedence</b>
-    </string>
+    <string name="ok_auto_complete">Automatic completion successful</string>
+    <string name="ok_added_precedence">Added %1$s to precedence</string>
     <string name="added_var">Added a variable</string>
     <string name="added_fun">Added a function symbol</string>
     <string name="removed_eq">Removed equation %1$d</string>
     <string name="edited_eq">Edited equation %1$d</string>
     <string name="created_eq">Created new equation</string>
+    <string name="complete">TRS is complete now!</string>
+    <string name="clear_all">cleared all</string>
+    <string name="initialize">initialize</string>
 
     <!-- settings -->
     <string name="rounds">rounds in automatic completion</string>

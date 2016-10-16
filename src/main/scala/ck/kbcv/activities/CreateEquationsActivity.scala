@@ -36,14 +36,14 @@ class CreateEquationsActivity extends NavigationDrawerActivity with OnSymbolsCha
             // Display tabLayout on small screens
 
             val tabLayout = findView(TR.tab_layout)
-            tabLayout.addTab(tabLayout.newTab().setText("Symbols"))
-            tabLayout.addTab(tabLayout.newTab().setText("Equations"))
+            tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.symbols)))
+            tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.equations)))
             tabLayout.setTabGravity(TabLayout.GRAVITY_FILL)
 
             val viewPager = findView(TR.viewpager)
             val fm = getSupportFragmentManager
 
-            equationPagerAdapter = new CreateEquationsPagerAdapter(fm)
+            equationPagerAdapter = new CreateEquationsPagerAdapter(fm, context = this)
             viewPager.setAdapter(equationPagerAdapter)
             tabLayout.setupWithViewPager(viewPager)
         }
@@ -102,7 +102,7 @@ class CreateEquationsActivity extends NavigationDrawerActivity with OnSymbolsCha
                 true
             }
             case R.id.action_clear =>{
-                Controller.clearAll()
+                Controller.clearAll(getString(R.string.clear_all))
                 updateViews()
                 true
             }

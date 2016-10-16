@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.support.v7.app.AlertDialog.Builder
 import android.widget.Toast
+import ck.kbcv.R
 
 
 class ImportDialogFragment extends DialogFragment {
@@ -15,7 +16,7 @@ class ImportDialogFragment extends DialogFragment {
         val builder = new Builder((getActivity))
         val filesList = getActivity.fileList()
         val items: Array[CharSequence] = filesList.map(x => x)
-        builder.setTitle("Import ES")
+        builder.setTitle(getString(R.string.import_dialog))
             .setItems(items, new DialogInterface.OnClickListener() {
                 def onClick(dialogInterface: DialogInterface, which: Int): Unit = {
                     val bundle = new Bundle()
@@ -27,7 +28,7 @@ class ImportDialogFragment extends DialogFragment {
                 }
 
             })
-            .setNeutralButton("Import from external", new DialogInterface.OnClickListener() {
+            .setNeutralButton(getString(R.string.import_external), new DialogInterface.OnClickListener() {
             def onClick(dialogInterface: DialogInterface, which: Int): Unit = {
                 chooseFile()
             }
@@ -42,11 +43,11 @@ class ImportDialogFragment extends DialogFragment {
         intent.addCategory(Intent.CATEGORY_OPENABLE)
 
         try {
-            getActivity.startActivityForResult(Intent.createChooser(intent, "Select a filemanager"), FILE_REQUEST)
+            getActivity.startActivityForResult(Intent.createChooser(intent, getString(R.string.select_filemanager)), FILE_REQUEST)
         } catch {
             case ex: android.content.ActivityNotFoundException => {
                 // Potentially direct the user to the Market with a Dialog
-                Toast.makeText(getActivity, "Please install a File Manager.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(getActivity, getString(R.string.err_filemanager), Toast.LENGTH_SHORT).show()
             }
         }
     }

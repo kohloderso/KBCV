@@ -21,7 +21,7 @@ object Controller {
         Set(),
         100,
         new OLS,
-        "initialize"
+        "init" //TODO: how can I use string resources for this?
     )
 
     /** The stack of all executed commands to this point. */
@@ -137,7 +137,7 @@ object Controller {
             updateState()
     }
 
-    def clearAll(): Unit = {
+    def clearAll(message: String): Unit = {
         builder.
             withE0(new IES).
             withErch((new IES,new ITRS,new ITRS,new H)).
@@ -145,7 +145,7 @@ object Controller {
             withVariables(Set()).
             withFunctions(Set()).
             withOLS(new OLS).
-            withMessage("cleared all").
+            withMessage(message).
             updateState()
     }
 

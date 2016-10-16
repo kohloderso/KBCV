@@ -1,15 +1,13 @@
 package ck.kbcv.adapters
 
+import android.content.Context
 import android.support.v4.app.{Fragment, FragmentManager}
-import ck.kbcv.SmartFragmentStatePagerAdapter
 import ck.kbcv.fragments.{EquationsFragment, RulesFragment}
+import ck.kbcv.{R, SmartFragmentStatePagerAdapter}
 
-/**
- * Created by Christina on 09.12.2015.
- */
-class CompletionPagerAdapter(fm: FragmentManager) extends SmartFragmentStatePagerAdapter(fm) {
+class CompletionPagerAdapter(fm: FragmentManager, context: Context) extends SmartFragmentStatePagerAdapter(fm) {
     val PAGE_COUNT = 2
-    val tabTitles = Array("Equations", "Rules" )
+    val tabTitles = Array(context.getString(R.string.equations), context.getString(R.string.rules))
 
     override def getCount: Int = PAGE_COUNT
 

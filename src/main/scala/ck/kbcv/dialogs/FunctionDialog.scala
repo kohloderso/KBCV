@@ -33,9 +33,9 @@ class FunctionDialog extends DialogFragment {
          editArity = inputLayoutFunction.findViewById(R.id.edit_text_number).asInstanceOf[EditText]
          // do something about the "done" ime
 
-         builder.setTitle("New Function")
+         builder.setTitle(getString(R.string.new_fun))
              .setView(inputLayoutFunction)
-             .setPositiveButton("done", null)
+             .setPositiveButton(getString(R.string.done), null)
          dialog = builder.create()
 
          dialog.setOnShowListener(new DialogInterface.OnShowListener() {
@@ -76,10 +76,10 @@ class FunctionDialog extends DialogFragment {
          if(function == null) {
              val s = editText.getText
              if(s.length() < 1) {
-                 inputLayout.setError("You have to enter something")
+                 inputLayout.setError(getString(R.string.err_empty))
                  false
              } else if(Controller.state.variables.contains(s.toString)) {
-                 inputLayout.setError("Function already exists")
+                 inputLayout.setError(getString(R.string.err_fun_exists))
                  false
              } else {
                  inputLayout.setError(null)
@@ -88,7 +88,7 @@ class FunctionDialog extends DialogFragment {
          } else {
              val s = editArity.getText.toString
              if(s.length() < 1) {
-                 inputLayout.setError("You have to enter something")
+                 inputLayout.setError(getString(R.string.err_empty))
                  false
              } else {
                  try {
@@ -96,7 +96,7 @@ class FunctionDialog extends DialogFragment {
                      true
                  } catch {
                      case ex: NumberFormatException => {
-                         inputLayout.setError("No valid number")
+                         inputLayout.setError(getString(R.string.err_nan))
                          false
                      }
                  }

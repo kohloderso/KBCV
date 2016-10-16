@@ -29,7 +29,7 @@ class HistoryDialogFragment extends DialogFragment with HistoryClickListener {
         historyRV.setHasFixedSize(true)
 
 
-        builder.setTitle("Undo/Redo History")
+        builder.setTitle(getString(R.string.undo_dialog))
             .setView(layout)
 
 

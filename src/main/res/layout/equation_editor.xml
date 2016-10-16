@@ -42,7 +42,7 @@
             android:theme="@style/MyButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="clear"
+            android:text="@string/clear"
             android:id="@+id/clearButton"
             android:layout_alignParentLeft="true" android:layout_alignParentStart="true"
             android:layout_below="@+id/functionSymbolsContainer"
@@ -52,7 +52,7 @@
             android:theme="@style/MyButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="add"
+            android:text="@string/add"
             android:id="@+id/addButton"
             android:layout_alignParentRight="true" android:layout_alignParentEnd="true"
             android:layout_below="@+id/functionSymbolsContainer"/>

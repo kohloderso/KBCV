@@ -22,7 +22,7 @@ trait UndoRedoActivity extends Activity {
             }
         }
         Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG)
-            .setAction("undo", onClickListener)
+            .setAction(getString(R.string.undo), onClickListener)
             .show()
     }
 

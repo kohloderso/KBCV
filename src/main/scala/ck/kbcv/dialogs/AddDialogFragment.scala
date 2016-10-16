@@ -49,9 +49,9 @@ class AddDialogFragment extends DialogFragment {
         for(e <- es) {
             esString += e + "\n"
         }
-        builder.setTitle("Add ES")
+        builder.setTitle(getString(R.string.add_es))
             .setMessage(esString)
-            .setNeutralButton("Use as new ES", new DialogInterface.OnClickListener() {
+            .setNeutralButton(getString(R.string.as_new), new DialogInterface.OnClickListener() {
                 def onClick(dialogInterface: DialogInterface, which: Int): Unit = {
                     Controller.setES(es, getResources.getString(R.string.ok_new_es, new Integer(es.size)))
                     symbolsListener.onFunctionsChanged()
@@ -59,7 +59,7 @@ class AddDialogFragment extends DialogFragment {
                     equationsListener.onNewEquations()
                 }
             })
-            .setPositiveButton("Add to existing ES", new DialogInterface.OnClickListener() {
+            .setPositiveButton(getString(R.string.add_to), new DialogInterface.OnClickListener() {
                 def onClick(dialogInterface: DialogInterface, which: Int): Unit = {
                     Controller.addES(es, getResources.getString(R.string.ok_added_es, new Integer(es.size)))
                     symbolsListener.onFunctionsChanged()

@@ -34,14 +34,14 @@ class CompletionActivity extends NavigationDrawerActivity with TypedFindView wit
             // Display tabLayout on small screens
 
             val tabLayout = findView(TR.tab_layout)
-            tabLayout.addTab(tabLayout.newTab().setText("Equations"))
-            tabLayout.addTab(tabLayout.newTab().setText("Rules"))
+            tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.equations)))
+            tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.rules)))
             tabLayout.setTabGravity(TabLayout.GRAVITY_FILL)
 
             val viewPager = findView(TR.viewpager)
             val fm = getSupportFragmentManager
 
-            completionPagerAdapter = new CompletionPagerAdapter(fm)
+            completionPagerAdapter = new CompletionPagerAdapter(fm, this)
             viewPager.setAdapter(completionPagerAdapter)
             tabLayout.setupWithViewPager(viewPager)
         }
@@ -65,8 +65,8 @@ class CompletionActivity extends NavigationDrawerActivity with TypedFindView wit
         item.getItemId match {
             case R.id.completeness_check => {
                 val complete = Controller.ercIsComplete()
-                if (complete) showSuccessMsg("TRS is complete now")
-                else showErrorMsg("Not complete yet")
+                if (complete) showSuccessMsg(getString(R.string.complete))
+                else showErrorMsg(getString(R.string.error_complete))
                 true
             }
             case R.id.automatic_completion => {
@@ -89,7 +89,7 @@ class CompletionActivity extends NavigationDrawerActivity with TypedFindView wit
         try {
             val (erch, op) = reco.orientR(Controller.emptyI ++ is.keys, Controller.state.erc, tm)
             if (erch == Controller.state.erc) {
-                showErrorMsg("Equation couldn't be oriented")
+                showErrorMsg(getString(R.string.error_orient))
                 false
             } else {
                 val message = getString(R.string.ok_orient, new Integer(is.size))
@@ -102,7 +102,7 @@ class CompletionActivity extends NavigationDrawerActivity with TypedFindView wit
                 updateViews()
                 if (SP.getBoolean("pref_completeness", false)) {
                     val complete = Controller.ercIsComplete()
-                    if (complete) showSuccessMsg("TRS is complete now")
+                    if (complete) showSuccessMsg(getString(R.string.complete))
                 }
 
                 true
@@ -121,7 +121,7 @@ class CompletionActivity extends NavigationDrawerActivity with TypedFindView wit
         try {
             val (erch, op) = reco.orientL(Controller.emptyI ++ is.keys, Controller.state.erc, tm)
             if (erch == Controller.state.erc) {
-                showErrorMsg("Equation couldn't be oriented")
+                showErrorMsg(getString(R.string.error_orient))
                 false
             } else {
                 val message = getString(R.string.ok_orient, new Integer(is.size))
@@ -134,7 +134,7 @@ class CompletionActivity extends NavigationDrawerActivity with TypedFindView wit
                 updateViews()
                 if (SP.getBoolean("pref_completeness", false)) {
                     val complete = Controller.ercIsComplete()
-                    if (complete) showSuccessMsg("TRS is complete now")
+                    if (complete) showSuccessMsg(getString(R.string.complete))
                 }
                 true
             }
@@ -237,7 +237,7 @@ class CompletionActivity extends NavigationDrawerActivity with TypedFindView wit
             updateViews()
             if (SP.getBoolean("pref_completeness", false)) {
                 val complete = Controller.ercIsComplete()
-                if (complete) showSuccessMsg("TRS is complete now")
+                if (complete) showSuccessMsg(getString(R.string.complete))
             }
         } else {
             showErrorMsg(getString(R.string.error_deduce))
@@ -387,10 +387,10 @@ class CompletionActivity extends NavigationDrawerActivity with TypedFindView wit
             pd.setMax(limit)
             pd.setProgress(0)
             pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL)
-            pd.setTitle("Automatic completion")
-            pd.setMessage("Computing...")
+            pd.setTitle(getString(R.string.automatic_completion))
+            pd.setMessage(getString(R.string.computing))
             pd.setIndeterminate(false)
-            pd.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel", this)
+            pd.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.cancel), this)
 
             pd.show()
         }

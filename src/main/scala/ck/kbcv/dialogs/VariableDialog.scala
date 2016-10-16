@@ -27,9 +27,9 @@ class VariableDialog extends DialogFragment {
         editText.addTextChangedListener(new VariablesWatcher)
         // do something about the "done" ime
 
-        builder.setTitle("New Variable")
+        builder.setTitle(getString(R.string.new_var))
             .setView(inputLayout)
-            .setPositiveButton("done", null)
+            .setPositiveButton(getString(R.string.done), null)
         dialog = builder.create()
 
         dialog.setOnShowListener(new DialogInterface.OnShowListener() {
@@ -59,10 +59,10 @@ class VariableDialog extends DialogFragment {
     def validate(): Boolean = {
         val s = editText.getText
         if(s.length() < 1) {
-            inputLayout.setError("You have to enter something")
+            inputLayout.setError(getString(R.string.err_empty))
             false
         } else if(Controller.state.variables.contains(s.toString)) {
-            inputLayout.setError("Variable already exists")
+            inputLayout.setError(getString(R.string.err_var_exists))
             false
         } else {
             inputLayout.setError(null)
