@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:padding="16dp">
@@ -19,7 +20,18 @@
           android:layout_height="wrap_content"
           class="ck.kbcv.HorizontalFlowLayout"
           android:id="@+id/variableFlowLayout"
-          android:layout_below="@+id/textViewVariables">
+          android:layout_below="@id/textViewVariables"
+          android:minWidth="100dp">
+
+    </view>
+
+    <RelativeLayout
+            android:id="@+id/plusButton_layout"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_toRightOf="@id/variableFlowLayout"
+            android:layout_toEndOf="@id/variableFlowLayout"
+            android:layout_alignTop="@id/textViewVariables">
 
         <Button
                 style="@style/MyButton"
@@ -28,9 +40,52 @@
                 android:layout_height="wrap_content"
                 android:text="+"
                 android:id="@+id/plusButton"
-                android:layout_marginLeft="30dp"
-                android:layout_marginStart="30dp"/>
+                android:layout_centerInParent="true"/>
 
-    </view>
+
+        <com.ogaclejapan.arclayout.ArcLayout
+                android:id="@+id/arcLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:arc_axisRadius="50dp"
+                app:arc_origin="center"
+                app:arc_radius="100dp"
+                android:visibility="invisible"
+                >
+
+            <Button
+                    style="@style/Item.Small"
+                    android:background="@drawable/light_blue_oval_selector"
+                    android:text="A"
+                    />
+
+            <Button
+                    style="@style/Item.Small"
+                    android:background="@drawable/cyan_oval_selector"
+                    android:text="B"
+                    />
+
+            <Button
+                    style="@style/Item.Small"
+                    android:background="@drawable/teal_oval_selector"
+                    android:text="C"
+                    />
+
+            <Button
+                    style="@style/Item.Small"
+                    android:background="@drawable/green_oval_selector"
+                    android:text="D"
+                    />
+
+            <Button
+                    style="@style/Item.Small"
+                    android:background="@drawable/light_green_oval_selector"
+                    android:text="E"
+                    />
+
+        </com.ogaclejapan.arclayout.ArcLayout>
+
+    </RelativeLayout>
+
 
 </RelativeLayout>

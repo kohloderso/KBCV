@@ -23,10 +23,14 @@ libraryDependencies ++=
 lazy val project = Project(
     "kbcv",
     file(".")
-) dependsOn(tl) aggregate(tl)
+) dependsOn (tl) aggregate (tl) androidBuildWith (arc)
 
 lazy val tl = Project(
     "termlib",
     file("termlib")
 ).settings(exportJars:=true)
 
+lazy val arc = Project(
+    "arcLayout",
+    file("arcLayout")
+).settings(libraryProject := true)

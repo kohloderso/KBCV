@@ -1,5 +1,3 @@
-androidBuild
-
 // Prevent common com.android.builder.packaging.DuplicateFileException.
 // Add further file names if you experience the exception after adding new dependencies
 packagingOptions in Android := PackagingOptions(

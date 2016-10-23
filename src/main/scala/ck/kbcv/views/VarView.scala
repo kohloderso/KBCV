@@ -12,7 +12,7 @@ import term.{Term, Var}
 
 class VarView(context: Context, attrs: AttributeSet, variable: V) extends TextView(context: Context, attrs: AttributeSet) {
     this.setText(variable)
-    this.setTextColor(getResources.getColor(R.color.textColorVariable))
+    this.setTextColor(ContextCompat.getColor(context, R.color.textColorVariable))
 
     override def setOnDragListener(onDragListener: OnDragListener): Unit = {
         super.setOnDragListener(onDragListener)

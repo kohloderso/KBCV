@@ -1,3 +1,5 @@
 proguard-sbt.txt
 target/
 .idea/
+classes/
+.history

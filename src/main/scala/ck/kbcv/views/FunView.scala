@@ -18,7 +18,7 @@ class FunView(context: Context, attrs: AttributeSet, funName: F, funArgs: List[T
 
     val nameView = new TextView(context, attrs)
     nameView.setText(funName)
-    nameView.setTextColor(getResources.getColor(R.color.textColorFunction))
+    nameView.setTextColor(ContextCompat.getColor(context, R.color.textColorFunction))
 
     this.addView(nameView)
 
