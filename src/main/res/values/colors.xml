@@ -25,14 +25,6 @@
     <color name="green_500">#4CAF50</color>
     <color name="light_green_500">#8BC34A</color>
 
-    <color name="path_primary">#E62F17</color>
-    <color name="path_orange">#FF9500</color>
-    <color name="path_blue">#1774E6</color>
-    <color name="path_black">#403B36</color>
-    <color name="path_green">#5FB336</color>
-    <color name="path_purple">#49098A</color>
-
-
 </resources>
 
 

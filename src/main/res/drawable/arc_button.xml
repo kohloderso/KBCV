@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/highlight_button">
+        <shape android:shape="rectangle">
+            <solid android:color="#ffffff"></solid>
+            <corners android:radius="2dp"></corners>
+        </shape>
+    </item>
+
+    <item android:drawable="@drawable/light_green_oval"
+          android:bottom="3dp" android:left="3dp" android:right="3dp" android:top="3dp"
+            >
+    </item>
+
+</layer-list>

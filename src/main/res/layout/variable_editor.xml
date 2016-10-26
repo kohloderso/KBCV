@@ -47,7 +47,8 @@
                 android:id="@+id/arcLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:arc_axisRadius="50dp"
+                app:arc_axisRadius="6
+                0dp"
                 app:arc_origin="center"
                 app:arc_radius="100dp"
                 android:visibility="invisible"
