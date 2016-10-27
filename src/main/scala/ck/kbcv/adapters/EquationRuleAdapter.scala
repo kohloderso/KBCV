@@ -1,13 +1,16 @@
 package ck.kbcv.adapters
 
-import android.content.Context
+import android.content.{ClipData, Context}
+import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
 import android.util.Log
+import android.view.View.OnLongClickListener
 import android.view.{LayoutInflater, View, ViewGroup}
 import android.widget.TextView
 import ck.kbcv.adapters.EquationRuleAdapter.{ItemClickListener, ViewHolder}
 import ck.kbcv.views.TermPairView
+import ck.kbcv.views.TermPairView.OnDropListener
 import term.reco._
 import term.util._
 
@@ -16,7 +19,7 @@ import scala.collection.mutable
 import scala.collection.mutable.ListBuffer
 
 object EquationRuleAdapter {
-    class ViewHolder(itemView: View, onItemClickListener: ItemClickListener) extends RecyclerView.ViewHolder(itemView) with View.OnClickListener with View.OnLongClickListener {
+    class ViewHolder(view: View, onItemClickListener: ItemClickListener) extends RecyclerView.ViewHolder(view) with View.OnClickListener with View.OnLongClickListener {
         val indexView = itemView.findViewById(ck.kbcv.R.id.indexView).asInstanceOf[TextView]
         val equationView = itemView.findViewById(ck.kbcv.R.id.equationView).asInstanceOf[TermPairView]
         val selectedOverlay = itemView.findViewById(ck.kbcv.R.id.selected_overlay)
@@ -30,7 +33,11 @@ object EquationRuleAdapter {
 
         override def onLongClick(view: View): Boolean = {
             Log.d("Click", "Item long clicked. Position: " + getAdapterPosition)
-            onItemClickListener.onItemLongClicked(getAdapterPosition)
+            //onItemClickListener.onItemLongClicked(getAdapterPosition)
+            // TODO make dragshadow larger/better
+            val data = ClipData.newPlainText("test", "")
+            val shadow = new View.DragShadowBuilder(itemView)
+            //view.startDrag(data, shadow, null, 0)
             true
         }
     }
@@ -38,19 +45,20 @@ object EquationRuleAdapter {
     trait ItemClickListener {
         def onItemClicked(position: Int)
 
-        def onItemLongClicked(position: Int)
+        def onItemLongClicked(position: Int) // TODO not needed anymore
     }
 }
 
 /**
  *
  *
- * @param itemClickListener: Fragment that handles selection
+ * @param fragment: Fragment that handles selection
  * @param layoutId: layout for one equation or rule
  */
-class EquationRuleAdapter[TP <: TermPair](is: TreeMap[Int,TP], itemClickListener: ItemClickListener, layoutId: Int) extends SelectableAdapter[ViewHolder] {
+class EquationRuleAdapter[TP <: TermPair](is: TreeMap[Int,TP], fragment: Fragment, layoutId: Int) extends SelectableAdapter[ViewHolder] {
     type ITP = (Int, TP)
     type ITM = TreeMap[Int, TP]
+    val itemClickListener = fragment.asInstanceOf[ItemClickListener]
     private val TAG = "EquationRuleAdapter"
     private val mBuffer: mutable.Buffer[(Int, TP)] = ListBuffer.empty ++= is.toList // is.toBuffer doesn't provide remove and indexOf functions that I need
     private var markedItem: Int = -1
@@ -66,6 +74,7 @@ class EquationRuleAdapter[TP <: TermPair](is: TreeMap[Int,TP], itemClickListener
     override  def onBindViewHolder(viewHolder: ViewHolder, position: Int): Unit = {
         val item = mBuffer(position)
         viewHolder.indexView.setText(item._1.toString)
+        viewHolder.equationView.index = item._1
         viewHolder.equationView.setTermPair(item._2)
         if(isSelected(position)) {
             viewHolder.selectedOverlay.setVisibility(View.VISIBLE)
@@ -160,11 +169,34 @@ class EquationRuleAdapter[TP <: TermPair](is: TreeMap[Int,TP], itemClickListener
 
 }
 
-class EquationsAdapter(ies: IES, itemClickListener: ItemClickListener) extends EquationRuleAdapter[E](ies, itemClickListener, ck.kbcv.R.layout.e_item) {
+class EquationsAdapter(ies: IES, fragment: Fragment) extends EquationRuleAdapter[E](ies, fragment, ck.kbcv.R.layout.e_item) {
+    override  def onBindViewHolder(viewHolder: ViewHolder, position: Int): Unit = {
+        super.onBindViewHolder(viewHolder, position)
+        if(fragment.isInstanceOf[OnDropListener]) {
+            viewHolder.equationView.ondDropListener = fragment.asInstanceOf[OnDropListener]
+        }
+    }
 
 }
 
-class RulesAdapter(itrs: ITRS, itemClickListener: ItemClickListener) extends EquationRuleAdapter[R](itrs, itemClickListener, ck.kbcv.R.layout.r_item) {
+
+class RulesAdapter(itrs: ITRS, fragment: Fragment) extends EquationRuleAdapter[R](itrs, fragment, ck.kbcv.R.layout.r_item) {
+
+    override  def onBindViewHolder(viewHolder: ViewHolder, position: Int): Unit = {
+        super.onBindViewHolder(viewHolder, position)
+        viewHolder.itemView.setOnLongClickListener(new OnLongClickListener {
+            override def onLongClick(v: View): Boolean = {
+                Log.d("Click", "Item long clicked. Position: " + position)
+                //onItemClickListener.onItemLongClicked(getAdapterPosition)
+                // TODO make dragshadow larger/better
+                val data = ClipData.newPlainText("Rule", viewHolder.indexView.getText)
+                val shadow = new View.DragShadowBuilder(v)
+                v.startDrag(data, shadow, null, 0)
+                true
+            }
+        })
+    }
+
 
 }
 

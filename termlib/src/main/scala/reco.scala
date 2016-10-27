@@ -1,21 +1,15 @@
 package term
 
 package object reco {
-  import term._
-  import term.Term.{V}
-  import util._
+  import indexing.{DT, TermIndex}
   import lpo._
-  import parser._
-  import indexing.{TermIndex,DT}
-  import scala.collection.immutable.TreeMap
-  import scala.collection.immutable.HashMap
-  import scala.collection.immutable.HashSet
-  import scala.collection.immutable.Set
-  import scala.collection.immutable.SortedMap
-  import scala.concurrent._
-  import scala.concurrent.duration.Duration
+  import util._
+
+  import scala.collection.immutable.{HashMap, HashSet, Set, TreeMap}
   import scala.concurrent.Await._
   import scala.concurrent.ExecutionContext.Implicits.global
+  import scala.concurrent._
+  import scala.concurrent.duration.Duration
   import scala.util.control.Breaks._
 
   private var threads = 0
@@ -30,7 +24,7 @@ package object reco {
   }
   import Rel._
 
-  private object Simp extends Enumeration {
+  object Simp extends Enumeration {
     type Simp = Value
     val EqL, EqR, RuL, RuR = Value
   }
@@ -109,7 +103,7 @@ package object reco {
     if (next != erch) (next,p) else orientR(is,erch,tm)
   }
 
-  private def concurrentSimpToNF(count:Int,depth:Int,cache:S,ti:TI,is:I,erch:ERCH,s:Simp):ERCH =
+  def concurrentSimpToNF(count:Int,depth:Int,cache:S,ti:TI,is:I,erch:ERCH,s:Simp):ERCH =
   if (is.isEmpty || count >= depth) erch else {
     val (es,rs,cs,hs) = erch
     val es1 = s match { case EqL | EqR => partition(is,es)._1 case _ => es }
@@ -310,7 +304,6 @@ package object reco {
   /** Check whether there is a root rewrite step from 's' to 't' using
     * the rule (l, r). */
   def rootStep(l : Term, r : Term, s : Term, t : Term) : Option[Subst] = {
-    import scala.collection.immutable.TreeMap
     try {
       val list = List(E(s, l), E(t, r))
       val subst = Term.mmatch(list)

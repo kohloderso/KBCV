@@ -10,17 +10,19 @@ import android.util.Log
 import android.view._
 import ck.kbcv.adapters.EquationRuleAdapter.ItemClickListener
 import ck.kbcv.adapters.EquationsAdapter
+import ck.kbcv.views.TermPairView.OnDropListener
 import ck.kbcv.{CompletionActionListener, Controller, R}
-import term.reco.IS
+import term.reco
+import term.reco.{ERCH, IS, ITRS, Simp}
 
-
-class EquationsFragment extends Fragment with ItemClickListener {
+class EquationsFragment extends Fragment with ItemClickListener with OnDropListener {
     val TAG = "EquationsFragment"
     var mCompletionListener: CompletionActionListener = null
     var mEquationsRV: RecyclerView = null
     var mAdapter: EquationsAdapter = null
     var mActionMode: ActionMode = null
     var mActionModeCallback = new ActionModeCallback
+
 
     override def onAttach(context: Context): Unit = {
         super.onAttach(context)
@@ -93,19 +95,49 @@ class EquationsFragment extends Fragment with ItemClickListener {
         }
     }
 
+    /**
+     *
+     * @param idRule
+     * @param idDrop
+     * @param leftRight 0 for left, 1 for right
+     */
+    override def onRuleDropped(idRule: Int, idDrop: Int, leftRight: Int): Unit = {
+        val erch = Controller.state.erc
+        val itrs = new ITRS() + ((idRule, erch._2.get(idRule).get))
+        val erch_onlyRule = new ERCH(erch._1, itrs, itrs, erch._4)
+        val simp = leftRight match {
+            case 0 => Simp.EqL
+            case 1 => Simp.EqR
+        }
+        val nerch = reco.concurrentSimpToNF(0, Controller.state.depth, Controller.emptyS, Controller.emptyTI, Controller.emptyI + idDrop, erch_onlyRule, simp)
+
+        if(nerch._1 != erch._1) {
+            val message = getString(R.string.ok_simplify)
+            Controller.builder.
+                withErch(new ERCH(nerch._1, erch._2, erch._3, erch._4)).
+                withMessage(message).
+                updateState()
+            updateEquations()
+        }
+    }
+
     class EquationTouchHelperCallback() extends ItemTouchHelper.Callback {
 
         override def getMovementFlags(recyclerView: RecyclerView, viewHolder: ViewHolder): Int = {
             val position = viewHolder.getAdapterPosition
-            if (mAdapter.isSelected(position)) return 0
-            return ItemTouchHelper.Callback.makeMovementFlags(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT )
+            if (mAdapter.isSelected(position)) return 0 // TODO when something is selected don't allow swiping and dragging?
+            val dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN | ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT
+            val swipeFlags = ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT
+            return ItemTouchHelper.Callback.makeMovementFlags(dragFlags, swipeFlags)
         }
 
         override def isLongPressDragEnabled: Boolean = false
 
         override def isItemViewSwipeEnabled: Boolean = true
 
-        override def onMove(recyclerView: RecyclerView, viewHolder: ViewHolder, target: ViewHolder): Boolean = ???
+        override def onMove(recyclerView: RecyclerView, viewHolder: ViewHolder, target: ViewHolder): Boolean = {
+            true
+        }
 
         override def onSwiped(viewHolder: ViewHolder, direction: Int): Unit = {
             direction match {
@@ -163,7 +195,7 @@ class EquationsFragment extends Fragment with ItemClickListener {
             mAdapter.clearSelection()
             mActionMode = null
         }
-
     }
+
 
 }
