@@ -6,12 +6,16 @@ import android.support.v4.app.Fragment
 import android.support.v7.widget.{LinearLayoutManager, RecyclerView}
 import android.util.Log
 import android.view._
+import ck.kbcv.activities.CompletionActivity
 import ck.kbcv.adapters.EquationRuleAdapter.ItemClickListener
 import ck.kbcv.adapters.RulesAdapter
+import ck.kbcv.views.TermPairView.OnDropListener
 import ck.kbcv.{CompletionActionListener, Controller, R}
+import term.reco
+import term.reco.{ERCH, ITRS, Simp}
 
 
-class RulesFragment extends Fragment with ItemClickListener {
+class RulesFragment extends Fragment with ItemClickListener with OnDropListener {
     val TAG = "RulesFragment"
     var mCompletionListener: CompletionActionListener = null
     var mRulesRV: RecyclerView = null
@@ -78,6 +82,39 @@ class RulesFragment extends Fragment with ItemClickListener {
         }
     }
 
+    /**
+     *
+     * @param idRule
+     * @param idDrop
+     * @param leftRight 0 for left, 1 for right
+     */
+    override def onRuleDropped(idRule: Int, idDrop: Int, leftRight: Int): Unit = {
+        val erch = Controller.state.erc
+        val itrs = new ITRS() + ((idRule, erch._2.get(idRule).get)) + ((idDrop, erch._2.get(idDrop).get))
+        val erch_onlyRule = new ERCH(erch._1, itrs, itrs, erch._4)
+        val simp = leftRight match {
+            case 0 => Simp.RuL
+            case 1 => Simp.RuR
+        }
+        var nerch = reco.concurrentSimpToNF(0, Controller.state.depth, Controller.emptyS, Controller.emptyTI, Controller.emptyI + idDrop, erch_onlyRule, simp)
+
+        if(nerch._2 != erch_onlyRule._2) {
+            var message: String = null
+            if(simp == Simp.RuL) {
+               nerch = new ERCH(nerch._1, erch._2 - idDrop, erch._3 - idDrop, nerch._4)
+                message = getString(R.string.ok_collapse)
+            } else if(simp == Simp.RuR) {
+                nerch = new ERCH(nerch._1, (erch._2 - idDrop) ++ nerch._2, (erch._3 - idDrop) ++ nerch._3, nerch._4)
+                message = getString(R.string.ok_compose)
+            }
+
+            Controller.builder.
+                withErch(nerch).
+                withMessage(message).
+                updateState()
+            mCompletionListener.asInstanceOf[CompletionActivity].updateViews() // TODO put this method in CompletionActivity
+        }
+    }
 
     class ActionModeCallback extends ActionMode.Callback {
         private val TAG = "ACTIONMODE"

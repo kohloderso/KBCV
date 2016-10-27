@@ -195,6 +195,9 @@ class RulesAdapter(itrs: ITRS, fragment: Fragment) extends EquationRuleAdapter[R
                 true
             }
         })
+        if(fragment.isInstanceOf[OnDropListener]) {
+            viewHolder.equationView.ondDropListener = fragment.asInstanceOf[OnDropListener]
+        }
     }
 
 
