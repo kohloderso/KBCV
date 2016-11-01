@@ -1,12 +1,14 @@
 package ck.kbcv.adapters
 
+import android.animation.ValueAnimator
 import android.content.{ClipData, Context}
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
 import android.util.Log
-import android.view.View.OnLongClickListener
-import android.view.{LayoutInflater, View, ViewGroup}
+import android.view.View.{OnDragListener, OnLongClickListener}
+import android.view.animation.{AccelerateDecelerateInterpolator, ScaleAnimation}
+import android.view.{DragEvent, LayoutInflater, View, ViewGroup}
 import android.widget.TextView
 import ck.kbcv.adapters.EquationRuleAdapter.{ItemClickListener, ViewHolder}
 import ck.kbcv.views.TermPairView
@@ -19,26 +21,86 @@ import scala.collection.mutable
 import scala.collection.mutable.ListBuffer
 
 object EquationRuleAdapter {
-    class ViewHolder(view: View, onItemClickListener: ItemClickListener) extends RecyclerView.ViewHolder(view) with View.OnClickListener with View.OnLongClickListener {
+    class ViewHolder(view: View, onItemClickListener: ItemClickListener) extends RecyclerView.ViewHolder(view) with View.OnClickListener with OnDragListener {
         val indexView = itemView.findViewById(ck.kbcv.R.id.indexView).asInstanceOf[TextView]
         val equationView = itemView.findViewById(ck.kbcv.R.id.equationView).asInstanceOf[TermPairView]
         val selectedOverlay = itemView.findViewById(ck.kbcv.R.id.selected_overlay)
+        var originalHeight: Int = 0
+        var enlarged = false
+        var valueAnimator: ValueAnimator = null
+
+        itemView.setOnDragListener(this)
         itemView.setOnClickListener(this)
-        itemView.setOnLongClickListener(this)
 
         override def onClick(view: View): Unit = {
             Log.d("Click", "Item clicked. Position: " + getAdapterPosition)
+
             onItemClickListener.onItemClicked(getAdapterPosition)
         }
 
-        override def onLongClick(view: View): Boolean = {
-            Log.d("Click", "Item long clicked. Position: " + getAdapterPosition)
-            //onItemClickListener.onItemLongClicked(getAdapterPosition)
-            // TODO make dragshadow larger/better
-            val data = ClipData.newPlainText("test", "")
-            val shadow = new View.DragShadowBuilder(itemView)
-            //view.startDrag(data, shadow, null, 0)
-            true
+
+        override def onDrag(v: View, event: DragEvent): Boolean = {
+            val action = event.getAction
+            action match {
+                case DragEvent.ACTION_DRAG_STARTED => true//  Do nothing
+                case DragEvent.ACTION_DRAG_ENTERED =>
+                    startScaleUp()
+                    true
+                case DragEvent.ACTION_DRAG_EXITED =>
+                    startScaleDown()
+                    true
+                case DragEvent.ACTION_DRAG_ENDED =>
+                    startScaleDown()
+                    true
+                case DragEvent.ACTION_DROP =>
+                    startScaleDown()
+                    true
+                case _ => false
+            }
+        }
+
+        def setAnimator(): Unit = {
+            originalHeight = view.getHeight
+            valueAnimator = ValueAnimator.ofInt(originalHeight , (originalHeight*1.7).toInt)
+            valueAnimator.setDuration(150)
+            valueAnimator.setInterpolator(new AccelerateDecelerateInterpolator())
+            valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                override def onAnimationUpdate(animation: ValueAnimator) {
+                    val value = animation.getAnimatedValue().asInstanceOf[Int]
+                    view.getLayoutParams().height = value
+                    view.requestLayout()
+                }
+            })
+        }
+
+        def startScaleUp() {
+            if(valueAnimator == null) setAnimator()
+                if(enlarged) return
+                Log.d("Scale", "Up: Padding: " + equationView.leftTerm.getPaddingBottom)
+                equationView.clearAnimation()
+                val scale = new ScaleAnimation(1.0f, 1.5f, 1.0f, 1.5f, equationView.getPivotX, equationView.getPivotY)//, Animation.RELATIVE_TO_SELF,0.5f)
+                scale.setFillAfter(true)
+                scale.setDuration(150)
+            if(valueAnimator.isRunning){
+                valueAnimator.pause()
+                valueAnimator.resume()
+            } else {
+                valueAnimator.start()
+            }
+                equationView.startAnimation(scale)
+                enlarged = true
+        }
+
+        def startScaleDown(): Unit = {
+            if(!enlarged) return
+            Log.d("Scale", "Padding: " + equationView.leftTerm.getPaddingBottom)
+            equationView.clearAnimation()
+            val scale = new ScaleAnimation(1.5f, 1.0f, 1.5f, 1.0f, equationView.getPivotX, equationView.getPivotY)
+            scale.setFillAfter(true)
+            scale.setDuration(100)
+            equationView.startAnimation(scale)
+            valueAnimator.reverse()
+            enlarged = false
         }
     }
 
@@ -113,7 +175,6 @@ class EquationRuleAdapter[TP <: TermPair](is: TreeMap[Int,TP], fragment: Fragmen
         notifyItemRemoved(position)
     }
 
-
     def addItem(iTerm: ITP): Unit = {
         mBuffer.append(iTerm)
         notifyItemInserted(mBuffer.size-1)
@@ -141,7 +202,6 @@ class EquationRuleAdapter[TP <: TermPair](is: TreeMap[Int,TP], fragment: Fragmen
         for(newT <- newTermPairs) {
             if(!mBuffer.contains(newT)) updateInsertItem(newT)    // TODO: does this find changed equations?
         }
-
     }
 
     override def getItemCount(): Int = {
@@ -199,8 +259,6 @@ class RulesAdapter(itrs: ITRS, fragment: Fragment) extends EquationRuleAdapter[R
             viewHolder.equationView.ondDropListener = fragment.asInstanceOf[OnDropListener]
         }
     }
-
-
 }
 
 

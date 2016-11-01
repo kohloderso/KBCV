@@ -46,7 +46,7 @@ class EquationsFragment extends Fragment with ItemClickListener with OnDropListe
         mAdapter = new EquationsAdapter(Controller.state.erc._1, this)
         mEquationsRV.setAdapter(mAdapter)
         mEquationsRV.setLayoutManager(new LinearLayoutManager(getActivity))
-        mEquationsRV.setHasFixedSize(true)   // if every e_item has the same size, use this for better performance
+        mEquationsRV.setHasFixedSize(false)   // if every e_item has the same size, use this for better performance
 
         new ItemTouchHelper(new EquationTouchHelperCallback).attachToRecyclerView(mEquationsRV)
         return view

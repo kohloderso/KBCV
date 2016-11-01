@@ -1,7 +1,6 @@
 package ck.kbcv.views
 
 import android.content.Context
-import android.graphics.Color
 import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import android.view.View.OnDragListener
@@ -36,6 +35,7 @@ class TermPairView (context: Context, attrs: AttributeSet, termPair: TermPair, s
     var ondDropListener: OnDropListener = null
     var leftTerm: TermView = null
     var rightTerm: TermView = null
+    var separatorView: TextView = null
 
     this.setOrientation(LinearLayout.HORIZONTAL)
 
@@ -51,11 +51,13 @@ class TermPairView (context: Context, attrs: AttributeSet, termPair: TermPair, s
             rhs = termPair.rhs
         }
         leftTerm = new TermView(context, attrs, lhs)
+        leftTerm.setPadding(16, 9, 10, 9)
         rightTerm = new TermView(context, attrs, rhs)
+        rightTerm.setPadding(10, 9, 16, 9)
         leftTerm.setOnDragListener(this)
         rightTerm.setOnDragListener(this)
 
-        val separatorView = new TextView(context)
+        separatorView = new TextView(context)
         separatorView.setText(separator)
         val lp = new LinearLayout.LayoutParams(0, LayoutParams.MATCH_PARENT, 1.0f)
         separatorView.setLayoutParams(lp)
@@ -70,19 +72,20 @@ class TermPairView (context: Context, attrs: AttributeSet, termPair: TermPair, s
         if(ondDropListener == null) return false
         val action = event.getAction
         action match {
-            case DragEvent.ACTION_DRAG_STARTED => //  Do nothing
-            case DragEvent.ACTION_DRAG_ENTERED => v.setBackgroundColor(ContextCompat.getColor(context, R.color.colorPrimaryBright))
-            case DragEvent.ACTION_DRAG_EXITED => v.setBackgroundColor(Color.TRANSPARENT)
-            case DragEvent.ACTION_DRAG_ENDED => v.setBackgroundColor(Color.TRANSPARENT)
+            case DragEvent.ACTION_DRAG_STARTED => true//  Do nothing
+            case DragEvent.ACTION_DRAG_ENTERED => v.setBackground(ContextCompat.getDrawable(context, R.drawable.dotted_line2));true
+            case DragEvent.ACTION_DRAG_EXITED => v.setBackground(null); true
+            case DragEvent.ACTION_DRAG_ENDED => v.setBackground(null); true
             case DragEvent.ACTION_DROP =>
                 if(event.getClipDescription.getLabel == "Rule") {
                     val idRule = event.getClipData.getItemAt(0).getText.toString.toInt
                     val leftRight = if(v == leftTerm) 0 else 1
                     ondDropListener.onRuleDropped(idRule, index, leftRight)
                 }
-            case _ =>
+                false
+            case _ =>false
         }
-        true
+
     }
 }
 

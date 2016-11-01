@@ -5,7 +5,6 @@ import android.support.v4.app.Fragment
 import android.view.View.OnClickListener
 import android.view.{LayoutInflater, View, ViewGroup}
 import android.widget.{Button, TextView}
-import ck.kbcv.dialogs.FunctionDialog
 import ck.kbcv.{Controller, HorizontalFlowLayout, R}
 
 
@@ -20,7 +19,7 @@ class FunctionEditor extends Fragment {
         plusButton = view.findViewById(R.id.plusButton).asInstanceOf[Button]
         plusButton.setOnClickListener(new OnClickListener {
             override def onClick(v: View): Unit = {
-                new FunctionDialog().show(getChildFragmentManager, "FunctionDialog")
+                //new FunctionDialog().show(getChildFragmentManager, "FunctionDialog")
             }
         })
 
