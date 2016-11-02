@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
         android:padding="16dp">
@@ -21,6 +22,16 @@
           android:id="@+id/functionFlowLayout"
           android:layout_below="@+id/textViewFunctions">
 
+    </view>
+
+    <RelativeLayout
+            android:id="@+id/plusButton_layout"
+            android:layout_width="160dp"
+            android:layout_height="160dp"
+            android:layout_toRightOf="@id/functionFlowLayout"
+            android:layout_toEndOf="@id/functionFlowLayout"
+            android:layout_alignTop="@id/textViewFunctions">
+
         <Button
                 style="@style/MyButton"
                 android:theme="@style/MyButton"
@@ -28,10 +39,33 @@
                 android:layout_height="wrap_content"
                 android:text="+"
                 android:id="@+id/plusButton"
-                android:layout_marginLeft="30dp"
-                android:layout_marginStart="30dp"/>
-
-    </view>
+                android:layout_centerInParent="true"/>
 
 
-</RelativeLayout>
+        <com.ogaclejapan.arclayout.ArcLayout
+                android:id="@+id/arcLayoutSymbols"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:arc_axisRadius="60dp"
+                app:arc_origin="center"
+                app:arc_radius="100dp"
+                android:visibility="invisible">
+
+        </com.ogaclejapan.arclayout.ArcLayout>
+
+        <com.ogaclejapan.arclayout.ArcLayout
+                android:id="@+id/arcLayoutArities"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:arc_axisRadius="60dp"
+                app:arc_origin="center"
+                app:arc_radius="100dp"
+                android:visibility="invisible">
+
+        </com.ogaclejapan.arclayout.ArcLayout>
+
+    </RelativeLayout>
+
+
+
+    </RelativeLayout>

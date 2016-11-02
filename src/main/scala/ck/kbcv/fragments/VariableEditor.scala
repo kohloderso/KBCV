@@ -1,6 +1,5 @@
 package ck.kbcv.fragments
 
-import android.graphics.Point
 import android.graphics.drawable.LayerDrawable
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -64,27 +63,8 @@ class VariableEditor extends Fragment with OnTouchListener {
         }
     }
 
-    /**
-     * compute center of the arcLayout, then compute the angle between the current point of touch and the center of the arcLayout
-     * 0 means point of touch is in a vertical line above the center.  A positive angle indicates that the major axis of contact is oriented to the right.
-     * A negative angle indicates that the major axis of contact is oriented to the left.
-     */
     def computeSelectedArcButton(touchX: Float, touchY: Float): Button = {
-        // compute the raw x and y coordinates of the origin of the arcLayout
-        var location: Array[Int] = new Array[Int](2)
-        arcLayout.getLocationOnScreen(location)
-        val arcOrigin: Point = arcLayout.getOrigin
-        arcOrigin.offset(location(0), location(1))
-
-        // TODO find out whether touch is still on plus => don't select anything
-
-        val delta_x = touchX - arcOrigin.x
-        val delta_y = arcOrigin.y - touchY
-        val angle = (Math.toDegrees(Math.atan2(delta_x, delta_y)) + 270) % 360
-
-        // find out which Button is closest to the current angle
-        val degreesPerButton = 360f / arcLayout.getChildCount
-        val pos = Math.round(angle / degreesPerButton) % arcLayout.getChildCount
+        val pos = arcLayout.computeSelectedArcButton(touchX, touchY)
 
         for (i <- 0 until arcLayout.getChildCount) {
             val layerDrawable = arcLayout.getChildAt(i).getBackground.asInstanceOf[LayerDrawable]
@@ -150,7 +130,6 @@ class VariableEditor extends Fragment with OnTouchListener {
         currentState = ArcState.INITIAL
         currentlySelected = null
 
-        arcLayout.setVisibility(View.INVISIBLE)
         for (i <- 0 until arcLayout.getChildCount) {
             arcLayout.getChildAt(i).setBackground(ContextCompat.getDrawable(getContext, R.drawable.arc_button))
             val layerDrawable = arcLayout.getChildAt(i).getBackground.asInstanceOf[LayerDrawable]

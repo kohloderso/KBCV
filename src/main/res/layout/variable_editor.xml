@@ -27,8 +27,8 @@
 
     <RelativeLayout
             android:id="@+id/plusButton_layout"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
+            android:layout_width="160dp"
+            android:layout_height="160dp"
             android:layout_toRightOf="@id/variableFlowLayout"
             android:layout_toEndOf="@id/variableFlowLayout"
             android:layout_alignTop="@id/textViewVariables">
@@ -52,12 +52,6 @@
                 app:arc_radius="100dp"
                 android:visibility="invisible"
                 >
-
-            <Button
-                    style="@style/Item.Small"
-                    android:background="@drawable/light_blue_oval_selector"
-                    android:text="A"
-                    />
 
             <Button
                     style="@style/Item.Small"

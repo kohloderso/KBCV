@@ -251,6 +251,32 @@ public class ArcLayout extends ViewGroup {
     return childCount;
   }
 
+  /**
+   * Return button that should be selected depending on current touch position.
+   * Compute center of the arcLayout, then compute the angle between the current point of touch and the center of the arcLayout.
+   * If the touch is too close to the center nothing should be selected (returns -1)
+   * @param touchX
+   * @param touchY
+   * @return position of the currently selected button, -1 if touch is too close to the center
+   */
+  public int computeSelectedArcButton(float touchX, float touchY) {
+    // compute the raw x and y coordinates of the origin of the arcLayout
+    int[] location = new int[2];
+    getLocationOnScreen(location);
+    Point arcOrigin = getOrigin();
+    arcOrigin.offset(location[0], location[1]);
+
+    // TODO find out whether touch is still on plus => don't select anything
+    float deltaX = touchX -arcOrigin.x;
+    float deltaY = arcOrigin.y -touchY;
+    double angle = (Math.toDegrees(Math.atan2(deltaX, deltaY)) + arc.startAngle) % 360;
+
+    float degreesPerButton = 360f/getChildCount();
+    int pos = (int) Math.round(angle / degreesPerButton) % getChildCount();
+
+    return pos;
+  }
+
   protected void childMeasureBy(View child, int x, int y) {
     if (Utils.DEBUG) {
       Utils.d(TAG, "childMeasureBy: x=%d, y=%d", x, y);
