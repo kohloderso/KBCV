@@ -75,12 +75,14 @@ object EquationRuleAdapter {
 
         def startScaleUp() {
             if(valueAnimator == null) setAnimator()
-                if(enlarged) return
-                Log.d("Scale", "Up: Padding: " + equationView.leftTerm.getPaddingBottom)
-                equationView.clearAnimation()
-                val scale = new ScaleAnimation(1.0f, 1.5f, 1.0f, 1.5f, equationView.getPivotX, equationView.getPivotY)//, Animation.RELATIVE_TO_SELF,0.5f)
-                scale.setFillAfter(true)
-                scale.setDuration(150)
+            if(enlarged) return
+            Log.d("Scale", "Up: Padding: " + equationView.leftTerm.getPaddingBottom)
+            equationView.clearAnimation()
+            if(equationView.getPivotX == 0) equationView.setPivotX(equationView.getWidth/2)
+            if(equationView.getPivotY == 0) equationView.setPivotY(equationView.getHeight/2)
+            val scale = new ScaleAnimation(1.0f, 1.5f, 1.0f, 1.5f, equationView.getPivotX, equationView.getPivotY)//, Animation.RELATIVE_TO_SELF,0.5f)
+            scale.setFillAfter(true)
+            scale.setDuration(150)
             if(valueAnimator.isRunning){
                 valueAnimator.pause()
                 valueAnimator.resume()

@@ -115,13 +115,13 @@ class VariableEditor extends Fragment with OnTouchListener {
                     case MotionEvent.ACTION_OUTSIDE =>
                         Log.d("TouchTest", "OUTSIDE")
                         true
-                    case _ => false
+                    case _ => true
                 }
             } else {
-                true
+                false
             }
         } else {
-            false
+            true
         }
     }
 

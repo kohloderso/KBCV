@@ -29,6 +29,7 @@ trait DropSymbolsEditor extends OnTouchListener with OnClickListener {
     def clear(): Unit = {
         left.clear()
         right.clear()
+        checkAddButton()
     }
 
     def containsDropZones(): Boolean = {

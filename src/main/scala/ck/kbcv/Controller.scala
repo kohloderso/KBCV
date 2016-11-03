@@ -90,7 +90,7 @@ object Controller {
 
     def addES(newES: ES, message: String): Unit = {
 
-        val nis = state.erc._1.size +1 until state.erc._1.size + newES.size+1   // indices
+        val nis = getNextI until getNextI + newES.size   // indices
         val ies: IES = state.erc._1 ++ (nis zip newES) // equations together with indices
 
         builder.

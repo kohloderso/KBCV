@@ -20,8 +20,7 @@
           android:layout_height="wrap_content"
           class="ck.kbcv.HorizontalFlowLayout"
           android:id="@+id/variableFlowLayout"
-          android:layout_below="@id/textViewVariables"
-          android:minWidth="100dp">
+          android:layout_below="@id/textViewVariables">
 
     </view>
 
@@ -56,26 +55,33 @@
             <Button
                     style="@style/Item.Small"
                     android:background="@drawable/cyan_oval_selector"
-                    android:text="B"
+                    android:text="x"
                     />
 
             <Button
                     style="@style/Item.Small"
                     android:background="@drawable/teal_oval_selector"
-                    android:text="C"
+                    android:text="y"
                     />
 
             <Button
                     style="@style/Item.Small"
                     android:background="@drawable/green_oval_selector"
-                    android:text="D"
+                    android:text="z"
                     />
 
             <Button
                     style="@style/Item.Small"
                     android:background="@drawable/light_green_oval_selector"
-                    android:text="E"
+                    android:text="a"
                     />
+
+            <Button
+                    style="@style/Item.Small"
+                    android:background="@drawable/light_green_oval_selector"
+                    android:text="b"
+                    />
+
 
         </com.ogaclejapan.arclayout.ArcLayout>
 

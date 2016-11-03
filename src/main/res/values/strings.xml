@@ -41,7 +41,7 @@
 
     <string name="hint_name">name</string>
     <string name="save_trs">Save TRS</string>
-    <string name="saved_as">Saved rules as %1$s in %1$s</string>
+    <string name="saved_as">Saved rules as %1$s in %2$s</string>
 
     <!-- error messages -->
     <string name="error_simplify">Nothing to simplify</string>
