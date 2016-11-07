@@ -192,5 +192,5 @@ trait CompletionActionListener {
 
     def collapse(is: IS)
 
-    def deduce(is: IS)
+    def deduce(indices: Iterable[Int])
 }

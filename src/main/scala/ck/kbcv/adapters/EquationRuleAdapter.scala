@@ -152,6 +152,13 @@ class EquationRuleAdapter[TP <: TermPair](is: TreeMap[Int,TP], fragment: Fragmen
         }
     }
 
+    def getPosition(index: Int): Int = {
+        for(i <- mBuffer.indices) {
+            if(mBuffer(i)._1 == index) return i
+        }
+        -1
+    }
+
     def getItem(position: Int): ITP = {
         mBuffer(position)
     }

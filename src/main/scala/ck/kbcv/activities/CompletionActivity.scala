@@ -212,10 +212,10 @@ class CompletionActivity extends NavigationDrawerActivity with TypedFindView wit
         }
     }
 
-    override def deduce(is: IS): Unit = {
+    override def deduce(indices: Iterable[Int]): Unit = {
         val ols: OLS = if (SP.getBoolean("pref_caching", false)) Controller.state.ols else Controller.state.ols.empty
 
-        val erch = reco.deduce(ols, Controller.emptyTI)(Controller.emptyI ++ is.keys, Controller.state.erc)
+        val erch = reco.deduce(ols, Controller.emptyTI)(Controller.emptyI ++ indices, Controller.state.erc)
         val numberNew = erch._1.size - Controller.state.erc._1.size
         if (numberNew > 0) {
             // compute which overlaps where considered this round

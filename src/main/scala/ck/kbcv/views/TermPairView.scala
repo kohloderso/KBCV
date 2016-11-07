@@ -1,6 +1,7 @@
 package ck.kbcv.views
 
 import android.content.Context
+import android.graphics.drawable.ColorDrawable
 import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import android.view.View.OnDragListener
@@ -23,6 +24,7 @@ object TermPairView {
          * @param leftRight 0 for left, 1 for right
          */
         def onRuleDropped(idRule: Int, idDrop: Int, leftRight: Int)
+
     }
 }
 
@@ -73,13 +75,21 @@ class TermPairView (context: Context, attrs: AttributeSet, termPair: TermPair, s
         val action = event.getAction
         action match {
             case DragEvent.ACTION_DRAG_STARTED => true//  Do nothing
-            case DragEvent.ACTION_DRAG_ENTERED => v.setBackground(ContextCompat.getDrawable(context, R.drawable.dotted_line2));true
-            case DragEvent.ACTION_DRAG_EXITED => v.setBackground(null); true
-            case DragEvent.ACTION_DRAG_ENDED => v.setBackground(null); true
+            case DragEvent.ACTION_DRAG_ENTERED =>
+                if(v == separatorView) {
+                    val drawable = new ColorDrawable(ContextCompat.getColor(context, R.color.colorPrimary))
+                    this.setBackground(drawable)
+                } else {
+                    v.setBackground(ContextCompat.getDrawable(context, R.drawable.dotted_line2))
+                }
+                true
+            case DragEvent.ACTION_DRAG_EXITED => if(v == separatorView) this.setBackground(null) else v.setBackground(null); true
+            case DragEvent.ACTION_DRAG_ENDED => if(v == separatorView) this.setBackground(null) else v.setBackground(null); true
+            case DragEvent.ACTION_DRAG_LOCATION => true
             case DragEvent.ACTION_DROP =>
                 if(event.getClipDescription.getLabel == "Rule") {
                     val idRule = event.getClipData.getItemAt(0).getText.toString.toInt
-                    val leftRight = if(v == leftTerm) 0 else 1
+                    val leftRight = if(v == leftTerm) 0 else if(v == rightTerm) 1 else -1
                     ondDropListener.onRuleDropped(idRule, index, leftRight)
                 }
                 false
@@ -95,5 +105,10 @@ class EquationView (context: Context, attrs: AttributeSet, equation: IE) extends
 
 class RuleView (context: Context, attrs: AttributeSet, rule: IR) extends TermPairView(context, attrs, rule._2, " \u2192 ", rule._1) {
     def this(context: Context, attrs: AttributeSet) = this(context, attrs, new IR(-1, null))
+
+    override def setTermPair(termPair: TermPair): Unit = {
+        super.setTermPair(termPair)
+        separatorView.setOnDragListener(this)
+    }
 }
 
