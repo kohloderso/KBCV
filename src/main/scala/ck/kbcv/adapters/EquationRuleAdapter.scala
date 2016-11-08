@@ -85,12 +85,7 @@ object EquationRuleAdapter {
             scale.setFillAfter(true)
             scale.setDuration(150)
             if(valueAnimator.isRunning){
-                animationTime = valueAnimator.getCurrentPlayTime
-                valueAnimator.cancel()
-                valueAnimator.start()
-                valueAnimator.setCurrentPlayTime(animationTime)
-                //valueAnimator.pause()
-                //valueAnimator.resume()
+                valueAnimator.reverse()
             } else {
                 valueAnimator.start()
             }
@@ -110,6 +105,7 @@ object EquationRuleAdapter {
             enlarged = false
         }
     }
+
 
     trait ItemClickListener {
         def onItemClicked(position: Int)
