@@ -203,12 +203,12 @@ class FunctionEditor extends Fragment with OnTouchListener {
         currentlySelectedArity = -1
 
         for (i <- 0 until arcLayoutSymbols.getChildCount) {
-            arcLayoutSymbols.getChildAt(i).setBackground(ContextCompat.getDrawable(getContext, R.drawable.arc_button))
+            arcLayoutSymbols.getChildAt(i).setBackgroundDrawable(ContextCompat.getDrawable(getContext, R.drawable.arc_button))
             val layerDrawable = arcLayoutSymbols.getChildAt(i).getBackground.asInstanceOf[LayerDrawable]
             layerDrawable.findDrawableByLayerId(R.id.highlight_button).setAlpha(0)
         }
         for (i <- 0 until arcLayoutArities.getChildCount) {
-            arcLayoutArities.getChildAt(i).setBackground(ContextCompat.getDrawable(getContext, R.drawable.arc_button))
+            arcLayoutArities.getChildAt(i).setBackgroundDrawable(ContextCompat.getDrawable(getContext, R.drawable.arc_button))
             val layerDrawable = arcLayoutArities.getChildAt(i).getBackground.asInstanceOf[LayerDrawable]
             layerDrawable.findDrawableByLayerId(R.id.highlight_button).setAlpha(0)
         }

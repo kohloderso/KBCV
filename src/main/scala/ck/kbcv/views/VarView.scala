@@ -16,7 +16,7 @@ class VarView(context: Context, attrs: AttributeSet, variable: V) extends TextVi
 
     override def setOnDragListener(onDragListener: OnDragListener): Unit = {
         super.setOnDragListener(onDragListener)
-        this.setBackground(ContextCompat.getDrawable(context, R.drawable.dotted_line))
+        this.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.dotted_line))
     }
 
     def getTerm: Term = {

@@ -42,7 +42,7 @@ class FunView(context: Context, attrs: AttributeSet, funName: F, funArgs: List[T
 
     override def setOnDragListener(listener: View.OnDragListener): Unit = {
         nameView.setOnDragListener(listener)
-        nameView.setBackground(ContextCompat.getDrawable(context, R.drawable.dotted_line))
+        nameView.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.dotted_line))
     }
 
     def containsDropZones(): Boolean = {

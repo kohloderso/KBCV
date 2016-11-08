@@ -27,7 +27,8 @@ object EquationRuleAdapter {
         val selectedOverlay = itemView.findViewById(ck.kbcv.R.id.selected_overlay)
         var originalHeight: Int = 0
         var enlarged = false
-        var valueAnimator: ValueAnimator = null
+        var valueAnimator: ValueAnimator = _
+        var animationTime: Long = 0
 
         itemView.setOnDragListener(this)
         itemView.setOnClickListener(this)
@@ -84,8 +85,12 @@ object EquationRuleAdapter {
             scale.setFillAfter(true)
             scale.setDuration(150)
             if(valueAnimator.isRunning){
-                valueAnimator.pause()
-                valueAnimator.resume()
+                animationTime = valueAnimator.getCurrentPlayTime
+                valueAnimator.cancel()
+                valueAnimator.start()
+                valueAnimator.setCurrentPlayTime(animationTime)
+                //valueAnimator.pause()
+                //valueAnimator.resume()
             } else {
                 valueAnimator.start()
             }

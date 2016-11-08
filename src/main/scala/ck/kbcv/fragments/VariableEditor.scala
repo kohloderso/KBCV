@@ -131,7 +131,7 @@ class VariableEditor extends Fragment with OnTouchListener {
         currentlySelected = null
 
         for (i <- 0 until arcLayout.getChildCount) {
-            arcLayout.getChildAt(i).setBackground(ContextCompat.getDrawable(getContext, R.drawable.arc_button))
+            arcLayout.getChildAt(i).setBackgroundDrawable(ContextCompat.getDrawable(getContext, R.drawable.arc_button))
             val layerDrawable = arcLayout.getChildAt(i).getBackground.asInstanceOf[LayerDrawable]
             layerDrawable.findDrawableByLayerId(R.id.highlight_button).setAlpha(0)
         }

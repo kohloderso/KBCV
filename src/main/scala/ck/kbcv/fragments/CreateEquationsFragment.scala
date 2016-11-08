@@ -110,12 +110,12 @@ class CreateEquationsFragment(currentIE: IE = null) extends Fragment with ItemCl
         val action = event.getAction
         action match {
             case DragEvent.ACTION_DRAG_STARTED => //  Do nothing
-            case DragEvent.ACTION_DRAG_ENTERED => if (event.getClipDescription.getLabel == "newEquation") v.setBackground(ContextCompat.getDrawable(getActivity, R.drawable.solid_border))
-            case DragEvent.ACTION_DRAG_EXITED => v.setBackground(null)
-            case DragEvent.ACTION_DRAG_ENDED => v.setBackground(null)
+            case DragEvent.ACTION_DRAG_ENTERED => if (event.getClipDescription.getLabel == "newEquation") v.setBackgroundDrawable(ContextCompat.getDrawable(getActivity, R.drawable.solid_border))
+            case DragEvent.ACTION_DRAG_EXITED => v.setBackgroundDrawable(null)
+            case DragEvent.ACTION_DRAG_ENDED => v.setBackgroundDrawable(null)
             case DragEvent.ACTION_DROP => {
                 if (event.getClipDescription.getLabel == "newEquation") addEquationFromEditor()
-                v.setBackground(null)
+                v.setBackgroundDrawable(null)
             }
             case _ =>
         }

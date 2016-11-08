@@ -30,8 +30,8 @@ class TermView(context: Context, attrs: AttributeSet, term: Term = null, symbolL
         action match {
             case DragEvent.ACTION_DRAG_STARTED =>  //  Do nothing
             case DragEvent.ACTION_DRAG_ENTERED => v.setBackgroundColor(ContextCompat.getColor(context, R.color.colorPrimaryBright))
-            case DragEvent.ACTION_DRAG_EXITED => v.setBackground(ContextCompat.getDrawable(context, R.drawable.dotted_line))
-            case DragEvent.ACTION_DRAG_ENDED => v.setBackground(ContextCompat.getDrawable(context, R.drawable.dotted_line))
+            case DragEvent.ACTION_DRAG_EXITED => v.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.dotted_line))
+            case DragEvent.ACTION_DRAG_ENDED => v.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.dotted_line))
             case DragEvent.ACTION_DROP => replaceWithDropped(event.getClipData)
             case _ =>
         }

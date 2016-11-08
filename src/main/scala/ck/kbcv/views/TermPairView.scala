@@ -78,13 +78,13 @@ class TermPairView (context: Context, attrs: AttributeSet, termPair: TermPair, s
             case DragEvent.ACTION_DRAG_ENTERED =>
                 if(v == separatorView) {
                     val drawable = new ColorDrawable(ContextCompat.getColor(context, R.color.colorPrimary))
-                    this.setBackground(drawable)
+                    this.setBackgroundDrawable(drawable)
                 } else {
-                    v.setBackground(ContextCompat.getDrawable(context, R.drawable.dotted_line2))
+                    v.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.dotted_line2))
                 }
                 true
-            case DragEvent.ACTION_DRAG_EXITED => if(v == separatorView) this.setBackground(null) else v.setBackground(null); true
-            case DragEvent.ACTION_DRAG_ENDED => if(v == separatorView) this.setBackground(null) else v.setBackground(null); true
+            case DragEvent.ACTION_DRAG_EXITED => if(v == separatorView) this.setBackgroundDrawable(null) else v.setBackgroundDrawable(null); true
+            case DragEvent.ACTION_DRAG_ENDED => if(v == separatorView) this.setBackgroundDrawable(null) else v.setBackgroundDrawable(null); true
             case DragEvent.ACTION_DRAG_LOCATION => true
             case DragEvent.ACTION_DROP =>
                 if(event.getClipDescription.getLabel == "Rule") {
