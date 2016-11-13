@@ -11,6 +11,7 @@ import ck.kbcv._
 import ck.kbcv.adapters.CreateEquationsPagerAdapter
 import ck.kbcv.dialogs.{AddDialogFragment, ImportDialogFragment, SaveDialogFragment}
 import ck.kbcv.fragments.{CreateEquationsFragment, SymbolsFragment}
+import term.parser.{Parser, ParserOldTRS, ParserXmlTRS}
 import term.reco.{IE, IES}
 import term.util.Equation
 
@@ -28,10 +29,25 @@ class CreateEquationsActivity extends NavigationDrawerActivity with OnSymbolsCha
 
     override def onCreate( savedInstanceState: Bundle ): Unit = {
         super.onCreate( savedInstanceState )
+
+        // if the app was opened because the user clicked on a .trs or .xml file with an equational system, load that equational system
+        val data = getIntent.getData
+        if(data != null) {
+            getIntent.setData(null)
+            var parser: Parser = ParserXmlTRS
+            if(data.getPath.contains(".trs")) parser = ParserOldTRS
+            val stream = getContentResolver.openInputStream(data)
+            val es = parser.parse(stream)
+            var esString = ""
+            for(e <- es) {
+                esString += e + "\n"
+            }
+            Controller.setES(es, getResources.getString(R.string.ok_new_es, new Integer(es.size)))
+        }
+
+
         setContentView( R.layout.create_es_activity)
-
         val utility = new ScreenUtility(this)
-
         if (utility.getWidth() < 400.0) {
             // Display tabLayout on small screens
 

@@ -31,6 +31,30 @@
 
             </intent-filter>
 
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <action android:name="android.intent.action.EDIT" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data
+                        android:scheme="file"
+                        android:mimeType="*/*"
+                        android:host="*"
+                        android:pathPattern=".*\\.trs"
+                />
+            </intent-filter>
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <action android:name="android.intent.action.EDIT" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data
+                        android:scheme="file"
+                        android:mimeType="*/*"
+                        android:host="*"
+                        android:pathPattern=".*\\.xml"
+                />
+            </intent-filter>
+
         </activity>
 
 
