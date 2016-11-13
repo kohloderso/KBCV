@@ -76,7 +76,7 @@ object Controller {
             updateState()
     }
 
-    def addPrecedence(prec: Precedence, message: String): Unit = {
+    def changePrecedence(prec: Precedence, message: String): Unit = {
         builder.
             withPrecedence(prec).
             withMessage(message).

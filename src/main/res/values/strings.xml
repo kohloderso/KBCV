@@ -51,6 +51,7 @@
     <string name="error_deduce">Nothing deduced</string>
     <string name="error_auto_complete">Automatic completion not successful</string>
     <string name="error_precedence">Could not add to precedence</string>
+    <string name="error_remove_precedence">Could not remove precedence</string>
     <string name="error_orient">Equation could not be oriented</string>
     <string name="error_complete">TRS is not complete yet</string>
 
@@ -65,10 +66,13 @@
     <string name="ok_new_es"><b>new ES:</b> %1$d new equations</string>
     <string name="ok_auto_complete">Automatic completion successful</string>
     <string name="ok_added_precedence">Added %1$s to precedence</string>
+    <string name="removed_precedence">Removed precedence</string>
+    <string name="edited_precedence">Edited precedence</string>
     <string name="added_var">Added a variable</string>
     <string name="added_fun">Added a function symbol</string>
     <string name="removed_eq">Removed equation %1$d</string>
     <string name="edited_eq">Edited equation %1$d</string>
+    <string name="edited_prec">Edited Precedence</string>
     <string name="created_eq">Created new equation</string>
     <string name="complete">TRS is complete now!</string>
     <string name="clear_all">cleared all</string>

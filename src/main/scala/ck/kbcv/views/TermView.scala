@@ -10,19 +10,25 @@ import ck.kbcv.R
 import term.{Fun, Term, Var}
 
 
-class TermView(context: Context, attrs: AttributeSet, term: Term = null, symbolListener: DropSymbolsEditor = null) extends LinearLayout(context: Context, attrs: AttributeSet) with OnDragListener {
+class TermView(context: Context, attrs: AttributeSet, var term: Term = null, symbolListener: DropSymbolsEditor = null) extends LinearLayout(context: Context, attrs: AttributeSet) with OnDragListener {
 
-    if(term == null) {
-        this.addView(new DropView(context, attrs, symbolListener))
-    } else {
-        val v = term match {
-            case Var(x) =>
-                new VarView(context, attrs, x)
-            case Fun(f, ts) =>
-                new FunView(context, attrs, f, ts, symbolListener)
+    setTerm(term)
+
+    def setTerm(term: Term): Unit = {
+        this.term = term
+        this.removeAllViews()
+        if(term == null) {
+            this.addView(new DropView(context, attrs, symbolListener))
+        } else {
+            val v = term match {
+                case Var(x) =>
+                    new VarView(context, attrs, x)
+                case Fun(f, ts) =>
+                    new FunView(context, attrs, f, ts, symbolListener)
+            }
+            this.addView(v)
+            if (symbolListener != null) v.setOnDragListener(this)
         }
-        this.addView(v)
-        if (symbolListener != null) v.setOnDragListener(this)
     }
 
     override def onDrag(v: View, event: DragEvent): Boolean = {

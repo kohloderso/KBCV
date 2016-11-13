@@ -101,17 +101,8 @@ class PrecedenceEditView(context: Context, attrs: AttributeSet) extends Relative
     }
 
     def setPrecedence(f1: F, f2: F): Unit = {
-        linearLayout.removeAllViews()
-
-        if (f1 != null) left = new TermView(context, attrs, new Fun(f1, List.empty), this)
-        else left = new TermView(context, attrs, null, this)
-
-        if (f2 != null) right = new TermView(context, attrs, new Fun(f2, List.empty), this)
-        else right = new TermView(context, attrs, null, this)
-
-        this.addView(left)
-        this.addView(middle)
-        this.addView(right)
+        left.setTerm(new Fun(f1, List.empty))
+        right.setTerm(new Fun(f2, List.empty))
     }
 
     def onFunctionsChanged(): Unit = {
@@ -145,7 +136,7 @@ class PrecedenceEditView(context: Context, attrs: AttributeSet) extends Relative
         if (addButton.equals(v)) {
             if (containsDropZones()) {} // TODO: throw error or something
             else {
-                precedenceActivity.addToPrecedence()
+                precedenceActivity.addToPrecedence()    // TODO if addButton is set to "save", change precedence => remove the old one and add the new one
                 clear()
                 checkAddButton()
             }
@@ -199,6 +190,12 @@ class EquationEditView(context: Context, attrs: AttributeSet, equation: IE, var 
         middle.setLayoutParams(lp)
         middle.setGravity(Gravity.CENTER)
 
+        left = new TermView(context, attrs, null, this)
+        right = new TermView(context, attrs, null, this)
+        linearLayout.addView(left)
+        linearLayout.addView(middle)
+        linearLayout.addView(right)
+
         setEquation(equation)
     }
 
@@ -207,7 +204,7 @@ class EquationEditView(context: Context, attrs: AttributeSet, equation: IE, var 
     }
 
     def setEquation(ie: IE): Unit = {
-        linearLayout.removeAllViews()
+        //linearLayout.removeAllViews()
 
         var lhs: Term = null
         var rhs: Term = null
@@ -218,12 +215,14 @@ class EquationEditView(context: Context, attrs: AttributeSet, equation: IE, var 
             rhs = equation.rhs
         }
 
-        left = new TermView(context, attrs, lhs, this)
-        right = new TermView(context, attrs, rhs, this)
-
-        linearLayout.addView(left)
-        linearLayout.addView(middle)
-        linearLayout.addView(right)
+        left.setTerm(lhs)
+        right.setTerm(rhs)
+//        left = new TermView(context, attrs, lhs, this)
+//        right = new TermView(context, attrs, rhs, this)
+//
+//        linearLayout.addView(left)
+//        linearLayout.addView(middle)
+//        linearLayout.addView(right)
 
 
         if (createEquationsFragment != null) {
