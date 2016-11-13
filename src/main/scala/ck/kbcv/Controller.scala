@@ -92,15 +92,15 @@ object Controller {
 
         val nis = getNextI until getNextI + newES.size   // indices
         val ies: IES = state.erc._1 ++ (nis zip newES) // equations together with indices
+        val h = reco.initHistory(ies)
 
         builder.
             withE0(ies).
             withFunctions(state.functions ++ funAris(newES)).
             withVariables(state.variables ++ vars(newES)).
-            withErch(new ERCH(ies, state.erc._2, state.erc._3, state.erc._4)).
+            withErch(new ERCH(ies, state.erc._2, state.erc._3, state.erc._4 ++ h)).
             withMessage(message).
             updateState()
-        // TODO val h = state.erc._4 ++
     }
 
 
@@ -123,7 +123,7 @@ object Controller {
         val ies = state.erc._1 + ie
         builder.
             withE0(ies).
-            withErch(new ERCH(ies, state.erc._2, state.erc._3, state.erc._4)).
+            withErch(new ERCH(ies, state.erc._2, state.erc._3, state.erc._4++reco.initHistory(new IES + ie))).
             withMessage(message).
             updateState()
     }
@@ -149,7 +149,7 @@ object Controller {
             updateState()
     }
 
-    def getNextI: Int = m(state.erc._4)
+    def getNextI: Int = if (m(state.erc._4) <= 0) 1 else m(state.erc._4)
 
     def getTMIncremental(prec: Precedence)(trs: ITRS): (Boolean, Option[Precedence]) = {
         lpo.lpoX(trs.values.toList, prec)
