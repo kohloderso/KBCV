@@ -114,7 +114,7 @@ class EquationsFragment extends Fragment with ItemClickListener with OnDropListe
         if(nerch._1 != erch._1) {
             val message = getString(R.string.ok_simplify)
             Controller.builder.
-                withErch(new ERCH(nerch._1, erch._2, erch._3, erch._4)).
+                withErch(new ERCH(nerch._1, erch._2, erch._3, nerch._4)).
                 withMessage(message).
                 updateState()
             updateEquations()
