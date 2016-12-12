@@ -4,7 +4,7 @@ import android.content.SharedPreferences
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
-import android.support.v7.preference.{Preference, PreferenceFragmentCompat}
+import android.support.v7.preference.{EditTextPreference, Preference, PreferenceFragmentCompat}
 import ck.kbcv.R
 import ck.kbcv.dialogs.{NumberPickerPreference, NumberPickerPreferenceDialogFragmentCompat}
 
@@ -15,6 +15,11 @@ class SettingsFragment extends PreferenceFragmentCompat with OnSharedPreferenceC
         val np = findPreference("number_rounds").asInstanceOf[NumberPickerPreference]
         np.setSummary(np.getValue + " " + getString(R.string.rounds))
 
+        val variablePref = findPreference("variable_symbols").asInstanceOf[EditTextPreference]
+        variablePref.setSummary(variablePref.getText)
+
+        val functionPref = findPreference("function_symbols").asInstanceOf[EditTextPreference]
+        functionPref.setSummary(functionPref.getText)
     }
 
     override def onResume(): Unit = {
@@ -48,7 +53,7 @@ class SettingsFragment extends PreferenceFragmentCompat with OnSharedPreferenceC
         val pref = findPreference(key)
         pref match {
             case np: NumberPickerPreference => pref.setSummary(np.getValue + " " + getString(R.string.rounds))
-            case _ =>
+            case et: EditTextPreference => et.setSummary(et.getText)
         }
 
     }

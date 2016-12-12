@@ -5,9 +5,11 @@ import android.os.{Bundle, Handler}
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.{GestureDetectorCompat, MotionEventCompat}
+import android.support.v7.preference.PreferenceManager
 import android.view.View.{OnClickListener, OnTouchListener}
 import android.view._
 import android.widget.{Button, TextView}
+import ck.kbcv.dialogs.{ArityDialog, FunctionDialog}
 import ck.kbcv.{Controller, HorizontalFlowLayout, OnSymbolsChangedListener, R}
 import com.ogaclejapan.arclayout.ArcLayout
 
@@ -23,6 +25,7 @@ class FunctionEditor extends Fragment with OnTouchListener {
     var currentlySelectedSymbol: String = null
     var currentlySelectedArity: Int = 0
     val handler = new Handler()
+    val thisFragment = this
 
     val runnable = new Runnable {
         override def run(): Unit = {
@@ -36,10 +39,7 @@ class FunctionEditor extends Fragment with OnTouchListener {
                 arcLayoutArities.setVisibility(View.VISIBLE)
             } else if(currentState == ArcState.LONGPRESS_ARITIES) {
                 // add new function with selected name and arity
-                Controller.addFunction(currentlySelectedSymbol, currentlySelectedArity, getString(R.string.added_fun))
-                val symbolsListener = getActivity.asInstanceOf[OnSymbolsChangedListener]
-                symbolsListener.onFunctionsChanged()
-                resetArcSelection()
+                addNewFunction(currentlySelectedSymbol, currentlySelectedArity)
             }
 
         }
@@ -59,22 +59,26 @@ class FunctionEditor extends Fragment with OnTouchListener {
         plusButton = view.findViewById(R.id.plusButton).asInstanceOf[Button]
         plusButton.setOnTouchListener(this)
 
-        // add some buttons to arclayout for testing
-        val symbols = List("f", "g", "h", "c")
-        for(i <- symbols.indices) {
+        val SP = PreferenceManager.getDefaultSharedPreferences(getActivity.getBaseContext)
+        val varString = SP.getString("function_symbols", "f, g, h, z")
+        val funs = varString.split(",").map(s => s.trim)
+        for(i <- funs.indices) {
             inflater.inflate(R.layout.arc_button, arcLayoutSymbols, true)
         }
-        for(i <- symbols.indices) {
+        for(i <- 1 to funs.size) {
             val button = arcLayoutSymbols.getChildAt(i).asInstanceOf[Button]
-            button.setText(symbols(i))
+            button.setText(funs(i-1))
         }
         for (i <- 0 until arcLayoutSymbols.getChildCount) {
             arcLayoutSymbols.getChildAt(i).setOnClickListener(new OnClickListener {
                 override def onClick(v: View): Unit = {
                     // change state
                     currentState = ArcState.ARC_ARITIES_OPEN
+
+                    val funName = v.asInstanceOf[Button].getText.toString
+                    if(funName == "\u2026") new FunctionDialog(thisFragment).show(getChildFragmentManager, "FunctionDialog")    //  Dialog sets currentlySelectedSymbol from outside
                     // select function symbol -> display it in the middle of the layout
-                    currentlySelectedSymbol = v.asInstanceOf[Button].getText.toString
+                    currentlySelectedSymbol = funName
                     plusButton.setText(currentlySelectedSymbol)
                     // open arcLayout with arities
                     arcLayoutSymbols.setVisibility(View.INVISIBLE)
@@ -85,21 +89,19 @@ class FunctionEditor extends Fragment with OnTouchListener {
 
         // add some buttons to arclayout for testing
         val arities = List(0, 1, 2, 3, 4)
-        for(i <- arities.indices) {
+        for(i <- 1 to arities.size) {
             inflater.inflate(R.layout.arc_button, arcLayoutArities, true)
         }
-        for(i <- arities.indices) {
+        for(i <- 1 to arities.size) {
             val button = arcLayoutArities.getChildAt(i).asInstanceOf[Button]
-            button.setText(arities(i).toString)
+            button.setText(arities(i-1).toString)
         }
         for (i <- 0 until arcLayoutArities.getChildCount) {
             arcLayoutArities.getChildAt(i).setOnClickListener(new OnClickListener {
                 override def onClick(v: View): Unit = {
+                    if(v.asInstanceOf[Button].getText.toString == "\u2026") new ArityDialog(thisFragment).show(getChildFragmentManager, "ArityDialog")
                     // add new function with selected name and arity
-                    Controller.addFunction(currentlySelectedSymbol, v.asInstanceOf[Button].getText.toString.toInt, getString(R.string.added_fun))
-                    val symbolsListener = getActivity.asInstanceOf[OnSymbolsChangedListener]
-                    symbolsListener.onFunctionsChanged()
-                    resetArcSelection()
+                    else{addNewFunction(currentlySelectedSymbol, v.asInstanceOf[Button].getText.toString.toInt)}
                 }
             })
         }
@@ -110,6 +112,13 @@ class FunctionEditor extends Fragment with OnTouchListener {
 
         setFunctions()
         return view
+    }
+
+    def addNewFunction(funName: String, arity: Int): Unit = {
+        Controller.addFunction(funName, arity, getString(R.string.added_fun))
+        val symbolsListener = getActivity.asInstanceOf[OnSymbolsChangedListener]
+        symbolsListener.onFunctionsChanged()
+        resetArcSelection()
     }
 
     def setFunctions(): Unit = {

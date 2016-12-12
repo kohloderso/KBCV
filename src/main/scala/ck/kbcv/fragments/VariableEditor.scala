@@ -5,10 +5,12 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.{GestureDetectorCompat, MotionEventCompat}
+import android.support.v7.preference.PreferenceManager
 import android.util.Log
 import android.view.View.{OnClickListener, OnTouchListener}
 import android.view._
 import android.widget._
+import ck.kbcv.dialogs.VariableDialog
 import ck.kbcv.{Controller, HorizontalFlowLayout, OnSymbolsChangedListener, R}
 import com.ogaclejapan.arclayout.ArcLayout
 
@@ -34,12 +36,27 @@ class VariableEditor extends Fragment with OnTouchListener {
         plusButton = view.findViewById(R.id.plusButton).asInstanceOf[Button]
         plusButton.setOnTouchListener(this)
 
+        val SP = PreferenceManager.getDefaultSharedPreferences(getActivity.getBaseContext)
+        val varString = SP.getString("variable_symbols", "x, y, z")
+        val vars = varString.split(",").map(s => s.trim)
+        for(i <- vars.indices) {
+            inflater.inflate(R.layout.arc_button, arcLayout, true)
+        }
+        for(i <- 1 to vars.size) {
+            val button = arcLayout.getChildAt(i).asInstanceOf[Button]
+            button.setText(vars(i-1))
+        }
+
         for (i <- 0 until arcLayout.getChildCount) {
             arcLayout.getChildAt(i).setOnClickListener(new OnClickListener {
                 override def onClick(v: View): Unit = {
-                    Controller.addVar(v.asInstanceOf[Button].getText.toString, getString(R.string.added_var))
-                    val symbolsListener = getActivity.asInstanceOf[OnSymbolsChangedListener]
-                    symbolsListener.onVariablesChanged()
+                    val varName = v.asInstanceOf[Button].getText.toString
+                    if(varName == "\u2026") new VariableDialog().show(getChildFragmentManager, "VariableDialog")
+                    else {
+                        Controller.addVar(varName, getString(R.string.added_var))
+                        val symbolsListener = getActivity.asInstanceOf[OnSymbolsChangedListener]
+                        symbolsListener.onVariablesChanged()
+                    }
                     resetArcSelection()
                 }
             })
@@ -93,9 +110,12 @@ class VariableEditor extends Fragment with OnTouchListener {
                         // if the long press is active we need to lock in the currently selected symbol
                         if (currentState == ArcState.LONGPRESS) {
                             if (currentlySelected != null) {
-                                Controller.addVar(currentlySelected, getString(R.string.added_var))
-                                val symbolsListener = getActivity.asInstanceOf[OnSymbolsChangedListener]
-                                symbolsListener.onVariablesChanged()
+                                if(currentlySelected == "\u2026") new VariableDialog().show(getChildFragmentManager, "VariableDialog")
+                                else {
+                                    Controller.addVar(currentlySelected, getString(R.string.added_var))
+                                    val symbolsListener = getActivity.asInstanceOf[OnSymbolsChangedListener]
+                                    symbolsListener.onVariablesChanged()
+                                }
                             }
                             resetArcSelection()
                             true

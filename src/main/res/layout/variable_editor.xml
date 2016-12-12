@@ -55,31 +55,7 @@
             <Button
                     style="@style/Item.Small"
                     android:background="@drawable/cyan_oval_selector"
-                    android:text="x"
-                    />
-
-            <Button
-                    style="@style/Item.Small"
-                    android:background="@drawable/teal_oval_selector"
-                    android:text="y"
-                    />
-
-            <Button
-                    style="@style/Item.Small"
-                    android:background="@drawable/green_oval_selector"
-                    android:text="z"
-                    />
-
-            <Button
-                    style="@style/Item.Small"
-                    android:background="@drawable/light_green_oval_selector"
-                    android:text="a"
-                    />
-
-            <Button
-                    style="@style/Item.Small"
-                    android:background="@drawable/light_green_oval_selector"
-                    android:text="b"
+                    android:text="\u2026"
                     />
 
 

@@ -51,6 +51,11 @@
                 app:arc_radius="100dp"
                 android:visibility="invisible">
 
+            <Button
+                    style="@style/Item.Small"
+                    android:background="@drawable/cyan_oval_selector"
+                    android:text="\u2026"/>
+
         </com.ogaclejapan.arclayout.ArcLayout>
 
         <com.ogaclejapan.arclayout.ArcLayout
@@ -61,8 +66,14 @@
                 app:arc_origin="center"
                 app:arc_radius="100dp"
                 android:visibility="invisible">
-
+            <Button
+                    style="@style/Item.Small"
+                    android:background="@drawable/cyan_oval_selector"
+                    android:text="\u2026"
+            />
         </com.ogaclejapan.arclayout.ArcLayout>
+
+
 
     </RelativeLayout>
 

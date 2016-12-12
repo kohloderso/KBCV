@@ -1,0 +1,22 @@
+<android.support.design.widget.TextInputLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res/ck.kbcv"
+        android:animateLayoutChanges="true"
+        android:id="@+id/text_input_layout_number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:errorEnabled="true"
+        android:padding="16dp">
+
+        <EditText
+                android:id="@+id/edit_text_number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:imeOptions="actionDone"
+                android:inputType="number"
+                android:hint="@string/arity"
+                android:text="0"
+                android:selectAllOnFocus="true"
+                android:singleLine="true" />
+
+</android.support.design.widget.TextInputLayout>

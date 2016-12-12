@@ -80,6 +80,10 @@
 
     <!-- settings -->
     <string name="rounds">rounds in automatic completion</string>
+    <string name="variable_symbols">Variable Symbols</string>
+    <string name="function_symbols">Function Symbols</string>
+    <string name="variable_summary">Variable names displayed in radial picker: </string>
+    <string name="function_summary">Function names displayed in radial picker: </string>
 
     <string name="drawer_open">drawer open</string>
     <string name="drawer_close">drawer close</string>

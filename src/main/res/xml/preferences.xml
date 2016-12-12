@@ -20,4 +20,16 @@
             android:defaultValue="100"
             />
 
+    <EditTextPreference
+        android:key="variable_symbols"
+        android:title="@string/variable_symbols"
+        android:summary="@string/variable_summary"
+        android:defaultValue="x, y, z, a, b"/>
+
+    <EditTextPreference
+            android:key="function_symbols"
+            android:title="@string/function_symbols"
+            android:summary="@string/function_summary"
+            android:defaultValue="f, g, h, c"/>
+
 </PreferenceScreen>
