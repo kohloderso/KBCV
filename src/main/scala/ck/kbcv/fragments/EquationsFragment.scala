@@ -1,5 +1,7 @@
 package ck.kbcv.fragments
 
+import java.util
+
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -7,6 +9,7 @@ import android.support.v7.widget.RecyclerView.ViewHolder
 import android.support.v7.widget.helper.ItemTouchHelper
 import android.support.v7.widget.{LinearLayoutManager, RecyclerView}
 import android.util.Log
+import android.view.View.OnDragListener
 import android.view._
 import ck.kbcv.adapters.EquationRuleAdapter.ItemClickListener
 import ck.kbcv.adapters.EquationsAdapter
@@ -22,6 +25,7 @@ class EquationsFragment extends Fragment with ItemClickListener with OnDropListe
     var mAdapter: EquationsAdapter = null
     var mActionMode: ActionMode = null
     var mActionModeCallback = new ActionModeCallback
+    val threshold = 20
 
 
     override def onAttach(context: Context): Unit = {
@@ -95,6 +99,7 @@ class EquationsFragment extends Fragment with ItemClickListener with OnDropListe
         }
     }
 
+
     /**
      *
      * @param idRule
@@ -122,21 +127,41 @@ class EquationsFragment extends Fragment with ItemClickListener with OnDropListe
     }
 
     class EquationTouchHelperCallback() extends ItemTouchHelper.Callback {
-
+        var currentDraggedView: Int = -1
         override def getMovementFlags(recyclerView: RecyclerView, viewHolder: ViewHolder): Int = {
             val position = viewHolder.getAdapterPosition
             if (mAdapter.isSelected(position)) return 0 // TODO when something is selected don't allow swiping and dragging?
-            val dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN | ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT
+            val dragFlags = ItemTouchHelper.DOWN
             val swipeFlags = ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT
             return ItemTouchHelper.Callback.makeMovementFlags(dragFlags, swipeFlags)
         }
 
-        override def isLongPressDragEnabled: Boolean = false
+        override def isLongPressDragEnabled: Boolean = true
 
         override def isItemViewSwipeEnabled: Boolean = true
 
         override def onMove(recyclerView: RecyclerView, viewHolder: ViewHolder, target: ViewHolder): Boolean = {
             true
+        }
+
+        override def onSelectedChanged(viewHolder: ViewHolder, actionState: Int): Unit = {
+            Log.d("DRAG", "onSelectedChanged")
+            if(viewHolder != null) {
+                currentDraggedView = viewHolder.getAdapterPosition
+            } else {
+                currentDraggedView = -1
+            }
+            super.onSelectedChanged(viewHolder, actionState)
+        }
+
+        override def getAnimationDuration(recyclerView: RecyclerView, animationType: Int, animateDx: Float, animateDy: Float): Long = {
+            Log.d("DRAG", "animationDuration. Dy: " + animateDy)
+            var duration = super.getAnimationDuration(recyclerView, animationType, animateDx, animateDy)
+            if(animateDy*(-1) > threshold) { // it's a downward drag
+                mCompletionListener.simplifyDelete(mAdapter.getItem(currentDraggedView))
+                duration = duration * 2
+            }
+            duration
         }
 
         override def onSwiped(viewHolder: ViewHolder, direction: Int): Unit = {

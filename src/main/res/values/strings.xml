@@ -77,6 +77,7 @@
     <string name="complete">TRS is complete now!</string>
     <string name="clear_all">cleared all</string>
     <string name="initialize">initialize</string>
+    <string name="simplify_delete">Simplified equation %1$d as far as possible</string>
 
     <!-- settings -->
     <string name="rounds">rounds in automatic completion</string>

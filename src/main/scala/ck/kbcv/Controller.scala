@@ -186,6 +186,8 @@ trait CompletionActionListener {
 
     def simplify(is: IS)
 
+    def simplifyDelete(ie: IE)
+
     def delete(is: IS)
 
     def compose(iS: IS)

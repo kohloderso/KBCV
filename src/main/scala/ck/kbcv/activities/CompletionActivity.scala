@@ -181,6 +181,19 @@ class CompletionActivity extends NavigationDrawerActivity with TypedFindView wit
         }
     }
 
+    override def simplifyDelete(ie: IE): Unit = {
+        val erch = reco.simplifyToNF(Controller.emptyS, Controller.emptyTI, Controller.state.depth)(Controller.emptyI + ie._1, Controller.state.erc)
+        val newIE = erch._1.filter(filterIE => !Controller.state.erc._1.contains(filterIE._1) && filterIE != ie)
+        val nerch = reco.delete(Controller.emptyI ++ newIE.keys, erch)
+        val message  = getString(R.string.simplify_delete)
+        showSuccessMsg(message)
+        Controller.builder.
+            withErch(nerch).
+            withMessage(message).
+            updateState()
+        updateEquationFragment()
+    }
+
     override def compose(is: IS): Unit = {
         val erch = reco.composeToNF(Controller.emptyS, Controller.emptyTI, Controller.state.depth)(Controller.emptyI ++ is.keys, Controller.state.erc)
         if (erch != Controller.state.erc) {
