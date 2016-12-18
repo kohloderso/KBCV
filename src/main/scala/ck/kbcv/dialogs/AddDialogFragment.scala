@@ -33,7 +33,7 @@ class AddDialogFragment extends DialogFragment {
 
     override def onCreateDialog(savedInstanceState: Bundle): Dialog = {
         var parser: Parser = ParserXmlTRS
-        val builder = new Builder((getActivity))
+        val builder = new Builder((getActivity), R.style.MyDialogStyle)
 
         val filename = getArguments.getCharSequence("filename")
         val fileURI = getArguments.getCharSequence("uri")

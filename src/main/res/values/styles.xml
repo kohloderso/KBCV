@@ -50,6 +50,11 @@
         <item name="android:background">?android:attr/listDivider</item>
     </style>
 
+    <style name="MyDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColorPrimary">@color/colorPrimary</item>
+    </style>
+
     <style name="EditorViewsStyle">
         <item name="android:textViewStyle">@style/largeText</item>
     </style>

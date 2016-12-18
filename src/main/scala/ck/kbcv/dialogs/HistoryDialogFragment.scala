@@ -17,7 +17,7 @@ class HistoryDialogFragment extends DialogFragment with HistoryClickListener {
 
     override def onCreateDialog(savedInstanceState: Bundle): Dialog = {
 
-        val builder = new AlertDialog.Builder(getActivity())
+        val builder = new AlertDialog.Builder(getActivity(), R.style.MyDialogStyle)
         // Get the layout inflater
         val inflater = getActivity().getLayoutInflater()
 

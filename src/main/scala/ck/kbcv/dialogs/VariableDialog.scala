@@ -20,7 +20,7 @@ class VariableDialog extends DialogFragment {
 
     override def onCreateDialog(savedInstanceState: Bundle): Dialog = {
         val activity = getActivity
-        val builder = new Builder(activity)
+        val builder = new Builder(activity, R.style.MyDialogStyle)
         val inflater = getActivity.getLayoutInflater
         inputLayout = inflater.inflate(R.layout.input_layout, null, false).asInstanceOf[TextInputLayout]
         editText = inputLayout.findViewById(R.id.edit_text).asInstanceOf[EditText]

@@ -13,7 +13,7 @@ class ImportDialogFragment extends DialogFragment {
     val FILE_REQUEST = 1
 
     override def onCreateDialog(savedInstanceState:Bundle): Dialog = {
-        val builder = new Builder((getActivity))
+        val builder = new Builder((getActivity), R.style.MyDialogStyle)
         val filesList = getActivity.fileList()
         val items: Array[CharSequence] = filesList.map(x => x)
         builder.setTitle(getString(R.string.import_dialog))

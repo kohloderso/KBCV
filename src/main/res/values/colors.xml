@@ -1,20 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <resources>
+    <!-- cl-Colors-->
+    <color name="cl_green">#4C804C</color>
+    <color name="cl_red">#E04747</color>
+    <color name="cl_orange">#F29400</color>
+    <color name="cl_lightblue">#799BB3</color>
+    <color name="cl_blue">#2B5573</color>
+    <color name="cl_gray">#EEEEDD</color>
 
-    <color name="colorPrimary">#607d8b</color>
-    <color name="colorPrimaryDark">#455a64</color>
-    <color name="colorPrimaryBright">#90a4ae</color>
-    <color name="colorSecondary">#ff9800</color>
-    <color name="colorSecondaryBright">#ffb74d</color>
-    <color name="colorSecondaryDark">#f57c00</color>
+
+    <color name="colorPrimary">@color/cl_blue</color>
+    <color name="colorPrimaryDark">#2B5573</color>
+    <color name="colorPrimaryBright">@color/cl_lightblue</color>
+    <color name="colorSecondary">@color/cl_orange</color>
     <color name="textColorPrimary">#FFFFFF</color>
-    <color name="navigationBarColor">#90a4ae</color>
-    <color name="colorAccent">#ffab40</color>
+    <color name="navigationBarColor">@color/cl_lightblue</color>
+    <color name="colorAccent">@color/cl_orange</color>
     <color name="selected_overlay">#8890a4ae</color>
     <color name="marked_overlay">#88ffab40</color>
-    <color name="textColorVariable">#ffab00</color>
-    <color name="textColorFunction">#aeea00</color>
+    <color name="textColorVariable">@color/cl_green</color>
+    <color name="textColorFunction">@color/cl_orange</color>
     <color name="colorDisabled">#7f0a0023</color>
     <color name="white">#FFFFFF</color>
     <color name="pressed">#33000000</color>

@@ -17,7 +17,7 @@ class SaveDialogFragment(saveRules: Boolean = false) extends DialogFragment {
 
     override def onCreateDialog(savedInstanceState: Bundle): Dialog = {
         val activity = getActivity
-        val builder = new Builder((activity))
+        val builder = new Builder((activity), R.style.MyDialogStyle)
         val edittext = new EditText(activity)
         edittext.setPadding(20, 20, 20, 20)
         edittext.setHint(getString(R.string.hint_name))
