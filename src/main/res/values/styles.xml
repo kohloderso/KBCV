@@ -21,13 +21,19 @@
 
     <style name="MyButton">
         <item name="colorControlHighlight">@color/colorPrimaryBright</item>
-        <item name="colorButtonNormal">@color/button_color</item>
+        <item name="colorButtonNormal">@color/colorPrimaryDark</item>
         <item name="android:textColor">@color/textColorPrimary</item>
         <item name="android:minWidth">48dp</item>
     </style>
 
+    <style name="MyButtonNoCaps" parent="MyButton">
+        <item name="android:textAllCaps">false</item>
+    </style>
+
     <style name="DragButton">
-        <item name="colorButtonNormal">@color/colorPrimaryBright</item>
+        <item name="colorButtonNormal">@color/colorPrimary</item>
+        <item name="android:textColor">@color/textColorPrimary</item>
+        <item name="android:textAllCaps">false</item>
         <item name="android:minWidth">48dp</item>
     </style>
 
@@ -69,6 +75,7 @@
     </style>
 
     <style name="Item.Small">
+        <item name="android:textAllCaps">false</item>
         <item name="android:layout_width">@dimen/item_circle_size_small</item>
         <item name="android:layout_height">@dimen/item_circle_size_small</item>
         <item name="android:textSize">@dimen/item_font_size_small</item>

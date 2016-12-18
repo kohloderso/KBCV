@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@drawable/light_green_oval"/>
+    <item android:drawable="@drawable/cl_orange_oval"/>
     <item>
         <shape android:shape="oval">
             <solid android:color="@color/pressed"/>

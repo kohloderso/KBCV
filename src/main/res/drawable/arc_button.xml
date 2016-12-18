@@ -9,7 +9,7 @@
         </shape>
     </item>
 
-    <item android:drawable="@drawable/light_green_oval"
+    <item android:drawable="@drawable/cl_orange_oval_selector"
           android:bottom="3dp" android:left="3dp" android:right="3dp" android:top="3dp"
             >
     </item>

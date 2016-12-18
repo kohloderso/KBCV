@@ -33,8 +33,8 @@
             android:layout_alignTop="@id/textViewVariables">
 
         <Button
-                style="@style/MyButton"
-                android:theme="@style/MyButton"
+                style="@style/MyButtonNoCaps"
+                android:theme="@style/MyButtonNoCaps"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="+"
@@ -54,7 +54,7 @@
 
             <Button
                     style="@style/Item.Small"
-                    android:background="@drawable/cyan_oval_selector"
+                    android:background="@drawable/cl_orange_oval_selector"
                     android:text="\u2026"
                     />
 
