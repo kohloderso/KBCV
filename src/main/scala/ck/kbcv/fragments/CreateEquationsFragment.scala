@@ -102,6 +102,7 @@ class CreateEquationsFragment(currentIE: IE = null) extends Fragment with ItemCl
                 onEquationsAdded()
             }
             equationEditView.clear()
+            equationEditView.setAddButton(getString(R.string.add))
             equationEditView.index = -1
         }
     }
