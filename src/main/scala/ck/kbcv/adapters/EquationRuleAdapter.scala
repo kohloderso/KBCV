@@ -43,8 +43,10 @@ object EquationRuleAdapter {
 
         override def onDrag(v: View, event: DragEvent): Boolean = {
             val action = event.getAction
-            val data = event.getClipDescription.getLabel
-            if(data == "Equation") return true // if it's an equation that is dragged down for simplify, don't make other items larger
+            if(event.getClipDescription != null) {
+                val data = event.getClipDescription.getLabel
+                if(data == "Equation") return true // if it's an equation that is dragged down for simplify, don't make other items larger
+            }
             action match {
                 case DragEvent.ACTION_DRAG_STARTED => true//  Do nothing
                 case DragEvent.ACTION_DRAG_ENTERED =>

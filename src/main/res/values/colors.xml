@@ -11,7 +11,7 @@
 
 
     <color name="colorPrimary">@color/cl_blue</color>
-    <color name="colorPrimaryDark">#2B5573</color>
+    <color name="colorPrimaryDark">#264B66</color>
     <color name="colorPrimaryBright">@color/cl_lightblue</color>
     <color name="colorSecondary">@color/cl_orange</color>
     <color name="textColorPrimary">#FFFFFF</color>
@@ -21,10 +21,9 @@
     <color name="marked_overlay">#88ffab40</color>
     <color name="textColorVariable">@color/cl_green</color>
     <color name="textColorFunction">@color/cl_orange</color>
-    <color name="colorDisabled">#7f0a0023</color>
     <color name="white">#FFFFFF</color>
-    <color name="pressed">#33000000</color>
 
+    <color name="pressed">#33000000</color>
     <color name="light_blue_500">#03A9F4</color>
     <color name="cyan_500">#00BCD4</color>
     <color name="teal_500">#009688</color>

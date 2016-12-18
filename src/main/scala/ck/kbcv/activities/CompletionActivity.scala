@@ -3,7 +3,7 @@ package ck.kbcv.activities
 import android.app.{Activity, ProgressDialog}
 import android.content.DialogInterface.OnClickListener
 import android.content.{DialogInterface, SharedPreferences}
-import android.os.{AsyncTask, Bundle}
+import android.os.{AsyncTask, Bundle, Handler}
 import android.support.design.widget.TabLayout
 import android.support.v7.preference.PreferenceManager
 import android.util.Log
@@ -181,17 +181,22 @@ class CompletionActivity extends NavigationDrawerActivity with TypedFindView wit
         }
     }
 
-    override def simplifyDelete(ie: IE): Unit = {
-        val erch = reco.simplifyToNF(Controller.emptyS, Controller.emptyTI, Controller.state.depth)(Controller.emptyI + ie._1, Controller.state.erc)
-        val newIE = erch._1.filter(filterIE => !Controller.state.erc._1.contains(filterIE._1) && filterIE != ie)
+    override def simplifyDelete(ie: IE): Boolean = {
+        val curERCH = Controller.state.erc
+        val erch = reco.simplifyToNF(Controller.emptyS, Controller.emptyTI, Controller.state.depth)(Controller.emptyI + ie._1, curERCH)
+        val newIE = erch._1.filter(filterIE => !curERCH._1.contains(filterIE._1) || filterIE == ie)
         val nerch = reco.delete(Controller.emptyI ++ newIE.keys, erch)
-        val message  = getString(R.string.simplify_delete, ie._1.toString)
+        val message  = getString(R.string.simplify_delete, new Integer(ie._1))
         showSuccessMsg(message)
-        Controller.builder.
-            withErch(nerch).
-            withMessage(message).
-            updateState()
-        updateEquationFragment()
+        if(nerch._1 != curERCH._1) {
+            Controller.builder.
+              withErch(nerch).
+              withMessage(message).
+              updateState()
+            true
+        } else {
+            false
+        }
     }
 
     override def compose(is: IS): Unit = {
@@ -270,7 +275,6 @@ class CompletionActivity extends NavigationDrawerActivity with TypedFindView wit
         } else {
             equationsfr = getSupportFragmentManager.findFragmentById(R.id.equations_fragment).asInstanceOf[EquationsFragment]
         }
-
         equationsfr.updateEquations()
     }
 

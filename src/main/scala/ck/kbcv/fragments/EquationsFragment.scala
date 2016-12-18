@@ -128,6 +128,7 @@ class EquationsFragment extends Fragment with ItemClickListener with OnDropListe
 
     class EquationTouchHelperCallback() extends ItemTouchHelper.Callback {
         var currentDraggedView: Int = -1
+        var changedES: Boolean = false
         override def getMovementFlags(recyclerView: RecyclerView, viewHolder: ViewHolder): Int = {
             val position = viewHolder.getAdapterPosition
             if (mAdapter.isSelected(position)) return 0 // TODO when something is selected don't allow swiping and dragging?
@@ -158,10 +159,18 @@ class EquationsFragment extends Fragment with ItemClickListener with OnDropListe
             Log.d("DRAG", "animationDuration. Dy: " + animateDy)
             var duration = super.getAnimationDuration(recyclerView, animationType, animateDx, animateDy)
             if(animateDy*(-1) > threshold) { // it's a downward drag
-                mCompletionListener.simplifyDelete(mAdapter.getItem(currentDraggedView))
+                changedES = mCompletionListener.simplifyDelete(mAdapter.getItem(currentDraggedView))
                 duration = duration * 2
             }
             duration
+        }
+
+        override def clearView(recyclerView: RecyclerView, viewHolder: ViewHolder): Unit = {
+            super.clearView(recyclerView, viewHolder)
+            if(changedES){
+                updateEquations()
+                changedES = false
+            }
         }
 
         override def onSwiped(viewHolder: ViewHolder, direction: Int): Unit = {

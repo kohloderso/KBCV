@@ -11,16 +11,16 @@ import term.{Fun, Var}
 
 class DropView(context: Context, attrs: AttributeSet, symbolListener: DropSymbolsEditor = null) extends CardView(context, attrs) {
     val TAG = "EquationDropzone"
-    this.setCardBackgroundColor(ContextCompat.getColor(context, R.color.cl_orange))
+    this.setCardBackgroundColor(ContextCompat.getColor(context, R.color.cl_lightblue))
     this.setOnDragListener(new View.OnDragListener() {
         override def onDrag(v: View, event: DragEvent): Boolean = {
             val action = event.getAction
             Log.d(TAG, "Action: " + action)
             action match {
                 case DragEvent.ACTION_DRAG_STARTED => val test = event.getClipDescription//  Do nothing
-                case DragEvent.ACTION_DRAG_ENTERED => v.setBackgroundColor(ContextCompat.getColor(context, R.color.cl_red))
-                case DragEvent.ACTION_DRAG_EXITED => v.setBackgroundColor(ContextCompat.getColor(context, R.color.cl_gray))
-                case DragEvent.ACTION_DRAG_ENDED => v.setBackgroundColor(ContextCompat.getColor(context, R.color.cl_gray))
+                case DragEvent.ACTION_DRAG_ENTERED => v.setBackgroundColor(ContextCompat.getColor(context, R.color.cl_gray))
+                case DragEvent.ACTION_DRAG_EXITED => v.setBackgroundColor(ContextCompat.getColor(context, R.color.cl_lightblue))
+                case DragEvent.ACTION_DRAG_ENDED => v.setBackgroundColor(ContextCompat.getColor(context, R.color.cl_lightblue))
                 case DragEvent.ACTION_DROP =>
                     replaceDropzone(event.getClipData)
                 case _ =>

@@ -186,7 +186,7 @@ trait CompletionActionListener {
 
     def simplify(is: IS)
 
-    def simplifyDelete(ie: IE)
+    def simplifyDelete(ie: IE): Boolean
 
     def delete(is: IS)
 
