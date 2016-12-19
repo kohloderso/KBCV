@@ -1,5 +1,6 @@
 package ck.kbcv.fragments
 
+import android.content.ClipData
 import android.graphics.drawable.LayerDrawable
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -7,7 +8,7 @@ import android.support.v4.content.ContextCompat
 import android.support.v4.view.{GestureDetectorCompat, MotionEventCompat}
 import android.support.v7.preference.PreferenceManager
 import android.util.Log
-import android.view.View.{OnClickListener, OnTouchListener}
+import android.view.View.{OnClickListener, OnLongClickListener, OnTouchListener}
 import android.view._
 import android.widget._
 import ck.kbcv.dialogs.VariableDialog
@@ -21,9 +22,9 @@ class VariableEditor extends Fragment with OnTouchListener {
     var arcLayout: ArcLayout = null
     var gestureDetector: GestureDetectorCompat = null
     var plusButton: Button = null
+    var trashButton: ImageButton = null
     var currentState = ArcState.INITIAL
     var currentlySelected: String = null
-
     object ArcState extends Enumeration {
         val INITIAL, ARC_OPEN, LONGPRESS = Value
     }
@@ -35,6 +36,7 @@ class VariableEditor extends Fragment with OnTouchListener {
         arcLayout = view.findViewById(R.id.arcLayout).asInstanceOf[ArcLayout]
         plusButton = view.findViewById(R.id.plusButton).asInstanceOf[Button]
         plusButton.setOnTouchListener(this)
+        trashButton = view.findViewById(R.id.imageButton).asInstanceOf[ImageButton]
 
         val SP = PreferenceManager.getDefaultSharedPreferences(getActivity.getBaseContext)
         val varString = SP.getString("variable_symbols", "x, y, z")
@@ -65,6 +67,26 @@ class VariableEditor extends Fragment with OnTouchListener {
         setVariables()
         resetArcSelection()
 
+        trashButton.setOnDragListener(new View.OnDragListener() {
+            override def onDrag(v: View, event: DragEvent): Boolean = {
+                val action = event.getAction
+                action match {
+                    case DragEvent.ACTION_DRAG_STARTED =>  //  Do nothing
+                    case DragEvent.ACTION_DRAG_ENTERED =>
+                    case DragEvent.ACTION_DRAG_EXITED =>
+                    case DragEvent.ACTION_DRAG_ENDED => plusButton.setVisibility(View.VISIBLE)
+                        trashButton.setVisibility(View.INVISIBLE)
+                    case DragEvent.ACTION_DROP => Controller.removeVar(event.getClipData.getItemAt(0).getText.toString, "deleted Variable")
+                        plusButton.setVisibility(View.VISIBLE)
+                        trashButton.setVisibility(View.INVISIBLE)
+                        val symbolsListener = getActivity.asInstanceOf[OnSymbolsChangedListener]
+                        symbolsListener.onVariablesChanged()
+                    case _ =>
+                }
+                true
+            }
+        })
+
         return view
     }
 
@@ -76,6 +98,17 @@ class VariableEditor extends Fragment with OnTouchListener {
         for(variable <- variables) {
             val varView = inflater.inflate(R.layout.var_view, flowLayout, false).asInstanceOf[TextView]
             varView.setText(variable)
+            varView.setOnLongClickListener(new OnLongClickListener {
+                override def onLongClick(v: View): Boolean = {
+                    val data = ClipData.newPlainText("deleteVar", varView.getText)
+                    val shadow = new View.DragShadowBuilder(v)
+                    v.startDrag(data, shadow, null, 0)
+                    //display delete icon instead of +
+                    plusButton.setVisibility(View.INVISIBLE)
+                    trashButton.setVisibility(View.VISIBLE)
+                    true
+                }
+            })
             flowLayout.addView(varView)
         }
     }

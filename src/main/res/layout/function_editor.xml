@@ -41,6 +41,23 @@
                 android:id="@+id/plusButton"
                 android:layout_centerInParent="true"/>
 
+        <ImageButton xmlns:android="http://schemas.android.com/apk/res/android"
+                     android:id="@+id/imageButton"
+                     android:scaleType="fitXY"
+                     android:layout_alignBottom="@+id/plusButton"
+                     android:layout_alignLeft="@+id/plusButton"
+                     android:layout_alignTop="@+id/plusButton"
+                     android:layout_alignEnd="@+id/plusButton"
+                     android:layout_alignRight="@+id/plusButton"
+                     android:layout_alignStart="@+id/plusButton"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:padding="4dp"
+                     android:src="@drawable/trash_zone"
+                     android:visibility="invisible">
+
+        </ImageButton>
+
 
         <com.ogaclejapan.arclayout.ArcLayout
                 android:id="@+id/arcLayoutSymbols"

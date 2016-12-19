@@ -69,9 +69,25 @@ object Controller {
             updateState()
     }
 
+    def removeFunction(oldFunction: F, oldArity: Int, message: String): Unit = {
+        val oldFuns = state.functions
+        val newFuns = state.functions - ((oldFunction, oldArity))
+        builder.
+            withFunctions(state.functions - ((oldFunction, oldArity))).
+            withMessage(message).
+            updateState()
+    }
+
     def addVar(variable: V, message: String): Unit = {
         builder.
             withVariables(state.variables + variable).
+            withMessage(message).
+            updateState()
+    }
+
+    def removeVar(oldVar: V, message: String): Unit = {
+        builder.
+            withVariables(state.variables - oldVar).
             withMessage(message).
             updateState()
     }

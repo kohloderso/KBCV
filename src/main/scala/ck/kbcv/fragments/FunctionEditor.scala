@@ -1,14 +1,15 @@
 package ck.kbcv.fragments
 
+import android.content.ClipData
 import android.graphics.drawable.LayerDrawable
 import android.os.{Bundle, Handler}
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.{GestureDetectorCompat, MotionEventCompat}
 import android.support.v7.preference.PreferenceManager
-import android.view.View.{OnClickListener, OnTouchListener}
+import android.view.View.{OnClickListener, OnLongClickListener, OnTouchListener}
 import android.view._
-import android.widget.{Button, TextView}
+import android.widget.{Button, ImageButton, TextView}
 import ck.kbcv.dialogs.{ArityDialog, FunctionDialog}
 import ck.kbcv.{Controller, HorizontalFlowLayout, OnSymbolsChangedListener, R}
 import com.ogaclejapan.arclayout.ArcLayout
@@ -16,6 +17,7 @@ import com.ogaclejapan.arclayout.ArcLayout
 
 class FunctionEditor extends Fragment with OnTouchListener {
     var plusButton: Button = null
+    var trashButton: ImageButton = null
     var flowLayout: HorizontalFlowLayout = null
     var arcLayoutSymbols: ArcLayout = null
     var arcLayoutArities: ArcLayout = null
@@ -58,6 +60,7 @@ class FunctionEditor extends Fragment with OnTouchListener {
         arcLayoutArities = view.findViewById(R.id.arcLayoutArities).asInstanceOf[ArcLayout]
         plusButton = view.findViewById(R.id.plusButton).asInstanceOf[Button]
         plusButton.setOnTouchListener(this)
+        trashButton = view.findViewById(R.id.imageButton).asInstanceOf[ImageButton]
 
         val SP = PreferenceManager.getDefaultSharedPreferences(getActivity.getBaseContext)
         val varString = SP.getString("function_symbols", "f, g, h, z")
@@ -107,10 +110,29 @@ class FunctionEditor extends Fragment with OnTouchListener {
         }
 
         resetArcSelection()
-
         gestureDetector = new GestureDetectorCompat(getContext, new MyGestureListener)
-
         setFunctions()
+
+        trashButton.setOnDragListener(new View.OnDragListener() {
+            override def onDrag(v: View, event: DragEvent): Boolean = {
+                val action = event.getAction
+                action match {
+                    case DragEvent.ACTION_DRAG_STARTED =>  //  Do nothing
+                    case DragEvent.ACTION_DRAG_ENTERED =>
+                    case DragEvent.ACTION_DRAG_EXITED =>
+                    case DragEvent.ACTION_DRAG_ENDED => plusButton.setVisibility(View.VISIBLE)
+                        trashButton.setVisibility(View.INVISIBLE)
+                    case DragEvent.ACTION_DROP =>
+                        Controller.removeFunction(event.getClipData.getItemAt(0).getText.toString, event.getClipData.getItemAt(1).getText.toString.toInt, "deleted function symbol")
+                        plusButton.setVisibility(View.VISIBLE)
+                        trashButton.setVisibility(View.INVISIBLE)
+                        val symbolsListener = getActivity.asInstanceOf[OnSymbolsChangedListener]
+                        symbolsListener.onFunctionsChanged()
+                    case _ =>
+                }
+                true
+            }
+        })
         return view
     }
 
@@ -131,6 +153,18 @@ class FunctionEditor extends Fragment with OnTouchListener {
             funNameView.setText(funName)
             val funArityView = functionView.findViewById(R.id.funArity).asInstanceOf[TextView]
             funArityView.setText(funArity.toString)
+            functionView.setOnLongClickListener(new OnLongClickListener {
+                override def onLongClick(v: View): Boolean = {
+                    val data = ClipData.newPlainText("deleteFun", funName)
+                    data.addItem(new ClipData.Item(funArity.toString))
+                    val shadow = new View.DragShadowBuilder(v)
+                    v.startDrag(data, shadow, null, 0)
+                    //display delete icon instead of +
+                    plusButton.setVisibility(View.INVISIBLE)
+                    trashButton.setVisibility(View.VISIBLE)
+                    true
+                }
+            })
             flowLayout.addView(functionView)
         }
     }

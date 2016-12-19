@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@color/cl_red"></solid>
+            <corners android:radius="1dp"></corners>
+        </shape>
+    </item>
+
+    <item android:drawable="@drawable/ic_delete_forever_white_24dp"
+    >
+    </item>
+
+</layer-list>
