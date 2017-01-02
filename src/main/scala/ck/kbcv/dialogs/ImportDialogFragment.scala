@@ -39,7 +39,7 @@ class ImportDialogFragment extends DialogFragment {
     def chooseFile(): Unit = {
 
         val intent = new Intent(Intent.ACTION_GET_CONTENT)
-        intent.setType("text/*");
+        intent.setType("*/*");
         intent.addCategory(Intent.CATEGORY_OPENABLE)
 
         try {

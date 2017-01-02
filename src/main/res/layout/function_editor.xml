@@ -20,7 +20,9 @@
           android:layout_height="wrap_content"
           class="ck.kbcv.HorizontalFlowLayout"
           android:id="@+id/functionFlowLayout"
-          android:layout_below="@+id/textViewFunctions">
+          android:layout_below="@+id/textViewFunctions"
+          android:layout_toRightOf="@id/plusButton_layout"
+          android:layout_toEndOf="@id/plusButton_layout">
 
     </view>
 
@@ -28,8 +30,8 @@
             android:id="@+id/plusButton_layout"
             android:layout_width="160dp"
             android:layout_height="160dp"
-            android:layout_toRightOf="@id/functionFlowLayout"
-            android:layout_toEndOf="@id/functionFlowLayout"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
             android:layout_alignTop="@id/textViewFunctions">
 
         <Button

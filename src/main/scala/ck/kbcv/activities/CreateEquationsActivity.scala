@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.support.design.widget.TabLayout
+import android.support.v7.preference.PreferenceManager
 import android.util.Log
 import android.view.{Menu, MenuItem}
 import ck.kbcv._
@@ -32,17 +33,21 @@ class CreateEquationsActivity extends NavigationDrawerActivity with OnSymbolsCha
 
         // if the app was opened because the user clicked on a .trs or .xml file with an equational system, load that equational system
         val data = getIntent.getData
+        val SP = PreferenceManager.getDefaultSharedPreferences(getBaseContext)
         if(data != null) {
             getIntent.setData(null)
             var parser: Parser = ParserXmlTRS
             if(data.getPath.contains(".trs")) parser = ParserOldTRS
             val stream = getContentResolver.openInputStream(data)
             val es = parser.parse(stream)
-            var esString = ""
-            for(e <- es) {
-                esString += e + "\n"
-            }
             Controller.setES(es, getResources.getString(R.string.ok_new_es, new Integer(es.size)))
+        } else if(SP.getBoolean("firstRun", true)) {    // check if it's the first run of the app
+            // load default example and run tutorial
+            val stream = getResources.openRawResource(R.raw.gt)
+            val parser: Parser = ParserOldTRS
+            val es = parser.parse(stream)
+            Controller.setES(es, getResources.getString(R.string.ok_new_es, new Integer(es.size)))
+            SP.edit().putBoolean("firstRun", false).commit()
         }
 
 

@@ -44,30 +44,34 @@ class AddDialogFragment extends DialogFragment {
             if(fileURI.toString.contains(".trs")) parser = ParserOldTRS
             stream = getActivity.getContentResolver.openInputStream(Uri.parse(fileURI.toString))
         }
-        val es = parser.parse(stream)
         var esString = ""
-        for(e <- es) {
-            esString += e + "\n"
+        try {
+            val es = parser.parse(stream)
+            for(e <- es) {
+                esString += e + "\n"
+            }
+            builder.setTitle(getString(R.string.add_es))
+                .setMessage(esString)
+                .setNeutralButton(getString(R.string.as_new), new DialogInterface.OnClickListener() {
+                    def onClick(dialogInterface: DialogInterface, which: Int): Unit = {
+                        Controller.setES(es, getResources.getString(R.string.ok_new_es, new Integer(es.size)))
+                        symbolsListener.onFunctionsChanged()
+                        symbolsListener.onVariablesChanged()
+                        equationsListener.onNewEquations()
+                    }
+                })
+                .setPositiveButton(getString(R.string.add_to), new DialogInterface.OnClickListener() {
+                    def onClick(dialogInterface: DialogInterface, which: Int): Unit = {
+                        Controller.addES(es, getResources.getString(R.string.ok_added_es, new Integer(es.size)))
+                        symbolsListener.onFunctionsChanged()
+                        symbolsListener.onVariablesChanged()
+                        equationsListener.onEquationsAdded()
+                    }
+                })
+            builder.create()
+        } catch {
+           case e: Exception => null
         }
-        builder.setTitle(getString(R.string.add_es))
-            .setMessage(esString)
-            .setNeutralButton(getString(R.string.as_new), new DialogInterface.OnClickListener() {
-                def onClick(dialogInterface: DialogInterface, which: Int): Unit = {
-                    Controller.setES(es, getResources.getString(R.string.ok_new_es, new Integer(es.size)))
-                    symbolsListener.onFunctionsChanged()
-                    symbolsListener.onVariablesChanged()
-                    equationsListener.onNewEquations()
-                }
-            })
-            .setPositiveButton(getString(R.string.add_to), new DialogInterface.OnClickListener() {
-                def onClick(dialogInterface: DialogInterface, which: Int): Unit = {
-                    Controller.addES(es, getResources.getString(R.string.ok_added_es, new Integer(es.size)))
-                    symbolsListener.onFunctionsChanged()
-                    symbolsListener.onVariablesChanged()
-                    equationsListener.onEquationsAdded()
-                }
-            })
-        builder.create()
     }
 }
 

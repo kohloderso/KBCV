@@ -20,17 +20,22 @@
           android:layout_height="wrap_content"
           class="ck.kbcv.HorizontalFlowLayout"
           android:id="@+id/variableFlowLayout"
-          android:layout_below="@id/textViewVariables">
+          android:layout_below="@id/textViewVariables"
+          android:layout_toRightOf="@id/plusButton_layout"
+          android:layout_toEndOf="@id/plusButton_layout"
+          >
 
     </view>
 
     <RelativeLayout
+            android:layout_alignTop="@id/textViewVariables"
             android:id="@+id/plusButton_layout"
             android:layout_width="160dp"
+            android:minWidth="160dp"
             android:layout_height="160dp"
-            android:layout_toRightOf="@id/variableFlowLayout"
-            android:layout_toEndOf="@id/variableFlowLayout"
-            android:layout_alignTop="@id/textViewVariables">
+            android:minHeight="160dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true">
 
         <Button
                 style="@style/MyButtonNoCaps"
@@ -74,8 +79,6 @@
                     android:background="@drawable/cl_orange_oval_selector"
                     android:text="\u2026"
                     />
-
-
         </com.ogaclejapan.arclayout.ArcLayout>
 
     </RelativeLayout>
