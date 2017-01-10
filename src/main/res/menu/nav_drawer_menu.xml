@@ -9,7 +9,7 @@
                 android:title="Equation Editor"/>
         <item
                 android:id="@+id/action_completion"
-                android:icon="@android:drawable/ic_menu_more"
+                android:icon="@drawable/ic_completion"
                 android:title="Completion"/>
         <item
                 android:id="@+id/action_precedence"

@@ -1,23 +1,32 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
 
-    <item
-            android:id="@+id/action_compose"
-            android:title="Compose"
-            android:showAsAction="ifRoom"/>
+    <group android:id="@+id/grp1" android:checkableBehavior="single">
+        <item android:id="@+id/action_select_all"
+              android:title="select all"
+              android:showAsAction="always|withText"
+              android:icon="@drawable/ic_select_all_white_24dp"/>
 
-    <item android:id="@+id/action_collapse"
-          android:title="Collapse"
-          android:showAsAction="ifRoom"/>
+        <item android:id="@+id/divider"
+              android:enabled="false"
+              android:title="divider"
+              android:showAsAction="always"
+              android:icon="@drawable/menu_item_divider"/>
+    </group>
 
-    <item android:id="@+id/action_deduce"
-          android:title="Deduce"
-          android:showAsAction="ifRoom"/>
+    <group android:id="@+id/grp2" android:checkableBehavior="single">
+        <item
+                android:id="@+id/action_compose"
+                android:title="Compose"
+                android:showAsAction="ifRoom"/>
 
-    <item android:id="@+id/action_select_all"
-          android:title="select all"
-          android:showAsAction="withText"
-          android:icon="@drawable/ic_select_all_white_24dp"/>
+        <item android:id="@+id/action_collapse"
+              android:title="Collapse"
+              android:showAsAction="ifRoom"/>
 
+        <item android:id="@+id/action_deduce"
+              android:title="Deduce"
+              android:showAsAction="ifRoom"/>
+    </group>
 
 </menu>

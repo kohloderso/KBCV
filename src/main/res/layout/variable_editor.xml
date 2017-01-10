@@ -16,17 +16,6 @@
             android:layout_margin="16dp"
             style="?android:attr/listSeparatorTextViewStyle" />
 
-    <view android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          class="ck.kbcv.HorizontalFlowLayout"
-          android:id="@+id/variableFlowLayout"
-          android:layout_below="@id/textViewVariables"
-          android:layout_toRightOf="@id/plusButton_layout"
-          android:layout_toEndOf="@id/plusButton_layout"
-          >
-
-    </view>
-
     <RelativeLayout
             android:layout_alignTop="@id/textViewVariables"
             android:id="@+id/plusButton_layout"
@@ -82,6 +71,16 @@
         </com.ogaclejapan.arclayout.ArcLayout>
 
     </RelativeLayout>
+
+
+    <view android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          class="ck.kbcv.HorizontalFlowLayout"
+          android:id="@+id/variableFlowLayout"
+          android:layout_below="@id/textViewVariables"
+          android:layout_toRightOf="@id/plusButton_layout"
+          android:layout_toEndOf="@id/plusButton_layout">
+    </view>
 
 
 </RelativeLayout>
