@@ -3,7 +3,7 @@ package ck.kbcv.activities
 import android.app.{Activity, ProgressDialog}
 import android.content.DialogInterface.OnClickListener
 import android.content.{DialogInterface, SharedPreferences}
-import android.os.{AsyncTask, Bundle, Handler}
+import android.os.{AsyncTask, Bundle}
 import android.support.design.widget.TabLayout
 import android.support.v7.preference.PreferenceManager
 import android.util.Log
@@ -100,11 +100,7 @@ class CompletionActivity extends NavigationDrawerActivity with TypedFindView wit
                     withMessage(message).
                     updateState()
                 updateViews()
-                if (SP.getBoolean("pref_completeness", false)) {
-                    val complete = Controller.ercIsComplete()
-                    if (complete) showSuccessMsg(getString(R.string.complete))
-                }
-
+                autoCheckCompleteness()
                 true
             }
         } catch {
@@ -132,10 +128,7 @@ class CompletionActivity extends NavigationDrawerActivity with TypedFindView wit
                     withMessage(message).
                     updateState()
                 updateViews()
-                if (SP.getBoolean("pref_completeness", false)) {
-                    val complete = Controller.ercIsComplete()
-                    if (complete) showSuccessMsg(getString(R.string.complete))
-                }
+                autoCheckCompleteness()
                 true
             }
         } catch {
@@ -159,7 +152,7 @@ class CompletionActivity extends NavigationDrawerActivity with TypedFindView wit
                 withMessage(message).
                 updateState()
             updateEquationFragment()
-            invalidateOptionsMenu()
+            autoCheckCompleteness()
         } else {
             showErrorMsg(getString(R.string.error_delete))
         }
@@ -175,7 +168,7 @@ class CompletionActivity extends NavigationDrawerActivity with TypedFindView wit
                 withMessage(message).
                 updateState()
             updateEquationFragment()
-            invalidateOptionsMenu()
+            autoCheckCompleteness()
         } else {
             showErrorMsg(getString(R.string.error_simplify))
         }
@@ -193,6 +186,7 @@ class CompletionActivity extends NavigationDrawerActivity with TypedFindView wit
               withErch(nerch).
               withMessage(message).
               updateState()
+            autoCheckCompleteness()
             true
         } else {
             false
@@ -209,7 +203,7 @@ class CompletionActivity extends NavigationDrawerActivity with TypedFindView wit
                 withMessage(message).
                 updateState()
             updateRulesFragment()
-            invalidateOptionsMenu()
+            autoCheckCompleteness()
         } else {
             showErrorMsg(getString(R.string.error_compose))
         }
@@ -225,6 +219,7 @@ class CompletionActivity extends NavigationDrawerActivity with TypedFindView wit
                 withMessage(message).
                 updateState()
             updateViews()
+            autoCheckCompleteness()
         } else {
             showErrorMsg(getString(R.string.error_collapse))
         }
@@ -253,14 +248,20 @@ class CompletionActivity extends NavigationDrawerActivity with TypedFindView wit
                 withMessage(message).
                 updateState()
             updateViews()
-            if (SP.getBoolean("pref_completeness", false)) {
-                val complete = Controller.ercIsComplete()
-                if (complete) showSuccessMsg(getString(R.string.complete))
-            }
+            autoCheckCompleteness()
         } else {
             showErrorMsg(getString(R.string.error_deduce))
         }
     }
+
+    def autoCheckCompleteness(): Unit = {
+        val auto = SP.getBoolean("pref_completeness", false)
+        if (SP.getBoolean("pref_completeness", false)) {
+            val complete = Controller.ercIsComplete()
+            if (complete) showSuccessMsg(getString(R.string.complete))
+        }
+    }
+
 
     override def updateViews(): Unit = {
         invalidateOptionsMenu()

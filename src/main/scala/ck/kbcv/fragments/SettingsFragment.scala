@@ -54,6 +54,7 @@ class SettingsFragment extends PreferenceFragmentCompat with OnSharedPreferenceC
         pref match {
             case np: NumberPickerPreference => pref.setSummary(np.getValue + " " + getString(R.string.rounds))
             case et: EditTextPreference => et.setSummary(et.getText)
+            case _ =>
         }
 
     }
