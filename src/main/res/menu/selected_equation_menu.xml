@@ -1,9 +1,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
-    <group android:id="@+id/grp1" android:checkableBehavior="single"
+    <group android:id="@+id/grp1"
            android:showAsAction="always">
         <item android:id="@+id/action_select_all"
               android:title="select all"
-              android:showAsAction="always"
+              android:showAsAction="always|withText"
               android:icon="@drawable/ic_select_all_white_24dp"/>
 
         <item android:id="@+id/divider"
@@ -14,7 +14,7 @@
     </group>
 
 
-    <group android:id="@+id/grp2" android:checkableBehavior="single">
+    <group android:id="@+id/grp2">
         <item
                 android:icon="@drawable/ic_left_arrow"
                 android:id="@+id/action_orientRL"
