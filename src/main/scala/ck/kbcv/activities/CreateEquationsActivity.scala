@@ -75,6 +75,13 @@ class CreateEquationsActivity extends NavigationDrawerActivity with OnSymbolsCha
 
             if (equationPagerAdapter != null) equationPagerAdapter.setEquation((index, equation))
             else getSupportFragmentManager.findFragmentById(R.id.create_es_fragment).asInstanceOf[CreateEquationsFragment].equationEditView.setEquation((index, equation))
+        }  else if(SP.getBoolean("firstRun", true)) {    // check if it's the first run of the app
+        // load default example and run tutorial
+            val stream = getResources.openRawResource(R.raw.gt)
+            val parser: Parser = ParserOldTRS
+            val es = parser.parse(stream)
+            Controller.setES(es, getResources.getString(R.string.ok_new_es, new Integer(es.size)))
+            SP.edit().putBoolean("firstRun", false).commit()
         }
     }
 
