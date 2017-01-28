@@ -18,7 +18,6 @@ libraryDependencies ++=
         "com.android.support" % "recyclerview-v7" % "23.3.0" ::
     "com.android.support" % "support-v4" % "23.3.0" ::
         "org.scala-lang" % "scala-actors" % "2.10.5" ::
-        "uk.co.samuelwall" % "material-tap-target-prompt" % "1.6.3" ::
     Nil
 
 lazy val project = Project(

@@ -14,7 +14,6 @@ import android.widget._
 import ck.kbcv.dialogs.VariableDialog
 import ck.kbcv.{Controller, HorizontalFlowLayout, OnSymbolsChangedListener, R}
 import com.ogaclejapan.arclayout.ArcLayout
-import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt
 
 // TODO listen to clicks on the variables which will open a dialog to edit them
 class VariableEditor extends Fragment with OnTouchListener {
@@ -88,11 +87,6 @@ class VariableEditor extends Fragment with OnTouchListener {
             }
         })
 
-        new MaterialTapTargetPrompt.Builder(getActivity)
-            .setTarget(plusButton)
-            .setPrimaryText("Add Variable ")
-            .setSecondaryText("Tap here to add a new symbol representing a variable")
-            .show()
         return view
     }
 
