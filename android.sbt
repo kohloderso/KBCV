@@ -21,10 +21,6 @@ proguardCache in Android ++=
 
 proguardOptions in Android ++=
     "-keepattributes EnclosingMethod,InnerClasses,Signature" ::
-    "-dontwarn org.w3c.dom.bootstrap.DOMImplementationRegistry" ::
-    "-dontwarn javax.xml.bind.DatatypeConverter" ::
-    "-dontnote org.joda.time.DateTimeZone" ::
-    "-dontnote scala.concurrent.stm.impl.STMImpl$" ::
     Nil
 
 // Shortcut: allows you to execute "sbt run" instead of "sbt android:run"

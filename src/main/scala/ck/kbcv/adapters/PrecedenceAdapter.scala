@@ -99,7 +99,7 @@ class PrecedenceAdapter(precedence: Precedence, activity: Activity)  extends Sel
 
     override def onBindViewHolder(vh: ViewHolder, position: Int): Unit = {
         val (f1, f2) = mBuffer(position)
-        val text = "<font color=#aeea00>" + f1 + "</font> <font> > </font> <font color=#aeea00>" + f2 + "</font>"
+        val text = "<font color=#F29400>" + f1 + "</font> <font> > </font> <font color=#F29400>" + f2 + "</font>"
         vh.textView.setText(Html.fromHtml(text))
         if(isSelected(position)) {
             vh.textView.setBackgroundColor(ContextCompat.getColor(context, ck.kbcv.R.color.selected_overlay))

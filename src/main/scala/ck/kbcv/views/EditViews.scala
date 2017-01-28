@@ -87,6 +87,8 @@ class PrecedenceEditView(context: Context, attrs: AttributeSet) extends Relative
         linearLayout.addView(left)
         linearLayout.addView(middle)
         linearLayout.addView(right)
+
+        checkAddButton()
     }
 
     def setPrecedenceActivity(activity: PrecedenceActivity): Unit = {
