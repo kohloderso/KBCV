@@ -90,4 +90,6 @@
     <string name="drawer_close">drawer close</string>
 
     <string name="section_format">Page %1$d</string>
+    <string name="completion">Completion</string>
+
 </resources>

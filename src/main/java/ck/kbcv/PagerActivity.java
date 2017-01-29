@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import ck.kbcv.fragments.WelcomeCompletionFragment;
 
 
 public class PagerActivity extends AppCompatActivity {
@@ -243,6 +244,7 @@ public class PagerActivity extends AppCompatActivity {
 
         @Override
         public Fragment getItem(int position) {
+            if(position == 1) return new WelcomeCompletionFragment();
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
             return PlaceholderFragment.newInstance(position + 1);
