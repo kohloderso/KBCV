@@ -91,5 +91,6 @@
 
     <string name="section_format">Page %1$d</string>
     <string name="completion">Completion</string>
+    <string name="completion_long_text">Interactively apply the inference rules of Knuth Bendix Completion</string>
 
 </resources>

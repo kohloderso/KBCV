@@ -244,7 +244,7 @@ public class PagerActivity extends AppCompatActivity {
 
         @Override
         public Fragment getItem(int position) {
-            if(position == 1) return new WelcomeCompletionFragment();
+            if(position == 0) return new WelcomeCompletionFragment();
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
             return PlaceholderFragment.newInstance(position + 1);
