@@ -7,7 +7,7 @@
     <color name="cl_orange">#F29400</color>
     <color name="cl_lightblue">#799BB3</color>
     <color name="cl_blue">#2B5573</color>
-    <color name="cl_gray">#EEEEDD</color>
+    <color name="cl_gray">#eeeedd</color>
 
 
     <color name="colorPrimary">@color/cl_blue</color>
