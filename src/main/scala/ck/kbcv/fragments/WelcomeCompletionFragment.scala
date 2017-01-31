@@ -126,18 +126,5 @@ class WelcomeCompletionFragment extends Fragment {
 
   }
 
-  override def onPause(): Unit = {
-    super.onPause()
-    animSet.pause()
-  }
-
-  override def onResume(): Unit = {
-    super.onResume()
-    if(animSet != null) {
-      animSet.end()
-      animSet.start()
-    }
-
-  }
 
 }
