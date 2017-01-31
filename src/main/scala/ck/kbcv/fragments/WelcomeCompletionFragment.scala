@@ -45,12 +45,14 @@ class WelcomeCompletionFragment extends Fragment {
         if(animSet.isRunning) {
           if (!isPageVisible) {
             animSet.end()
+              finger.setVisibility(View.INVISIBLE)
           } else if (isPageVisible) {
             startAnimation()
-           // animSet.resume()
+              finger.setVisibility(View.VISIBLE)
           }
         } else if(!animSet.isRunning) {
             startAnimation
+            finger.setVisibility(View.VISIBLE)
         }
       }
     })

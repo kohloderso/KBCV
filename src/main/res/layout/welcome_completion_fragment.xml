@@ -47,6 +47,7 @@
                 android:id="@+id/finger"
                 android:alpha="0"
                 android:src="@drawable/finger"
+                android:visibility="invisible"
                 android:layout_alignTop="@+id/r_item2"
                 android:layout_alignLeft="@+id/r_item2" android:layout_alignStart="@+id/r_item2"/>
 

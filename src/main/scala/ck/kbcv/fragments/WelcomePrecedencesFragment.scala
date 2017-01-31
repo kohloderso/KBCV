@@ -18,6 +18,7 @@ class WelcomePrecedencesFragment extends Fragment {
     var prec2: View = null
     var prec3: View = null
     var prec4: View = null
+    var linearPrecLayout: View = null
     val animSet = new AnimatorSet
 
     override def onCreateView( inflater: LayoutInflater, container: ViewGroup, savedInstanceState: Bundle ): View = {
@@ -29,6 +30,7 @@ class WelcomePrecedencesFragment extends Fragment {
         prec2 = view.findViewById(R.id.prec2)
         prec3 = view.findViewById(R.id.prec3)
         prec4 = view.findViewById(R.id.prec4)
+        linearPrecLayout = view.findViewById(R.id.linear_prec_layout)
 
         view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             override def onGlobalLayout(): Unit =  {
@@ -36,12 +38,15 @@ class WelcomePrecedencesFragment extends Fragment {
                 if(animSet.isRunning) {
                     if (!isPageVisible) {
                         animSet.end()
+                        linearPrecLayout.setVisibility(View.INVISIBLE)
                     } else if (isPageVisible) {
                         startAnimation()
+                        linearPrecLayout.setVisibility(View.VISIBLE)
                         // animSet.resume()
                     }
                 } else if(!animSet.isRunning) {
                     startAnimation
+                    linearPrecLayout.setVisibility(View.VISIBLE)
                 }
             }
         })
