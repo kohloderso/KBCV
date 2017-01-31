@@ -5,6 +5,7 @@
 
 
     <RelativeLayout
+            android:layout_marginBottom="55dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -44,6 +45,7 @@
                 android:layout_width="75dp"
                 android:layout_height="120dp"
                 android:id="@+id/finger"
+                android:alpha="0"
                 android:src="@drawable/finger"
                 android:layout_alignTop="@+id/r_item2"
                 android:layout_alignLeft="@+id/r_item2" android:layout_alignStart="@+id/r_item2"/>

@@ -17,6 +17,7 @@ class WelcomeCompletionFragment extends Fragment {
   var originalHeight: Int = 0
   var card2: View = null
   val animSet = new AnimatorSet
+  var isPageVisible = false
 
   override def onCreateView( inflater: LayoutInflater, container: ViewGroup, savedInstanceState: Bundle ): View = {
     val view = inflater.inflate(R.layout.welcome_completion_fragment, container, false)
@@ -40,7 +41,17 @@ class WelcomeCompletionFragment extends Fragment {
 
     card1.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
       override def onGlobalLayout(): Unit =  {
-        if(!animSet.isRunning) startAnimation
+
+        if(animSet.isRunning) {
+          if (!isPageVisible) {
+            animSet.end()
+          } else if (isPageVisible) {
+            startAnimation()
+           // animSet.resume()
+          }
+        } else if(!animSet.isRunning) {
+            startAnimation
+        }
       }
     })
 
@@ -48,13 +59,17 @@ class WelcomeCompletionFragment extends Fragment {
   }
 
 
+  override def setUserVisibleHint(isVisibleToUser: Boolean): Unit = {
+    super.setUserVisibleHint(isVisibleToUser)
+    isPageVisible = isVisibleToUser
+  }
 
   def startAnimation(): Unit = {
     val distX = -45
     val distY = card1.getTop - card2.getTop+5
     val duration = 4500
-    val animX1 = ObjectAnimator.ofFloat(card2, "x", card1.getLeft-45);
-    val animY1 = ObjectAnimator.ofFloat(card2, "y", card1.getTop+5);
+    val animX1 = ObjectAnimator.ofFloat(card2, "x", card1.getLeft-45)
+    val animY1 = ObjectAnimator.ofFloat(card2, "y", card1.getTop+5)
     animY1.setDuration(duration)
     animX1.setDuration(duration)
     animX1.setInterpolator(new DelayInterpolator(0.3f, 0.0f))
@@ -67,7 +82,7 @@ class WelcomeCompletionFragment extends Fragment {
     val fadeFinger = ObjectAnimator.ofFloat(finger, "alpha", 0f, 1f)
     fadeFinger.setDuration(duration)
     //alphaAnim.setStartDelay(500)
-    fadeFinger.setInterpolator(new DelayInterpolator(.0f, 0.7f));
+    fadeFinger.setInterpolator(new DelayInterpolator(.0f, 0.7f))
     fadeFinger.setRepeatMode(Animation.REVERSE)
     fadeFinger.setRepeatCount(Animation.INFINITE)
 
@@ -87,12 +102,12 @@ class WelcomeCompletionFragment extends Fragment {
     val alphaAnim = ObjectAnimator.ofFloat(card2, "alpha", 1f, 0.8f)
     alphaAnim.setDuration(duration)
     //alphaAnim.setStartDelay(500)
-    alphaAnim.setInterpolator(new DelayInterpolator(.3f, .3f));
+    alphaAnim.setInterpolator(new DelayInterpolator(.3f, .3f))
     alphaAnim.setRepeatMode(Animation.REVERSE)
     alphaAnim.setRepeatCount(Animation.INFINITE)
 
-    val scaleUpX = ObjectAnimator.ofFloat(card1, "scaleX", 1.2f);
-    val scaleUpY = ObjectAnimator.ofFloat(card1, "scaleY", 1.2f);
+    val scaleUpX = ObjectAnimator.ofFloat(card1, "scaleX", 1.2f)
+    val scaleUpY = ObjectAnimator.ofFloat(card1, "scaleY", 1.2f)
     scaleUpX.setDuration(duration)
     scaleUpY.setDuration(duration)
     scaleUpX.setInterpolator(new DelayInterpolator(.45f, .3f))
@@ -116,7 +131,11 @@ class WelcomeCompletionFragment extends Fragment {
 
   override def onResume(): Unit = {
     super.onResume()
-    animSet.resume()
+    if(animSet != null) {
+      animSet.end()
+      animSet.start()
+    }
+
   }
 
 }

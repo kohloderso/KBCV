@@ -191,7 +191,6 @@ public class PagerActivity extends AppCompatActivity {
      */
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
-
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
         }
