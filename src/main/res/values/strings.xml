@@ -88,4 +88,27 @@
 
     <string name="drawer_open">drawer open</string>
     <string name="drawer_close">drawer close</string>
+
+    <string name="section_format">Page %1$d</string>
+    <string name="completion">Completion</string>
+    <string name="completion_long_text">Interactively apply the inference rules of Knuth Bendix Completion</string>
+    <string name="equation_editor">Equation Editor</string>
+    <string name="equation_long_text">Define and edit your own equational systems</string>
+    <string name="precedences">Precedences</string>
+    <string name="precedences_long_text">Supply your own LPO precedence or let the app figure it out for you</string>
+    <!-- colored example equations-->
+    <string name="eq1">
+        <![CDATA[<font color=#eeeedd>f</font>(<font color=#eeeedd>f</font>(<font color=#4C804C>x</font>, <font color=#4C804C>y</font>), <font color=#4C804C>z</font>)
+        → <font color=#eeeedd>f</font>(<font color=#4C804C>x</font>, <font color=#eeeedd>f</font>(<font color=#4C804C>y</font>, <font color=#4C804C>z</font>))]]>
+    </string>
+
+    <string name="eq2">
+        <![CDATA[<font color=#eeeedd>f</font>(<font color=#4C804C>x</font>, <font color=#eeeedd>c</font>)
+        → <font color=#4C804C>x</font>]]>
+    </string>
+
+    <string name="eq3">
+        <![CDATA[<font color=#eeeedd>f</font>(<font color=#4C804C>x</font>, <font color=#eeeedd>g</font>(<font color=#4C804C>x</font>))
+        → <font color=#eeeedd>c</font>]]>
+    </string>
 </resources>

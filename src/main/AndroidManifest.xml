@@ -57,6 +57,10 @@
 
         </activity>
 
+        <activity
+                android:name=".PagerActivity"
+                android:label="Intro"></activity>
+
 
         <activity
                 android:name=".activities.CompletionActivity"

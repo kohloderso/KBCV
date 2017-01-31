@@ -31,26 +31,6 @@ class CreateEquationsActivity extends NavigationDrawerActivity with OnSymbolsCha
     override def onCreate( savedInstanceState: Bundle ): Unit = {
         super.onCreate( savedInstanceState )
 
-        // if the app was opened because the user clicked on a .trs or .xml file with an equational system, load that equational system
-        val data = getIntent.getData
-        val SP = PreferenceManager.getDefaultSharedPreferences(getBaseContext)
-        if(data != null) {
-            getIntent.setData(null)
-            var parser: Parser = ParserXmlTRS
-            if(data.getPath.contains(".trs")) parser = ParserOldTRS
-            val stream = getContentResolver.openInputStream(data)
-            val es = parser.parse(stream)
-            Controller.setES(es, getResources.getString(R.string.ok_new_es, new Integer(es.size)))
-        } else if(SP.getBoolean("firstRun", true)) {    // check if it's the first run of the app
-            // load default example and run tutorial
-            val stream = getResources.openRawResource(R.raw.gt)
-            val parser: Parser = ParserOldTRS
-            val es = parser.parse(stream)
-            Controller.setES(es, getResources.getString(R.string.ok_new_es, new Integer(es.size)))
-            SP.edit().putBoolean("firstRun", false).commit()
-        }
-
-
         setContentView( R.layout.create_es_activity)
         val utility = new ScreenUtility(this)
         if (utility.getWidth() < 400.0) {
@@ -68,6 +48,27 @@ class CreateEquationsActivity extends NavigationDrawerActivity with OnSymbolsCha
             viewPager.setAdapter(equationPagerAdapter)
             tabLayout.setupWithViewPager(viewPager)
         }
+
+        // if the app was opened because the user clicked on a .trs or .xml file with an equational system, load that equational system
+        val data = getIntent.getData
+        val SP = PreferenceManager.getDefaultSharedPreferences(getBaseContext)
+        if(data != null) {
+            getIntent.setData(null)
+            var parser: Parser = ParserXmlTRS
+            if(data.getPath.contains(".trs")) parser = ParserOldTRS
+            val stream = getContentResolver.openInputStream(data)
+            val es = parser.parse(stream)
+            Controller.setES(es, getResources.getString(R.string.ok_new_es, new Integer(es.size)))
+        } else if(!SP.getBoolean("NO_INTRO", false)) {    // check if it's the first run of the app
+            startActivity(new Intent(getApplicationContext, classOf[PagerActivity]))
+        // load default example and run tutorial
+            val stream = getResources.openRawResource(R.raw.gt)
+            val parser: Parser = ParserOldTRS
+            val es = parser.parse(stream)
+            Controller.setES(es, getResources.getString(R.string.ok_new_es, new Integer(es.size)))
+        }
+
+
 
         if (savedInstanceState != null && savedInstanceState.containsKey("equation")) {
             val equation = savedInstanceState.getSerializable("equation").asInstanceOf[Equation]
