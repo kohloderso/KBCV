@@ -197,9 +197,9 @@ public class PagerActivity extends AppCompatActivity {
 
         @Override
         public Fragment getItem(int position) {
-            if(position == 0) return new WelcomeCompletionFragment();
-            else if(position == 1) return new WelcomeEquationsFragment();
-            else if(position == 2) return new WelcomePrecedencesFragment();
+            if(position == 0) return new WelcomeEquationsFragment();
+            else if(position == 1) return new WelcomePrecedencesFragment();
+            else if(position == 2) return new WelcomeCompletionFragment();
             else return null;
 
         }

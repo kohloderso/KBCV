@@ -1,8 +1,9 @@
 package ck.kbcv.activities
 
-import android.content.Intent
+import android.content.{ActivityNotFoundException, Intent}
+import android.net.Uri
 import android.os.Bundle
-import android.support.design.widget.NavigationView
+import android.support.design.widget.{NavigationView, Snackbar}
 import android.support.v4.view.GravityCompat
 import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.{ActionBarDrawerToggle, AppCompatActivity}
@@ -72,6 +73,19 @@ class NavigationDrawerActivity extends AppCompatActivity with NavigationView.OnN
             }
             case R.id.action_settings => {
                 startDrawerActivity(classOf[SettingsActivity])
+                true
+            }
+            case R.id.action_feedback => {
+                val intent = new Intent(android.content.Intent.ACTION_SENDTO)
+                intent.setData(Uri.parse("mailto:"+getString(R.string.feedback_email)))//+"&subject="+Uri.encode(getString(R.string.feedback_subject))))
+                intent.putExtra(android.content.Intent.EXTRA_SUBJECT, getString(R.string.feedback_subject))
+                try {
+                    startActivity(Intent.createChooser(intent, getString(R.string.title_feedback_dialog)))
+                } catch {
+                    case e:ActivityNotFoundException =>  Snackbar.make(findViewById(android.R.id.content), "No E-Mail App available", Snackbar.LENGTH_LONG)
+                      .show()
+                }
+
                 true
             }
             case _ => false

@@ -111,4 +111,10 @@
         <![CDATA[<font color=#eeeedd>f</font>(<font color=#4C804C>x</font>, <font color=#eeeedd>g</font>(<font color=#4C804C>x</font>))
         → <font color=#eeeedd>c</font>]]>
     </string>
+
+    <!-- send feedback preset subject and email-->
+    <string name="feedback_email">christina.kohl@student.uibk.ac.at</string>
+    <string name="feedback_subject">Feedback on KBCV-App</string>
+    <string name="title_feedback_dialog">Send feedback</string>
+
 </resources>

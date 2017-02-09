@@ -402,6 +402,8 @@ class CompletionActivity extends NavigationDrawerActivity with TypedFindView wit
 
         override def onPreExecute(): Unit = {
             pd = new ProgressDialog(activity)
+            pd.setProgressPercentFormat(null)
+            pd.setProgressNumberFormat("%1d/%2d rounds")
             pd.setMax(limit)
             pd.setProgress(0)
             pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL)
