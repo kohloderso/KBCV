@@ -91,7 +91,7 @@
 
     <string name="section_format">Page %1$d</string>
     <string name="completion">Completion</string>
-    <string name="completion_long_text">Interactively apply the inference rules of Knuth Bendix Completion</string>
+    <string name="completion_long_text">Interactively apply the inference rules of Knuth-Bendix Completion</string>
     <string name="equation_editor">Equation Editor</string>
     <string name="equation_long_text">Define and edit your own equational systems</string>
     <string name="precedences">Precedences</string>

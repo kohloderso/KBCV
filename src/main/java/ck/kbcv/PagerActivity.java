@@ -22,8 +22,7 @@ import ck.kbcv.fragments.WelcomePrecedencesFragment;
 
 
 public class PagerActivity extends AppCompatActivity {
-
-    /**
+        /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
      * fragments for each of the sections. We use a
      * {@link FragmentPagerAdapter} derivative, which will keep every
@@ -43,10 +42,7 @@ public class PagerActivity extends AppCompatActivity {
     ImageView zero, one, two;
     ImageView[] indicators;
 
-    int lastLeftValue = 0;
-
     CoordinatorLayout mCoordinator;
-
 
     static final String TAG = "PagerActivity";
 
@@ -98,20 +94,21 @@ public class PagerActivity extends AppCompatActivity {
         final int color1 = ContextCompat.getColor(this, R.color.cl_orange);
         final int color2 = ContextCompat.getColor(this, R.color.cl_orange);
         final int color3 = ContextCompat.getColor(this, R.color.cl_orange);
+        final int color4 = ContextCompat.getColor(this, R.color.white);
 
-        final int[] colorList = new int[]{color1, color2, color3};
+        final int[] colorList = new int[]{color1, color2, color3, color4};
 
         final ArgbEvaluator evaluator = new ArgbEvaluator();
+
 
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-                /*
-                color update
-                 */
-                int colorUpdate = (Integer) evaluator.evaluate(positionOffset, colorList[position], colorList[position == 2 ? position : position + 1]);
-                mViewPager.setBackgroundColor(colorUpdate);
+                if(position == 2) {
+                    int colorUpdate = (Integer) evaluator.evaluate(positionOffset, colorList[position], colorList[position + 1]);
+                    mViewPager.setBackgroundColor(colorUpdate);
+                    if( positionOffset > 0.3) finish();
+                }
 
             }
 
@@ -158,7 +155,6 @@ public class PagerActivity extends AppCompatActivity {
         mSkipBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 finish();
             }
         });
@@ -167,9 +163,6 @@ public class PagerActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 finish();
-                //  update 1st time pref
-                //Utils.saveSharedSetting(PagerActivity.this, MainActivity.PREF_USER_FIRST_TIME, "false");
-                //TODO
             }
         });
 
@@ -200,14 +193,14 @@ public class PagerActivity extends AppCompatActivity {
             if(position == 0) return new WelcomeEquationsFragment();
             else if(position == 1) return new WelcomePrecedencesFragment();
             else if(position == 2) return new WelcomeCompletionFragment();
-            else return null;
+            else return new Fragment();
 
         }
 
         @Override
         public int getCount() {
             // Show 3 total pages.
-            return 3;
+            return 4;
         }
 
         @Override
@@ -219,6 +212,8 @@ public class PagerActivity extends AppCompatActivity {
                     return "SECTION 2";
                 case 2:
                     return "SECTION 3";
+                case 3:
+                    return "END";
             }
             return null;
         }

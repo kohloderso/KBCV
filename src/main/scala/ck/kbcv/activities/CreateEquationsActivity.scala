@@ -12,9 +12,9 @@ import ck.kbcv._
 import ck.kbcv.adapters.CreateEquationsPagerAdapter
 import ck.kbcv.dialogs.{AddDialogFragment, ImportDialogFragment, SaveDialogFragment}
 import ck.kbcv.fragments.{CreateEquationsFragment, SymbolsFragment}
+import term.Term
 import term.parser.{Parser, ParserOldTRS, ParserXmlTRS}
 import term.reco.{IE, IES}
-import term.util.Equation
 
 
 class CreateEquationsActivity extends NavigationDrawerActivity with OnSymbolsChangedListener with OnEquationsChangedListener with TypedFindView with UndoRedoActivity {
@@ -68,7 +68,7 @@ class CreateEquationsActivity extends NavigationDrawerActivity with OnSymbolsCha
             Controller.setES(es, getResources.getString(R.string.ok_new_es, new Integer(es.size)))
             SP.edit().putBoolean("FIRST_START", false).commit()
         }else if (savedInstanceState != null && savedInstanceState.containsKey("equation")) {
-            val equation = savedInstanceState.getSerializable("equation").asInstanceOf[Equation]
+            val equation = savedInstanceState.getSerializable("equation").asInstanceOf[(Term, Term)]
             val index = savedInstanceState.getInt("index")
             if (equationPagerAdapter != null) equationPagerAdapter.setEquation((index, equation))
             else getSupportFragmentManager.findFragmentById(R.id.create_es_fragment).asInstanceOf[CreateEquationsFragment].equationEditView.setEquation((index, equation))
@@ -85,7 +85,7 @@ class CreateEquationsActivity extends NavigationDrawerActivity with OnSymbolsCha
             } else {
                 equationsFragment = getSupportFragmentManager.findFragmentById(R.id.create_es_fragment).asInstanceOf[CreateEquationsFragment]
             }
-            outState.putSerializable("equation", equationsFragment.equationEditView.getEquation)
+            outState.putSerializable("equation", equationsFragment.equationEditView.getEquation.toTuple)
             outState.putInt("index", equationsFragment.equationEditView.index)
         } catch {
             case ex: ClassCastException => {

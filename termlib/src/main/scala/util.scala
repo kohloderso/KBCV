@@ -32,15 +32,13 @@ package term
   * [[term.util.package.MathSymbol]] provides some mathematical
   * unicode symbols. */
 package object util {
-  import term._
   import Term._
-  import util._
+  import poly.Interpretation
   import reco._
   import show._
-  import poly.Interpretation
+
   import scala.collection.immutable.HashMap
-  import scala.language.implicitConversions
-  import scala.language.postfixOps
+  import scala.language.{implicitConversions, postfixOps}
 
   type CM = Option[(Interpretation,HashMap[String,String])]
   type SIG = List[Fun]
@@ -98,7 +96,7 @@ package object util {
     * @constructor Creates a new equation from two terms.
     * @param lhs the left-hand side of the equation
     * @param rhs the right-hand side of the equation */
-  case class Equation(override val lhs : Term, override val rhs : Term) extends TermPair(lhs,rhs) with Serializable {
+  case class Equation(override val lhs : Term, override val rhs : Term) extends TermPair(lhs,rhs) {
     private val tuple = (lhs, rhs)
     //def toTuple = tuple
     /** Returns ''this'' equation with swapped left- and right-hand sides. */
