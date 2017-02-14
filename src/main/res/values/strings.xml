@@ -27,10 +27,9 @@
 
     <string name="new_fun">New Function</string>
     <string name="err_empty">You have to enter something</string>
-    <string name="err_fun_exists">Function already exists</string>
+    <string name="err_symbol_exists">Symbol already exists</string>
     <string name="err_nan">No valid number</string>
     <string name="new_var">New Variable</string>
-    <string name="err_var_exists">Variable already exists</string>
 
     <string name="undo_dialog">Undo/Redo History</string>
 

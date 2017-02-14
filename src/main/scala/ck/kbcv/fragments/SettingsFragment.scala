@@ -59,6 +59,7 @@ class SettingsFragment extends PreferenceFragmentCompat with OnSharedPreferenceC
                 var text = et.getText
                 var symbols = text.split(",").map(s => s.trim)
                 symbols = symbols.filter(symbol => symbol.nonEmpty)
+                symbols = symbols.distinct  // remove duplicates
                 // remove symbols after the 6th
                 if(symbols.length > 6) {
                     Snackbar.make(getActivity.findViewById(android.R.id.content), getString(R.string.error_symbols), Snackbar.LENGTH_LONG)

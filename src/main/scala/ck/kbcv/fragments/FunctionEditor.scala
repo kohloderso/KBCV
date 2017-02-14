@@ -28,6 +28,7 @@ class FunctionEditor extends Fragment with OnTouchListener {
     var currentlySelectedArity: Int = 0
     val handler = new Handler()
     val thisFragment = this
+    val ARITY_DOTS = -5
 
     val runnable = new Runnable {
         override def run(): Unit = {
@@ -36,12 +37,13 @@ class FunctionEditor extends Fragment with OnTouchListener {
                 currentState = ArcState.LONGPRESS_ARITIES
                 // select function symbol -> display it in the middle of the layout
                 plusButton.setText(currentlySelectedSymbol)
+                if(currentlySelectedSymbol == "\u2026") new FunctionDialog(thisFragment).show(getChildFragmentManager, "FunctionDialog")    //  Dialog sets currentlySelectedSymbol from outside
                 // open arcLayout with arities
                 arcLayoutSymbols.setVisibility(View.INVISIBLE)
                 arcLayoutArities.setVisibility(View.VISIBLE)
             } else if(currentState == ArcState.LONGPRESS_ARITIES) {
-                // add new function with selected name and arity
-                addNewFunction(currentlySelectedSymbol, currentlySelectedArity)
+                if(currentlySelectedArity == ARITY_DOTS) new ArityDialog(thisFragment).show(getChildFragmentManager, "ArityDialog")
+                else addNewFunction(currentlySelectedSymbol, currentlySelectedArity) // add new function with selected name and arity
             }
 
         }
@@ -182,7 +184,7 @@ class FunctionEditor extends Fragment with OnTouchListener {
         else {
             selectedPos = pos
             handler.removeCallbacks(runnable)
-            handler.postDelayed(runnable, 1000)
+            handler.postDelayed(runnable, 1500)
         }
 
         for (i <- 0 until arcLayout.getChildCount) {
@@ -192,7 +194,14 @@ class FunctionEditor extends Fragment with OnTouchListener {
             } else {
                 layerDrawable.findDrawableByLayerId(R.id.highlight_button).setAlpha(255)
                 if(currentState == ArcState.LONGPRESS_SYMBOLS) currentlySelectedSymbol = arcLayout.getChildAt(i).asInstanceOf[Button].getText.toString
-                else currentlySelectedArity = arcLayout.getChildAt(i).asInstanceOf[Button].getText.toString.toInt
+                else {
+                    val arity = arcLayout.getChildAt(i).asInstanceOf[Button].getText.toString
+                    if(arity =="\u2026") {
+                        currentlySelectedArity = ARITY_DOTS
+                    } else {
+                        currentlySelectedArity = arity.toInt
+                    }
+                }
             }
         }
     }
@@ -207,6 +216,9 @@ class FunctionEditor extends Fragment with OnTouchListener {
                         // if the long press is active we need to lock in the currently selected symbol
                         if (currentState == ArcState.LONGPRESS_SYMBOLS) {
                             if (currentlySelectedSymbol != null) {
+                                if(currentlySelectedSymbol == "\u2026") {
+                                    new FunctionDialog(thisFragment).show(getChildFragmentManager, "FunctionDialog")
+                                }
                                 handler.removeCallbacks(runnable)
                                 plusButton.setText(currentlySelectedSymbol)
                                 arcLayoutSymbols.setVisibility(View.INVISIBLE)
@@ -219,8 +231,10 @@ class FunctionEditor extends Fragment with OnTouchListener {
                                 Controller.addFunction(currentlySelectedSymbol, currentlySelectedArity, getString(R.string.added_fun))
                                 val symbolsListener = getActivity.asInstanceOf[OnSymbolsChangedListener]
                                 symbolsListener.onFunctionsChanged()
-                                resetArcSelection()
+                            } else if(currentlySelectedArity == ARITY_DOTS) {
+                                new ArityDialog(thisFragment).show(getChildFragmentManager, "ArityDialog")
                             }
+                            resetArcSelection()
                         }
                     case MotionEvent.ACTION_CANCEL =>
                         resetArcSelection()

@@ -62,7 +62,7 @@ class VariableDialog extends DialogFragment {
             inputLayout.setError(getString(R.string.err_empty))
             false
         } else if(Controller.state.variables.contains(s.toString)) {
-            inputLayout.setError(getString(R.string.err_var_exists))
+            inputLayout.setError(getString(R.string.err_symbol_exists))
             false
         } else {
             inputLayout.setError(null)
