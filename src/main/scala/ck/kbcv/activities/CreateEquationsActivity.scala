@@ -100,6 +100,7 @@ class CreateEquationsActivity extends NavigationDrawerActivity with OnSymbolsCha
     override def onResume(): Unit = {
         super.onResume()
         navigationView.setCheckedItem(R.id.action_equation_editor)
+        getSupportActionBar.setTitle(getString(R.string.equation_editor))
     }
 
 
@@ -152,10 +153,10 @@ class CreateEquationsActivity extends NavigationDrawerActivity with OnSymbolsCha
             symbolsFragment.onVariablesChanged()
         } catch {
             case ex: ClassCastException => {
-                Log.e(TAG, ex.getMessage)
+                Log.e(TAG, "" + ex.getMessage)
             }
             case ex: NullPointerException => {
-                Log.e(TAG, ex.getMessage)
+                Log.e(TAG, "" + ex.getMessage)
             }
         }
         invalidateOptionsMenu()
@@ -176,10 +177,10 @@ class CreateEquationsActivity extends NavigationDrawerActivity with OnSymbolsCha
             equationsFragment.equationEditView.onFunctionsChanged()
         } catch {
             case ex: ClassCastException => {
-                Log.e(TAG, ex.getMessage)
+                Log.e(TAG, "" +ex.getMessage)
             }
             case ex: NullPointerException => {
-                Log.e(TAG, ex.getMessage)
+                Log.e(TAG, ""+ex.getMessage)
             }
         }
         invalidateOptionsMenu()
@@ -196,10 +197,10 @@ class CreateEquationsActivity extends NavigationDrawerActivity with OnSymbolsCha
             equationsFragment.onNewEquations()
         } catch {
             case ex: ClassCastException => {
-                Log.e(TAG, ex.getMessage)
+                Log.e(TAG, ""+ex.getMessage)
             }
             case ex: NullPointerException => {
-                Log.e(TAG, ex.getMessage)
+                Log.e(TAG, ""+ex.getMessage)
             }
         }
         invalidateOptionsMenu()
@@ -216,10 +217,10 @@ class CreateEquationsActivity extends NavigationDrawerActivity with OnSymbolsCha
             equationsFragment.onEquationsAdded()
         } catch {
             case ex: ClassCastException => {
-                Log.e(TAG, ex.getMessage)
+                Log.e(TAG, ""+ex.getMessage)
             }
             case ex: NullPointerException => {
-                Log.e(TAG, ex.getMessage)
+                Log.e(TAG, ""+ex.getMessage)
             }
         }
         invalidateOptionsMenu()
@@ -236,10 +237,10 @@ class CreateEquationsActivity extends NavigationDrawerActivity with OnSymbolsCha
             equationsFragment.onEquationUpdated(ie)
         } catch {
             case ex: ClassCastException => {
-                Log.e(TAG, ex.getMessage)
+                Log.e(TAG, ""+ex.getMessage)
             }
             case ex: NullPointerException => {
-                Log.e(TAG, ex.getMessage)
+                Log.e(TAG, ""+ex.getMessage)
             }
         }
         invalidateOptionsMenu()
