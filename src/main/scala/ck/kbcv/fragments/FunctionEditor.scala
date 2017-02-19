@@ -65,7 +65,7 @@ class FunctionEditor extends Fragment with OnTouchListener {
         trashButton = view.findViewById(R.id.imageButton).asInstanceOf[ImageButton]
 
         val SP = PreferenceManager.getDefaultSharedPreferences(getActivity.getBaseContext)
-        val varString = SP.getString("function_symbols", "f, g, h, z")
+        val varString = SP.getString("function_symbols", "f, g, h, c")
         val funs = varString.split(",").map(s => s.trim)
         for(i <- funs.indices) {
             inflater.inflate(R.layout.arc_button, arcLayoutSymbols, true)
