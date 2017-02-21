@@ -39,7 +39,7 @@ class VariableEditor extends Fragment with OnTouchListener {
         trashButton = view.findViewById(R.id.imageButton).asInstanceOf[ImageButton]
 
         val SP = PreferenceManager.getDefaultSharedPreferences(getActivity.getBaseContext)
-        val varString = SP.getString("variable_symbols", "x, y, z")
+        val varString = SP.getString("variable_symbols", "x, y, z, a, b")
         val vars = varString.split(",").map(s => s.trim)
         for(i <- vars.indices) {
             inflater.inflate(R.layout.arc_button, arcLayout, true)

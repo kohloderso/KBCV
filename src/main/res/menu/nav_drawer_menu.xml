@@ -37,9 +37,6 @@
                 android:id="@+id/action_feedback"
                 android:icon="@android:drawable/ic_menu_send"
                 android:title="Send Feedback"/>
-        <item
-                android:id="@+id/action_about"
-                android:title="About this App"/>
     </group>
 
 </menu>
