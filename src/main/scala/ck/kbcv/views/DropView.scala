@@ -16,7 +16,7 @@ class DropView(context: Context, attrs: AttributeSet, symbolListener: DropSymbol
         override def onDrag(v: View, event: DragEvent): Boolean = {
             if(event.getClipDescription != null) {
                 val description = event.getClipDescription.getLabel
-                if(description == "variable" || description == "function") {
+                if(description == "variable" || description == "function" || description == "precedence") {
                     val action = event.getAction
                     Log.d(TAG, "Action: " + action)
                     action match {

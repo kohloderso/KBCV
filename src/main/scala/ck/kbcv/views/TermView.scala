@@ -34,7 +34,7 @@ class TermView(context: Context, attrs: AttributeSet, var term: Term = null, sym
     override def onDrag(v: View, event: DragEvent): Boolean = {
         if(event.getClipDescription != null) {
             val description = event.getClipDescription.getLabel
-            if (description == "variable" || description == "function") {
+            if (description == "variable" || description == "function" || description == "precedence") {
                 val action = event.getAction
                 action match {
                     case DragEvent.ACTION_DRAG_STARTED => //  Do nothing

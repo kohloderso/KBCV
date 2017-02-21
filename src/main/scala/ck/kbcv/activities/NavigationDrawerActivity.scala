@@ -88,6 +88,10 @@ class NavigationDrawerActivity extends AppCompatActivity with NavigationView.OnN
 
                 true
             }
+            case R.id.action_help => {
+                startDrawerActivity(classOf[HelpActivity])
+                true
+            }
             case _ => false
         }
     }
