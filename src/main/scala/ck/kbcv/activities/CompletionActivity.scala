@@ -30,7 +30,7 @@ class CompletionActivity extends NavigationDrawerActivity with TypedFindView wit
 
         val utility = new ScreenUtility(this)
 
-        if (utility.getWidth() < 400.0) {
+        if (utility.getWidth() < 480.0) {
             // Display tabLayout on small screens
 
             val tabLayout = findView(TR.tab_layout)
