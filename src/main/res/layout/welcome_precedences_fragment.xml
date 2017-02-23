@@ -1,0 +1,140 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:padding="@dimen/activity_horizontal_margin">
+
+
+    <RelativeLayout
+            android:layout_marginBottom="50dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+    >
+
+        <ImageView
+                android:layout_width="80dp"
+                android:layout_height="85dp"
+                android:id="@+id/imageView"
+                android:src="@drawable/ic_automatic_precedence"
+                android:layout_centerInParent="true"
+                android:tint="@color/cl_gray"
+        />
+
+        <LinearLayout
+                android:id="@+id/linear_prec_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/imageView"
+                android:layout_centerHorizontal="true"
+                android:visibility="invisible"
+        >
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="f"
+                    android:id="@+id/prec1"
+                    android:textSize="22sp"
+                    android:alpha="0"
+                    android:textColor="@color/cl_gray"
+            />
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" > "
+                    android:id="@+id/g1"
+                    android:textSize="22sp"
+                    android:alpha="0"
+            />
+
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="g"
+                    android:id="@+id/prec2"
+                    android:textSize="22sp"
+                    android:alpha="0"
+                    android:textColor="@color/cl_gray"
+            />
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" > "
+                    android:id="@+id/g2"
+                    android:textSize="22sp"
+                    android:alpha="0"
+            />
+
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="h"
+                    android:id="@+id/prec3"
+                    android:textSize="22sp"
+                    android:alpha="0"
+                    android:textColor="@color/cl_gray"
+            />
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" > "
+                    android:id="@+id/g3"
+                    android:textSize="22sp"
+                    android:alpha="0"
+            />
+
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="c"
+                    android:id="@+id/prec4"
+                    android:textSize="22sp"
+                    android:alpha="0"
+                    android:textColor="@color/cl_gray"
+            />
+
+
+        </LinearLayout>
+
+
+
+    </RelativeLayout>
+
+
+    <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="@dimen/activity_horizontal_margin">
+
+        <TextView
+                android:id="@+id/section_label"
+                style="@style/TextAppearance.AppCompat.Headline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
+                android:text="@string/precedences" />
+
+        <TextView
+                style="@style/TextAppearance.AppCompat.Body1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_horizontal_margin"
+                android:alpha="0.7"
+                android:gravity="center"
+                android:text="@string/precedences_long_text"
+                android:textColor="@android:color/white" />
+
+
+    </LinearLayout>
+
+</FrameLayout>

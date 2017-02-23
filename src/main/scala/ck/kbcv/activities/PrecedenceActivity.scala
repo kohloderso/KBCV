@@ -106,7 +106,7 @@ class PrecedenceActivity extends NavigationDrawerActivity with TypedFindView wit
             val nc = Controller.state.erc._3.toList.sortWith((t, s) => t._1 < s._1).map(_._2) // TODO understand ;-)
             val (t, p1) = term.lpo.lpoX(nc, newPrec)
 
-            if (t) {
+            if (t && p1.get == newPrec) {
                 message = getString(R.string.removed_precedence)
                 Controller.changePrecedence(p1.get, message)
                 mAdapter.removeItem(rule)

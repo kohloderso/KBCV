@@ -32,16 +32,21 @@ class TermView(context: Context, attrs: AttributeSet, var term: Term = null, sym
     }
 
     override def onDrag(v: View, event: DragEvent): Boolean = {
-        val action = event.getAction
-        action match {
-            case DragEvent.ACTION_DRAG_STARTED =>  //  Do nothing
-            case DragEvent.ACTION_DRAG_ENTERED => v.setBackgroundColor(ContextCompat.getColor(context, R.color.colorPrimaryBright))
-            case DragEvent.ACTION_DRAG_EXITED => v.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.dotted_line))
-            case DragEvent.ACTION_DRAG_ENDED => v.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.dotted_line))
-            case DragEvent.ACTION_DROP => replaceWithDropped(event.getClipData)
-            case _ =>
-        }
-        true
+        if(event.getClipDescription != null) {
+            val description = event.getClipDescription.getLabel
+            if (description == "variable" || description == "function" || description == "precedence") {
+                val action = event.getAction
+                action match {
+                    case DragEvent.ACTION_DRAG_STARTED => //  Do nothing
+                    case DragEvent.ACTION_DRAG_ENTERED => v.setBackgroundColor(ContextCompat.getColor(context, R.color.colorPrimaryBright))
+                    case DragEvent.ACTION_DRAG_EXITED => v.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.dotted_line))
+                    case DragEvent.ACTION_DRAG_ENDED => v.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.dotted_line))
+                    case DragEvent.ACTION_DROP => replaceWithDropped(event.getClipData)
+                    case _ =>
+                }
+                true
+            } else false
+        } else false
     }
 
     def replaceWithDropped(clipData: ClipData): Unit = {

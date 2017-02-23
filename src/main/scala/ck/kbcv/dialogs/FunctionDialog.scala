@@ -55,13 +55,18 @@ class FunctionDialog(functionEditor: FunctionEditor) extends DialogFragment {
         dialog
     }
 
+    override def onCancel(dialog: DialogInterface): Unit = {
+        super.onCancel(dialog)
+        functionEditor.resetArcSelection()
+    }
+
     def validate(): Boolean = {
         val s = editText.getText
         if (s.length() < 1) {
             inputLayout.setError(getString(R.string.err_empty))
             false
         } else if (Controller.state.variables.contains(s.toString)) {
-            inputLayout.setError(getString(R.string.err_fun_exists))
+            inputLayout.setError(getString(R.string.err_symbol_exists))
             false
         } else {
             inputLayout.setError(null)
@@ -98,6 +103,7 @@ class ArityDialog(functionEditor: FunctionEditor) extends DialogFragment {
         val inflater = getActivity.getLayoutInflater
         inputLayout = inflater.inflate(R.layout.input_layout_arity, null, false).asInstanceOf[TextInputLayout]
         editText = inputLayout.findViewById(R.id.edit_text_number).asInstanceOf[EditText]
+        editText.addTextChangedListener(new FunctionsWatcher)
         builder.setTitle(getString(R.string.new_fun))
             .setView(inputLayout)
             .setPositiveButton(getString(R.string.done), null)
@@ -126,6 +132,12 @@ class ArityDialog(functionEditor: FunctionEditor) extends DialogFragment {
         dialog
     }
 
+    override def onCancel(dialog: DialogInterface): Unit = {
+        super.onCancel(dialog)
+        functionEditor.resetArcSelection()
+    }
+
+
     def validate(): Boolean = {
         val s = editText.getText.toString
         if (s.length() < 1) {
@@ -144,5 +156,17 @@ class ArityDialog(functionEditor: FunctionEditor) extends DialogFragment {
         }
     }
 
+    class FunctionsWatcher extends TextWatcher {
+        override def beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int): Unit = {
+        }
+
+        override def onTextChanged(s: CharSequence, start: Int, before: Int, count: Int): Unit = {
+        }
+
+        override def afterTextChanged(s: Editable): Unit = {
+            validate()
+        }
+
+    }
 }
 

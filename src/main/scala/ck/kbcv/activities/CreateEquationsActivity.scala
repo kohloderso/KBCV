@@ -12,9 +12,9 @@ import ck.kbcv._
 import ck.kbcv.adapters.CreateEquationsPagerAdapter
 import ck.kbcv.dialogs.{AddDialogFragment, ImportDialogFragment, SaveDialogFragment}
 import ck.kbcv.fragments.{CreateEquationsFragment, SymbolsFragment}
+import term.Term
 import term.parser.{Parser, ParserOldTRS, ParserXmlTRS}
 import term.reco.{IE, IES}
-import term.util.Equation
 
 
 class CreateEquationsActivity extends NavigationDrawerActivity with OnSymbolsChangedListener with OnEquationsChangedListener with TypedFindView with UndoRedoActivity {
@@ -30,26 +30,6 @@ class CreateEquationsActivity extends NavigationDrawerActivity with OnSymbolsCha
 
     override def onCreate( savedInstanceState: Bundle ): Unit = {
         super.onCreate( savedInstanceState )
-
-        // if the app was opened because the user clicked on a .trs or .xml file with an equational system, load that equational system
-        val data = getIntent.getData
-        val SP = PreferenceManager.getDefaultSharedPreferences(getBaseContext)
-        if(data != null) {
-            getIntent.setData(null)
-            var parser: Parser = ParserXmlTRS
-            if(data.getPath.contains(".trs")) parser = ParserOldTRS
-            val stream = getContentResolver.openInputStream(data)
-            val es = parser.parse(stream)
-            Controller.setES(es, getResources.getString(R.string.ok_new_es, new Integer(es.size)))
-        } else if(SP.getBoolean("firstRun", true)) {    // check if it's the first run of the app
-            // load default example and run tutorial
-            val stream = getResources.openRawResource(R.raw.gt)
-            val parser: Parser = ParserOldTRS
-            val es = parser.parse(stream)
-            Controller.setES(es, getResources.getString(R.string.ok_new_es, new Integer(es.size)))
-            SP.edit().putBoolean("firstRun", false).commit()
-        }
-
 
         setContentView( R.layout.create_es_activity)
         val utility = new ScreenUtility(this)
@@ -69,20 +49,31 @@ class CreateEquationsActivity extends NavigationDrawerActivity with OnSymbolsCha
             tabLayout.setupWithViewPager(viewPager)
         }
 
-        if (savedInstanceState != null && savedInstanceState.containsKey("equation")) {
-            val equation = savedInstanceState.getSerializable("equation").asInstanceOf[Equation]
-            val index = savedInstanceState.getInt("index")
-
-            if (equationPagerAdapter != null) equationPagerAdapter.setEquation((index, equation))
-            else getSupportFragmentManager.findFragmentById(R.id.create_es_fragment).asInstanceOf[CreateEquationsFragment].equationEditView.setEquation((index, equation))
-        }  else if(SP.getBoolean("firstRun", true)) {    // check if it's the first run of the app
-        // load default example and run tutorial
+        // if the app was opened because the user clicked on a .trs or .xml file with an equational system, load that equational system
+        val data = getIntent.getData
+        val SP = PreferenceManager.getDefaultSharedPreferences(getBaseContext)
+        if(data != null) {
+            getIntent.setData(null)
+            var parser: Parser = ParserXmlTRS
+            if(data.getPath.contains(".trs")) parser = ParserOldTRS
+            val stream = getContentResolver.openInputStream(data)
+            val es = parser.parse(stream)
+            Controller.setES(es, getResources.getString(R.string.ok_new_es, new Integer(es.size)))
+        } else if(SP.getBoolean("FIRST_START", true)) {    // check if it's the first run of the app
+            startActivity(new Intent(getApplicationContext, classOf[PagerActivity]))
+        // load default example and run intro
             val stream = getResources.openRawResource(R.raw.gt)
             val parser: Parser = ParserOldTRS
             val es = parser.parse(stream)
             Controller.setES(es, getResources.getString(R.string.ok_new_es, new Integer(es.size)))
-            SP.edit().putBoolean("firstRun", false).commit()
+            SP.edit().putBoolean("FIRST_START", false).commit()
+        }else if (savedInstanceState != null && savedInstanceState.containsKey("equation")) {
+            val equation = savedInstanceState.getSerializable("equation").asInstanceOf[(Term, Term)]
+            val index = savedInstanceState.getInt("index")
+            if (equationPagerAdapter != null) equationPagerAdapter.setEquation((index, equation))
+            else getSupportFragmentManager.findFragmentById(R.id.create_es_fragment).asInstanceOf[CreateEquationsFragment].equationEditView.setEquation((index, equation))
         }
+        updateViews()
     }
 
     override def onSaveInstanceState(outState: Bundle): Unit = {
@@ -94,7 +85,7 @@ class CreateEquationsActivity extends NavigationDrawerActivity with OnSymbolsCha
             } else {
                 equationsFragment = getSupportFragmentManager.findFragmentById(R.id.create_es_fragment).asInstanceOf[CreateEquationsFragment]
             }
-            outState.putSerializable("equation", equationsFragment.equationEditView.getEquation)
+            outState.putSerializable("equation", equationsFragment.equationEditView.getEquation.toTuple)
             outState.putInt("index", equationsFragment.equationEditView.index)
         } catch {
             case ex: ClassCastException => {
@@ -109,6 +100,7 @@ class CreateEquationsActivity extends NavigationDrawerActivity with OnSymbolsCha
     override def onResume(): Unit = {
         super.onResume()
         navigationView.setCheckedItem(R.id.action_equation_editor)
+        getSupportActionBar.setTitle(getString(R.string.equation_editor))
     }
 
 
@@ -161,10 +153,10 @@ class CreateEquationsActivity extends NavigationDrawerActivity with OnSymbolsCha
             symbolsFragment.onVariablesChanged()
         } catch {
             case ex: ClassCastException => {
-                Log.e(TAG, ex.getMessage)
+                Log.e(TAG, "" + ex.getMessage)
             }
             case ex: NullPointerException => {
-                Log.e(TAG, ex.getMessage)
+                Log.e(TAG, "" + ex.getMessage)
             }
         }
         invalidateOptionsMenu()
@@ -185,10 +177,10 @@ class CreateEquationsActivity extends NavigationDrawerActivity with OnSymbolsCha
             equationsFragment.equationEditView.onFunctionsChanged()
         } catch {
             case ex: ClassCastException => {
-                Log.e(TAG, ex.getMessage)
+                Log.e(TAG, "" +ex.getMessage)
             }
             case ex: NullPointerException => {
-                Log.e(TAG, ex.getMessage)
+                Log.e(TAG, ""+ex.getMessage)
             }
         }
         invalidateOptionsMenu()
@@ -205,10 +197,10 @@ class CreateEquationsActivity extends NavigationDrawerActivity with OnSymbolsCha
             equationsFragment.onNewEquations()
         } catch {
             case ex: ClassCastException => {
-                Log.e(TAG, ex.getMessage)
+                Log.e(TAG, ""+ex.getMessage)
             }
             case ex: NullPointerException => {
-                Log.e(TAG, ex.getMessage)
+                Log.e(TAG, ""+ex.getMessage)
             }
         }
         invalidateOptionsMenu()
@@ -225,10 +217,10 @@ class CreateEquationsActivity extends NavigationDrawerActivity with OnSymbolsCha
             equationsFragment.onEquationsAdded()
         } catch {
             case ex: ClassCastException => {
-                Log.e(TAG, ex.getMessage)
+                Log.e(TAG, ""+ex.getMessage)
             }
             case ex: NullPointerException => {
-                Log.e(TAG, ex.getMessage)
+                Log.e(TAG, ""+ex.getMessage)
             }
         }
         invalidateOptionsMenu()
@@ -245,10 +237,10 @@ class CreateEquationsActivity extends NavigationDrawerActivity with OnSymbolsCha
             equationsFragment.onEquationUpdated(ie)
         } catch {
             case ex: ClassCastException => {
-                Log.e(TAG, ex.getMessage)
+                Log.e(TAG, ""+ex.getMessage)
             }
             case ex: NullPointerException => {
-                Log.e(TAG, ex.getMessage)
+                Log.e(TAG, ""+ex.getMessage)
             }
         }
         invalidateOptionsMenu()

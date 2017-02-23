@@ -1,0 +1,87 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:padding="@dimen/activity_horizontal_margin">
+
+
+    <RelativeLayout
+            android:layout_marginBottom="40dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+    >
+
+        <TextView
+                android:id="@+id/eq_tv1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:alpha="0.6"
+                android:textSize="22sp"
+                tools:text="f(g(x, x))"
+
+
+        />
+        <TextView
+                android:id="@+id/eq_tv2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/eq_tv1"
+                android:layout_centerHorizontal="true"
+                android:alpha="0.6"
+                android:textSize="22sp"
+                tools:text="f(g(x, x))"
+
+        />
+        <TextView
+                android:id="@+id/eq_tv3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/eq_tv2"
+                android:layout_centerHorizontal="true"
+                android:textSize="22sp"
+                android:alpha="0.6"
+                tools:text="f(g(x, x))"
+        />
+        <ImageView
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageView"
+                android:src="@drawable/pencil_icon"
+                android:layout_alignTop="@+id/eq_tv1" android:layout_toRightOf="@+id/eq_tv3"
+                android:layout_toEndOf="@+id/eq_tv3" android:layout_alignBottom="@+id/eq_tv3"/>
+
+    </RelativeLayout>
+
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="@dimen/activity_horizontal_margin">
+
+        <TextView
+                android:id="@+id/section_label"
+                style="@style/TextAppearance.AppCompat.Headline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
+                android:text="@string/equation_editor" />
+
+        <TextView
+                style="@style/TextAppearance.AppCompat.Body1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_horizontal_margin"
+                android:alpha="0.7"
+                android:gravity="center"
+                android:text="@string/equation_long_text"
+                android:textColor="@android:color/white" />
+
+
+    </LinearLayout>
+
+</FrameLayout>

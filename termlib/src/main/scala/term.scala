@@ -35,13 +35,11 @@
   * [[term.packge.Subst]]
   * represents substitutions on terms. */
 package object term {
-  import scala.collection.immutable.{TreeSet}
-  import Term.{V,F}
-  import util._
+  import Term.{F, V}
+  import indexing.PString
   import reco._
-  import parser._
   import show._
-  import indexing.{PString}
+  import util._
 
   case class NotMatchable(s : Term, t : Term) extends Exception
   case class InconsistentSubst(x : V, t : Term, u : Term) extends Exception {
@@ -114,13 +112,13 @@ package object term {
     private def next(): BigInt = { count += 1; count }
   }
 
-  import Term.{V,F}
+  import Term.{F, V}
   /** Represents a term which is built recursively from variables and function
     * symbols. 
     *
     * This class comes with two implementing case classes [[term.package.Var]]
     * and [[term.package.Fun]]. */
-  sealed abstract class Term extends Ordered[Term] {
+  sealed abstract class Term extends Ordered[Term] with Serializable {
     def compare(that:Term) = size - that.size
     /** Returns ''true'' if ''this'' term is a variable and ''false'' 
       * otherwise. */

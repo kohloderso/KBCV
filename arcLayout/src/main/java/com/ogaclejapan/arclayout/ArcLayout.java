@@ -266,13 +266,14 @@ public class ArcLayout extends ViewGroup {
     Point arcOrigin = getOrigin();
     arcOrigin.offset(location[0], location[1]);
 
+
     // TODO find out whether touch is still on plus => don't select anything
     float deltaX = touchX -arcOrigin.x;
     float deltaY = arcOrigin.y -touchY;
     double angle = (Math.toDegrees(Math.atan2(deltaX, deltaY)) + arc.startAngle) % 360;
 
     float degreesPerButton = 360f/getChildCount();
-    int pos = (int) Math.round(angle / degreesPerButton) % getChildCount();
+    int pos = (int) Math.round((angle + 25) / degreesPerButton) % getChildCount();
 
     return pos;
   }
