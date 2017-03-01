@@ -168,7 +168,6 @@ class CompletionActivity extends NavigationDrawerActivity with TypedFindView wit
                 withMessage(message).
                 updateState()
             updateEquationFragment()
-            autoCheckCompleteness()
         } else {
             showErrorMsg(getString(R.string.error_simplify))
         }
@@ -203,7 +202,6 @@ class CompletionActivity extends NavigationDrawerActivity with TypedFindView wit
                 withMessage(message).
                 updateState()
             updateRulesFragment()
-            autoCheckCompleteness()
         } else {
             showErrorMsg(getString(R.string.error_compose))
         }
@@ -219,7 +217,6 @@ class CompletionActivity extends NavigationDrawerActivity with TypedFindView wit
                 withMessage(message).
                 updateState()
             updateViews()
-            autoCheckCompleteness()
         } else {
             showErrorMsg(getString(R.string.error_collapse))
         }
@@ -248,7 +245,6 @@ class CompletionActivity extends NavigationDrawerActivity with TypedFindView wit
                 withMessage(message).
                 updateState()
             updateViews()
-            autoCheckCompleteness()
         } else {
             showErrorMsg(getString(R.string.error_deduce))
         }
