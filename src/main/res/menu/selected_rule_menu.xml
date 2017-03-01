@@ -14,7 +14,6 @@
               android:icon="@drawable/menu_item_divider"/>
     </group>
 
-    <group android:id="@+id/grp2">
         <item
                 android:id="@+id/action_compose"
                 android:title="Compose"
@@ -27,6 +26,6 @@
         <item android:id="@+id/action_deduce"
               android:title="Deduce"
               android:showAsAction="ifRoom"/>
-    </group>
+
 
 </menu>
