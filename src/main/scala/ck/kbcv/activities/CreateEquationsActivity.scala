@@ -1,7 +1,7 @@
 package ck.kbcv.activities
 
 import android.app.Activity
-import android.content.Intent
+import android.content.{Context, Intent}
 import android.net.Uri
 import android.os.Bundle
 import android.support.design.widget.TabLayout
@@ -67,7 +67,15 @@ class CreateEquationsActivity extends NavigationDrawerActivity with OnSymbolsCha
             val es = parser.parse(stream)
             Controller.setES(es, getResources.getString(R.string.ok_new_es, new Integer(es.size)))
             SP.edit().putBoolean("FIRST_START", false).commit()
-        }else if (savedInstanceState != null && savedInstanceState.containsKey("equation")) {
+            val xmlTRS = ParserXmlTRS.eqToXML(Nil ++ Controller.state.e0.values)
+            try {
+                val outputStream = openFileOutput("group-theory", Context.MODE_WORLD_READABLE)
+                outputStream.write(xmlTRS.toString.getBytes())
+                outputStream.close()
+            } catch {
+                case e: Exception => e.printStackTrace()
+            }
+        } else if (savedInstanceState != null && savedInstanceState.containsKey("equation")) {
             val equation = savedInstanceState.getSerializable("equation").asInstanceOf[(Term, Term)]
             val index = savedInstanceState.getInt("index")
             if (equationPagerAdapter != null) equationPagerAdapter.setEquation((index, equation))
