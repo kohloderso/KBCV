@@ -95,6 +95,9 @@
     <string name="equation_editor">Equation Editor</string>
     <string name="equation_long_text">Define and edit your own equational systems</string>
     <string name="precedences">Precedences</string>
+    <string name="precedence">Precedence</string>
+    <string name="history">History</string>
+    <string name="settings">Settings</string>
     <string name="precedences_long_text">Supply your own LPO precedence or let the app figure it out for you</string>
     <!-- colored example equations-->
     <string name="eq1">

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <include layout="@layout/toolbar"/>
+
+
+    <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/fragment_container">
+
+    <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:orientation="vertical" android:layout_marginTop="24dp">
+            <Button
+                    style="@style/MyButton"
+                    android:theme="@style/MyButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/equation_editor"
+                    android:minWidth="145dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_margin="8dp" android:padding="8dp"/>
+
+            <Button
+                    style="@style/MyButton"
+                    android:theme="@style/MyButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/completion"
+                    android:minWidth="145dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_margin="8dp" android:padding="8dp"
+            />
+
+            <Button
+                    style="@style/MyButton"
+                    android:theme="@style/MyButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/precedence"
+                    android:minWidth="145dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_margin="8dp" android:padding="8dp"
+            />
+
+            <Button
+                    style="@style/MyButton"
+                    android:theme="@style/MyButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/history"
+                    android:minWidth="145dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_margin="8dp" android:padding="8dp"
+            />
+
+            <Button
+                    style="@style/MyButton"
+                    android:theme="@style/MyButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings"
+                    android:minWidth="145dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_margin="8dp" android:padding="8dp"
+            />
+        </LinearLayout>
+    </ScrollView>
+
+    </FrameLayout>
+</LinearLayout>
