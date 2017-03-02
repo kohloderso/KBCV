@@ -49,6 +49,8 @@ class CreateEquationsFragment(currentIE: IE = null) extends Fragment with ItemCl
 
     def onNewEquations(): Unit = {
         mAdapter.setNewItems(Controller.state.erc._1)
+        equationEditView.clear()
+        equationEditView.setAddButton("Add")
     }
 
     def onEquationsAdded(): Unit = {

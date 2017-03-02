@@ -103,8 +103,10 @@ class PrecedenceEditView(context: Context, attrs: AttributeSet) extends Relative
     }
 
     def setPrecedence(f1: F, f2: F): Unit = {
-        left.setTerm(new Fun(f1, List.empty))
-        right.setTerm(new Fun(f2, List.empty))
+        if(f1 != null) left.setTerm(new Fun(f1, List.empty))
+        else left.setTerm(null)
+        if(f2 != null) right.setTerm(new Fun(f2, List.empty))
+        else right.setTerm(null)
     }
 
     def onFunctionsChanged(): Unit = {

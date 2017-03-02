@@ -3,13 +3,13 @@
 
     <SwitchPreferenceCompat
             android:key="pref_completeness"
-            android:title="Automatically check for completeness"
+            android:title="Automatically Check for Completeness"
             android:summary="After every action automatically check whether the TRS is complete"
             android:defaultValue="true"/>
 
     <SwitchPreferenceCompat
             android:key="pref_caching"
-            android:title="Cache overlaps"
+            android:title="Cache Overlaps"
             android:summary="When caching is active, overlaps that have already been considered won't be considered again"
             android:defaultValue="true"/>
 
