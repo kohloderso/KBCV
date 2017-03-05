@@ -20,7 +20,7 @@
 
         <activity
             android:label="@string/name"
-            android:icon="@drawable/icon_launcher"
+            android:icon="@mipmap/ic_launcher"
             android:name=".activities.CreateEquationsActivity"
             >
             <intent-filter>
