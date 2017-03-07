@@ -1,16 +1,28 @@
 package ck.kbcv.fragments
 
+import java.util
+
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.view.{LayoutInflater, MenuItem, View, ViewGroup}
+import android.widget.ExpandableListView
 import ck.kbcv.R
+import ck.kbcv.adapters.HelpExpandableListAdapter
 
 
 class HelpCompletion extends Fragment {
 
   override def onCreateView( inflater: LayoutInflater, container: ViewGroup, savedInstanceState: Bundle ): View = {
-    val view = inflater.inflate( R.layout.help_equation_editor, container, false )
+    val view = inflater.inflate( R.layout.help_completion, container, false )
+    val expandableList = view.findViewById(R.id.expandable_list).asInstanceOf[ExpandableListView]
+    val titles = getResources.getStringArray(R.array.completion_groups).toList
+    val details_gestures = (getResources.getStringArray(R.array.gesture_content)).toList
+    val details_autocompletion = getResources.getStringArray(R.array.automatic_comp_content).toList
+    val details_compcheck = getResources.getStringArray(R.array.check_content).toList
+    val details = List(details_gestures, details_autocompletion, details_compcheck)
+    val adapter = new HelpExpandableListAdapter(getActivity, titles, details)
+    expandableList.setAdapter(adapter)
 
     setHasOptionsMenu(true)
     getActivity.asInstanceOf[AppCompatActivity].getSupportActionBar.setDisplayHomeAsUpEnabled(true)
