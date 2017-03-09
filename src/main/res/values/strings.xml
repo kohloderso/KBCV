@@ -121,24 +121,46 @@
     <string name="title_feedback_dialog">Send feedback</string>
 
     <!-- help content-->
+    <string name="completion_general">
+        Depending on your screen width you either see a tabbed view (&lt; 480dp) or two panels side by side (&#x2265; 480dp).
+        The first tab or panel shows a list of all equations of the current equational system, the second one
+        shows all rules of the current rewrite system.\nIn both views any number of items (equations or rules) can be selected and one of
+        the inference rules of Knuth-Bendix completion can be applied to them, by using the appropriate action
+        in the contextual action bar.
+    </string>
     <string-array name="completion_groups">
+        <item>Export TRS</item>
         <item>Gestures</item>
         <item>Automatic Completion</item>
         <item>Completeness Check</item>
     </string-array>
 
-
+    <string-array name="export_content">
+        <item>The export action is available in the overflow menu of the App Bar. The current term rewrite system
+        will be exported as a TRS file to the KBCV folder in Documents.</item>
+    </string-array>
     <string-array name="gesture_content">
-        <item>Orient</item>
-        <item>Simplify and Delete equation</item>
-        <item>Deduce</item>
-        <item>Simplify, Compose, Collapse</item>
+        <item>Orient\n Rightswipe equation to orient it from left to right, leftswipe it to orient from right to left.</item>
+        <item>Simplify and Delete equation\nLongpress equation until it is draggable, drag it down and release it.
+        This simplifies the equation as far as possible and then deletes it, if it has become trivial.</item>
+        <item>Deduce\nLongpress rule until it is draggable, drag it onto the → of another rule and release. This adds
+        all critical pairs that exist between those two rules to the equational system.</item>
+        <item>Simplify, Compose, Collapse\nLongpress rule until it is draggable,
+            drag it onto left- or right-hand side of another equation or rule.
+            That term will be reduced with the rule, resulting in a Simplify, Compose, or Collapse action.</item>
     </string-array>
     <string-array name="automatic_comp_content">
-        <item>Select automatic completion in App Bar</item>
+        <item>Select automatic completion in the App Bar. It will either:\n
+            &#8226; succeed and find a complete rewrite system,\n
+            &#8226; fail because it can not orient a specific equation,\n
+            &#8226; stop because it reached the maximum number of rounds.\nEither way the rewrite system
+            that was reached during automatic completion will be displayed (whether it is complete or not).\nThe maximum number of rounds is initially set to 100
+            and can be modified in the settings.</item>
     </string-array>
     <string-array name="check_content">
-        <item>Change in settings</item>
+        <item>After every application of Orient or Delete, the app checks automatically for completeness.
+        A message will then be displayed at the bottom of the app. This behaviour can be changed in the settings.\nYou can manually check for
+        completeness by selecting the action in the App Bar.</item>
     </string-array>
 
 

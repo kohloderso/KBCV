@@ -3,13 +3,28 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:background="?android:attr/colorBackground"  >
+              android:padding="16dp"
+              android:background="?android:attr/colorBackground" android:paddingLeft="24dp" android:paddingRight="24dp">
+
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/completion"
+            style="@style/headline"
+    />
+
+    <TextView
+            android:paddingLeft="?android:attr/expandableListPreferredItemPaddingLeft"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/completion_general"
+    />
 
     <ExpandableListView
             android:id="@+id/expandable_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft"
-            android:divider="@android:color/darker_gray"
+            android:divider="@color/cl_blue"
             android:dividerHeight="0.5dp"/>
 </LinearLayout>
