@@ -22,8 +22,8 @@
                       android:orientation="vertical" android:layout_marginTop="24dp">
             <Button
                     android:id="@+id/eqeditorButton"
-                    style="@style/MyButton"
-                    android:theme="@style/MyButton"
+                    style="@style/HelpButton"
+                    android:theme="@style/HelpButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/equation_editor"
@@ -33,8 +33,8 @@
 
             <Button
                     android:id="@+id/completionButton"
-                    style="@style/MyButton"
-                    android:theme="@style/MyButton"
+                    style="@style/HelpButton"
+                    android:theme="@style/HelpButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/completion"
@@ -45,8 +45,8 @@
 
             <Button
                     android:id="@+id/precedenceButton"
-                    style="@style/MyButton"
-                    android:theme="@style/MyButton"
+                    style="@style/HelpButton"
+                    android:theme="@style/HelpButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/precedence"
@@ -57,8 +57,8 @@
 
             <Button
                     android:id="@+id/historyButton"
-                    style="@style/MyButton"
-                    android:theme="@style/MyButton"
+                    style="@style/HelpButton"
+                    android:theme="@style/HelpButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/history"
@@ -69,8 +69,8 @@
 
             <Button
                     android:id="@+id/settingsButton"
-                    style="@style/MyButton"
-                    android:theme="@style/MyButton"
+                    style="@style/HelpButton"
+                    android:theme="@style/HelpButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/settings"

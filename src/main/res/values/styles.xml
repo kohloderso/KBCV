@@ -26,6 +26,13 @@
         <item name="android:minWidth">48dp</item>
     </style>
 
+
+    <style name="HelpButton">
+        <item name="colorButtonNormal">@color/cl_gray</item>
+        <item name="android:textColor">@color/cl_blue</item>
+        <item name="android:minWidth">48dp</item>
+    </style>
+
     <style name="MyButtonNoCaps" parent="MyButton">
         <item name="android:textAllCaps">false</item>
     </style>
@@ -71,8 +78,8 @@
     </style>
 
     <style name="headline" parent="android:TextAppearance.DeviceDefault.WindowTitle">
-        <item name="android:textSize">24sp</item>
-        <item name="android:textColor">@color/cl_blue</item>
+        <item name="android:textSize">25sp</item>
+        <item name="android:textColor">@color/cl_lightblue</item>
     </style>
 
     <style name="expandableHeadline" parent="android:TextAppearance.DeviceDefault.WindowTitle">

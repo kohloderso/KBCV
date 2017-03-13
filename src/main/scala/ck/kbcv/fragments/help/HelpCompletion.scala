@@ -1,11 +1,11 @@
-package ck.kbcv.fragments
+package ck.kbcv.fragments.help
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v7.app.AppCompatActivity
 import android.view.{LayoutInflater, MenuItem, View, ViewGroup}
 import android.widget.ExpandableListView
 import ck.kbcv.R
+import ck.kbcv.activities.NavigationDrawerActivity
 import ck.kbcv.adapters.HelpExpandableListAdapter
 
 
@@ -24,7 +24,9 @@ class HelpCompletion extends Fragment {
     expandableList.setAdapter(adapter)
 
     setHasOptionsMenu(true)
-    getActivity.asInstanceOf[AppCompatActivity].getSupportActionBar.setDisplayHomeAsUpEnabled(true)
+    val activity = getActivity.asInstanceOf[NavigationDrawerActivity]
+    activity.drawerToggle.setDrawerIndicatorEnabled(false)
+
     return view
   }
 

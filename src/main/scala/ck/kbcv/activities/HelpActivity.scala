@@ -1,10 +1,9 @@
 package ck.kbcv.activities
 
-import android.app.Fragment
 import android.os.Bundle
 import android.view.View
 import android.view.View.OnClickListener
-import ck.kbcv.fragments.{HelpCompletion, HelpEquationEditor}
+import ck.kbcv.fragments.help._
 import ck.kbcv.{R, TR, TypedFindView}
 
 class HelpActivity extends NavigationDrawerActivity with TypedFindView {
@@ -18,7 +17,6 @@ class HelpActivity extends NavigationDrawerActivity with TypedFindView {
       override def onClick(view: View): Unit = {
         val fragment = new HelpEquationEditor
         getSupportFragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).addToBackStack(null).commit()
-        drawerToggle.setDrawerIndicatorEnabled(false)
       }
     })
 
@@ -31,12 +29,38 @@ class HelpActivity extends NavigationDrawerActivity with TypedFindView {
       }
     })
 
+    val settingsButton = findView(TR.settingsButton)
+    settingsButton.setOnClickListener(new OnClickListener {
+      override def onClick(view: View): Unit = {
+        val fragment = new HelpSettings
+        getSupportFragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).addToBackStack(null).commit()
+        drawerToggle.setDrawerIndicatorEnabled(false)
+      }
+    })
+
+    val precedenceButton = findView(TR.precedenceButton)
+    precedenceButton.setOnClickListener(new OnClickListener {
+      override def onClick(view: View): Unit = {
+        val fragment = new HelpPrecedence
+        getSupportFragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).addToBackStack(null).commit()
+        drawerToggle.setDrawerIndicatorEnabled(false)
+      }
+    })
+
+    val historyButton = findView(TR.historyButton)
+    historyButton.setOnClickListener(new OnClickListener {
+      override def onClick(view: View): Unit = {
+        val fragment = new HelpHistory
+        getSupportFragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).addToBackStack(null).commit()
+        drawerToggle.setDrawerIndicatorEnabled(false)
+      }
+    })
+
   }
 
-  def switchFragment(fragment: Fragment): Unit = {
-    drawerToggle.setDrawerIndicatorEnabled(false)
-
+  override def onBackPressed(): Unit = {
+    drawerToggle.setDrawerIndicatorEnabled(true)
+    super.onBackPressed()
   }
-
 
 }

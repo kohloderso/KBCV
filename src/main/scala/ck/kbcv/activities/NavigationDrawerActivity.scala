@@ -31,7 +31,9 @@ class NavigationDrawerActivity extends AppCompatActivity with NavigationView.OnN
         val myToolbar = findView(TR.my_toolbar)
         setSupportActionBar(myToolbar)
 
-        drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, myToolbar, R.string.drawer_open, R.string.drawer_close)
+        getSupportActionBar.setDisplayHomeAsUpEnabled(true)
+        drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.drawer_open, R.string.drawer_close)
+        drawerToggle.setDrawerIndicatorEnabled(true)
         drawerLayout.addDrawerListener(drawerToggle)
     }
 

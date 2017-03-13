@@ -121,6 +121,58 @@
     <string name="title_feedback_dialog">Send feedback</string>
 
     <!-- help content-->
+    <string-array name="eq_groups">
+        <item>General</item>
+        <item>Save/Import</item>
+        <item>Symbols</item>
+        <item>Equations</item>
+    </string-array>
+    <string name="eq_general">
+        Depending on your screen width you either see a tabbed view (&lt; 480dp) or two panels side by side (&#x2265; 480dp).
+        The first tab or panel shows an edit area for variable  and function symbols. The second one
+        contains an edit area for new equations and also shows a list of all current equations.
+    </string>
+    <string-array name="eq_save">
+        <item>The import and save options are available in the overflow menu of
+            the action bar (the three vertical dots at the far right end).</item>
+        <item>Import: import equational systems from .trs oder .xml files. Files from the local KBCV folder are shown as a list.
+        By default this list contains at least the standard group-theory example, but also all other equational systems that you ever from KBCV saved.</item>
+        <item>Save: saves the current equational system to the local KBCV folder. A dialog will open where you have to enter a name for your file. </item>
+    </string-array>
+    <string-array name="eq_symbols">
+        <item>Add: Pressing the + button opens a radial menu, where you can select the symbol you want to add. When adding
+        a function symbol, you are also required to choose an arity after you selected a symbol.\nIf you want
+        a symbol that is not contained in the list, use the button with the 3 dots (…) to open a dialog where you can
+        enter a string that you want to use as symbol. The symbols that are shown in the radial menu by default can
+            be changed in the settings.</item>
+        <item>Delete: Longpress the symbol you want to delete, this makes the symbol draggable and turns the
+        + button into a trash symbol. Now drag and drop the symbol onto the trash.</item>
+    </string-array>
+    <string-array name="eq_equations">
+        <item>Creating equations:
+        At the bottom of the equations view the edit area is located. The edit area holds a list of all previously defined variables and function
+        symbols as draggable buttons. By dragging and dropping a symbol into the designated
+        dropzone that symbol will be added to the equation. For functions with an arity greater
+        than zero, the appropriate number of dropzones will be created. Symbols can also be dragged onto other symbols and thereby overwrite that part of
+            the equation.\nWhen an equation is finished, i.e., containing no more dropzones, you can either
+            press the ADD button or drop the equation into the list of existing equations by dragging
+            it up at the ≈ sign.</item>
+        <item>Editing and Deleting: You can select items in the list above the edit area and
+            choose the desired action in the action bar. When choosing edit the equation will
+            appear in the edit area at the bottom of the screen and you can start dragging
+            different symbols onto it.
+        </item>
+    </string-array>
+
+
+    <string-array name="completion_groups">
+        <item>General</item>
+        <item>Export TRS</item>
+        <item>Gestures</item>
+        <item>Automatic Completion</item>
+        <item>Completeness Check</item>
+    </string-array>
+
     <string name="completion_general">
         Depending on your screen width you either see a tabbed view (&lt; 480dp) or two panels side by side (&#x2265; 480dp).
         The first tab or panel shows a list of all equations of the current equational system, the second one
@@ -128,12 +180,6 @@
         the inference rules of Knuth-Bendix completion can be applied to them, by using the appropriate action
         in the contextual action bar.
     </string>
-    <string-array name="completion_groups">
-        <item>Export TRS</item>
-        <item>Gestures</item>
-        <item>Automatic Completion</item>
-        <item>Completeness Check</item>
-    </string-array>
 
     <string-array name="export_content">
         <item>The export action is available in the overflow menu of the App Bar. The current term rewrite system
@@ -163,5 +209,92 @@
         completeness by selecting the action in the App Bar.</item>
     </string-array>
 
+    <string-array name="settings_groups">
+        <item>Automatically Check for Completeness</item>
+        <item>Cache Overlaps</item>
+        <item>Rounds</item>
+        <item>Variable Symbols</item>
+        <item>Function Symbols</item>
+    </string-array>
 
+    <string name="settings_autocomp">
+        Turn off the automatic completeness check that is by
+        default performed after every Delete- or Orient-action. This may be useful when you
+        want to perform as much of the completion process manually as possible.
+    </string>
+    <string name="settings_cache">
+        By default the app will remember which overlaps
+        have already been considered and won’t add those equations repeatedly.
+        You can turn of caching to test your own ability of finding critical pairs.
+    </string>
+    <string name="settings_rounds">
+        Set the maximum number of rounds for automatic
+        completion. An interesting option here is to set the number of rounds to 1. Then
+        you can perform automatic completion round by round and view all intermediate
+        equational systems and term rewrite systems.
+    </string>
+    <string name="settings_variables">
+        Opens a dialog window where you can specify which
+        variable symbols should be shown in the radial menu of the Equation Editor.
+        Individual symbols have to be entered with a comma as delimiter, spaces being
+        ignored. The maximum number of symbols that can be displayed in the radial
+        menu is 6. Everything you enter after the sixth symbol will be ignored.
+    </string>
+    <string name="settings_functions">
+        Opens a dialog window where you can specify which function symbols should appear in the radial menu
+        of the Equation Editor. As with the variable symbols, characters can be entered
+        into the edit dialog with a comma as delimiter and anything that exceeds the limit
+        of six different symbols will be ignored.
+    </string>
+
+    <string-array name="precedence_groups">
+        <item>General</item>
+        <item>Add Rule</item>
+        <item>Edit or Delete Rule</item>
+    </string-array>
+    <string name="prec_general">
+        We use the lexicographic path order (LPO) to determine whether an equation
+        can be oriented into a rule, such that the resulting term rewrite system is still terminating.
+        You can either provide the precedence for LPO yourself or leave it to the app, to
+        figure out the necessary restrictions. This screen shows the ordering that is
+        used at the moment to ensure the termination of the current term rewrite system. You
+        can add, edit and delete rules as long as termination of the current rewrite
+        system can be proved with this precedence.
+    </string>
+    <string name="prec_add">
+        Adding a rule to the precedence works similarly to adding equations. At the bottom
+        of the Precedence screen an edit area is located. Inside is a list of draggable buttons
+        of all available function symbols and a stub of a new rule with a dropzone at each side.
+        Function symbols can be dragged onto the dropzones (and onto other function symbols)
+        to create a new rule. You can add a finished rule to the precedence by either pressing
+        the add button or dragging it up on the &lt; sign.
+    </string>
+    <string name="prec_edit">
+        To edit or delete an existing rule,
+        you need to select it by tapping it and then choosing the appropriate action in the
+        contextual action bar at the top of the screen.
+        When selecting edit, the rule appears in the edit area and you
+        can drag different function symbols onto the existing ones to change it.\nIf you
+        to add a restriction that contradicts LPO termination, or if you trie to remove a rule that
+        is needed for termination, the app will show an error message.
+    </string>
+
+    <string-array name="history_groups">
+        <item>Undo/Redo</item>
+        <item>History Dialog</item>
+    </string-array>
+    <string-array name="history_undo">
+        <item>The three activities Equation Editor, Completion, and Precedence, all feature undo and redo
+            buttons in their respective action bars.</item> <!--TODO image-->
+        <item>Tracked actions are:</item>
+        <item>adding or deleting symbols</item>
+        <item>adding, editing or deleting equations</item>
+        <item>import of new equational systems</item>
+        <item>every orient, simplify, delete, deduce, compose, collapse in the completion screen</item>
+    </string-array>
+    <string name="history_dialog">
+        Tapping the history entry in the Navigation Drawer opens a dialog showing all actions that were performed
+        in the app since the last startup. Every entry is clickable and transforms the current
+        equational system, symbols and rewrite system back to that state.
+    </string>
 </resources>
