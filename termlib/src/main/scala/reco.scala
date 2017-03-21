@@ -124,6 +124,54 @@ package object reco {
     val nerch = (es2 ++ nes,rs2 ++ nrs,rs2 ++ nrs,hs ++ nhs)
     concurrentSimpToNF(count+1,depth,cache,ti,nis,nerch,s)
   }
+
+  // collapse cannot be done in parallel, because of a data-dependency on rules
+  // that are collapsed during the process, they should not be used to collapse
+  // other rules, otherwise we get inconsistencies
+  private def collapseToNF(count:Int,depth:Int,cache:S,ti:TI,is:I,erch:ERCH):ERCH =
+  if (is.isEmpty || count >= depth) erch else {
+    val (es,rs,cs,hs) = erch
+    val xs = partition(is,rs)._1
+
+    def history(simps:S,ti:TI,ts:List[IT],rs0:List[IR]):List[Option[HE]] = {
+      def f(t:IT) = t._2.lhs
+      var rs = rs0
+      for (t <- ts) yield {
+        var res:Option[HE] = None
+        val rs1 =
+          if (simps.isDefinedAt(t._1)) rs.filterNot { case (i,r) => simps(t._1).contains(i) }
+          else rs
+        val s = f(t)
+        for (p <- s.poss; if res.isEmpty) {
+          val u = s(p)
+          val is = ti.gents(u)
+          val rs2 = if (ti == DT.empty) rs1 else rs1.filter(x => is.contains(x._1))
+          for (r <- rs2) {
+            // removed encompassment-check but rule should not be collapsed by
+            // itself
+            if (t._1 != r._1 && u.matches(r._2.lhs)) {
+              res = Some(s(p) = u.contract(r._2)).map(x => he(t,r,x,RuL))
+              rs = rs.filterNot{ case (i, r) => i == t._1 }
+            }
+          }
+        }
+        res
+      }
+    }
+
+    val chs = history(cache,ti,xs.toList,rs.toList)
+    val phs = chs.filter(_.isDefined).map(_.get)
+    val sis = phs.map(_._4._1).toSet
+    def c(i:Int) = sis.contains(i)
+    val em = m(hs)
+    val nis = (em until em+phs.size).toSet
+    val nhs = new H ++ (nis zip phs)
+    val nes = nhs.mapValues(v => E(v._1,v._5))
+    val rs2 = rs.filterNot(r => c(r._1))
+    val nerch = (es ++ nes,rs2,rs2,hs ++ nhs)
+    collapseToNF(count+1,depth,cache,ti,nis,nerch)
+  }
+
   def simplifyToNF(simps:S,ti:TI,depth:Int)(is:I,erch:ERCH):ERCH = {
     val (es,rs,cs,_) = erch
     val (es1,_,_,hs1) = concurrentSimpToNF(0,depth,simps,ti,is,erch,EqL)
@@ -143,7 +191,7 @@ package object reco {
     concurrentSimpToNF(0,depth,comps,ti,is,erch,RuR)
 
   def collapse(colls:S,ti:TI)(is:I,erch:ERCH):ERCH =
-    concurrentSimpToNF(0,1,colls,ti,is,erch,RuL)
+    collapseToNF(0,1,colls,ti,is,erch)
 
   def he(ie:(Int,TermPair),ir:IR,u:Term,c:Simp):HE = {
     val (i,e) = ie
