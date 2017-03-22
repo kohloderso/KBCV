@@ -15,11 +15,12 @@ class HelpCompletion extends Fragment {
     val view = inflater.inflate( R.layout.help_completion, container, false )
     val expandableList = view.findViewById(R.id.expandable_list).asInstanceOf[ExpandableListView]
     val titles = getResources.getStringArray(R.array.completion_groups).toList
+    val details_general =  List(getResources.getString(R.string.completion_general))
     val details_export = (getResources.getStringArray(R.array.export_content)).toList
     val details_gestures = (getResources.getStringArray(R.array.gesture_content)).toList
     val details_autocompletion = getResources.getStringArray(R.array.automatic_comp_content).toList
     val details_compcheck = getResources.getStringArray(R.array.check_content).toList
-    val details = List(details_export, details_gestures, details_autocompletion, details_compcheck)
+    val details = List(details_general, details_export, details_gestures, details_autocompletion, details_compcheck)
     val adapter = new HelpExpandableListAdapter(getActivity, titles, details)
     expandableList.setAdapter(adapter)
 
