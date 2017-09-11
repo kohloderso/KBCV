@@ -116,7 +116,7 @@
     </string>
 
     <!-- send feedback preset subject and email-->
-    <string name="feedback_email">christina.kohl@student.uibk.ac.at</string>
+    <string name="feedback_email">kbcv@informatik.uibk.ac.at</string>
     <string name="feedback_subject">Feedback on KBCV-App</string>
     <string name="title_feedback_dialog">Send feedback</string>
 
