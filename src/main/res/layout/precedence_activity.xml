@@ -15,11 +15,11 @@
                                           style="@style/EditorViewsStyle"
                                           android:theme="@style/EditorViewsStyle"
                                           android:id="@+id/precedenceEditView"
-                        android:layout_alignParentBottom="true"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@color/textColorPrimary"
-                        android:padding="10dp">
+                                          android:layout_alignParentBottom="true"
+                                          android:layout_width="wrap_content"
+                                          android:layout_height="wrap_content"
+                                          android:background="@color/textColorPrimary"
+                                          android:padding="10dp">
 
 
             <HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"

@@ -10,7 +10,7 @@ import ck.kbcv.R
 import term.{Fun, Term, Var}
 
 
-class TermView(context: Context, attrs: AttributeSet, var term: Term = null, symbolListener: DropSymbolsEditor = null) extends LinearLayout(context: Context, attrs: AttributeSet) with OnDragListener {
+class TermView(context: Context, var attrs: AttributeSet = null, var term: Term = null, symbolListener: DropSymbolsEditor = null) extends LinearLayout(context: Context, attrs: AttributeSet) with OnDragListener {
 
     setTerm(term)
 
@@ -22,9 +22,9 @@ class TermView(context: Context, attrs: AttributeSet, var term: Term = null, sym
         } else {
             val v = term match {
                 case Var(x) =>
-                    new VarView(context, attrs, x)
+                    new VarView(context, null, x)
                 case Fun(f, ts) =>
-                    new FunView(context, attrs, f, ts, symbolListener)
+                    new FunView(context, null, f, ts, symbolListener)
             }
             this.addView(v)
             if (symbolListener != null) v.setOnDragListener(this)

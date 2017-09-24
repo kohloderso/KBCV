@@ -28,6 +28,6 @@ run <<= run in Android
 
 targetSdkVersion in Android := "23"
 
-versionCode in Android := Some( 0 )
+versionCode in Android := Some( 1 )
 
-versionName in Android := Some( "0.0.0" )
+versionName in Android := Some( "1.0.1" )
