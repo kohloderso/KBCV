@@ -2,7 +2,9 @@ Knuth-Bendix Comletion Visualizer for Android
 ==========
 Overview
 -----------------------------------------------
-This app will allow its users to interactively perform the Knuth-Bendix completion procedure. (Up until now it's just the very bare bones of the app.)
+
+This app will allow its users to interactively perform the Knuth-Bendix completion procedure. 
+
 Installation
 -------------
 You will need:
